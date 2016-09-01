@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="all">
+    <!--<link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+ 
+    <link href="http://getbootstrap.com/examples/justified-nav/justified-nav.css" rel="stylesheet">
+ 
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script> -->
+    <style>
+    	.wrapper {
+    		width: 1340px;
+            overflow: hidden;
+    		bottom: 0px;
+    	}
+
+        .imgMenuWrapper{
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 600px; 
+            padding: 5px;
+        }
+    	.imgMenu {
+    		overflow-x: hidden;
+            overflow-x: auto;
+    	}
+    	
+    	.colorPan {
+            left: 0px;
+    	}
+        .sliderPan {
+            left: 62px;
+        }
+        .toolsPan{
+            left: 124px;
+        }
+        .popupPan {
+            -moz-border-radius:10px 10px 0 0 ;
+            -moz-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            -moz-transition:all 0.2s ease-in-out;
+            -o-border-radius:10px 10px 0 0 ;
+            -o-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            -o-transition:all 0.2s ease-in-out;
+            -webkit-border-bottom-left-radius:10px;
+            -webkit-border-bottom-right-radius:10px;
+            -webkit-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            -webkit-transition:all 0.2s ease-in-out;
+            border-radius:10px 10px 0 0 ;
+            box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            color:#000;
+            padding:0 10px;
+            background:rgba(255, 255, 255, 0.6);
+            text-decoration:none;
+            float: left;
+            position: absolute;
+
+            bottom: 0px;
+        }
+    	.zPan {
+
+    		float:left;
+    		left : 80px;
+    		bottom: 0px;
+    		padding-left: 2px;
+    		position:absolute;
+
+    	}
+    	.showPopupMenu{
+            padding: 2px;
+    		transition:all 0.2s ease-in-out;
+    	}
+
+    	.popuMenu {  		
+    		
+            max-height: 500px;
+            -moz-border-radius:10px 10px 10px 0 ;
+            -moz-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            -moz-transition:all 0.2s ease-in-out;
+            -o-border-radius:10px 10px 10px 0 ;
+            -o-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            -o-transition:all 0.2s ease-in-out;
+            -webkit-border-bottom-left-radius:10px;
+            -webkit-border-bottom-right-radius:10px;
+            -webkit-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            -webkit-transition:all 0.2s ease-in-out;
+            border-radius:10px 10px 10px 0 ;
+            box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+            color:#000;
+            padding:0 10px;
+            background:rgba(255, 255, 255, 0.6);
+            text-decoration:none;
+            float: left;
+            position: absolute;
+            bottom: 38px;
+            width: auto;
+            height: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
+    	}
+        .popupElem {
+            padding: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .popupsDiv {
+            position: absolute;
+            border-collapse:collapse;
+            display : table;
+            top: 0px;
+            width: 1000px;
+            height: 600px;
+            z-index: 20;
+        }
+    	.showZButton{
+    		-moz-border-radius:10px 10px 0 0 ;
+    		-moz-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+    		-moz-transition:all 0.2s ease-in-out;
+    		-o-border-radius:10px 10px 0 0 ;
+    		-o-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+    		-o-transition:all 0.2s ease-in-out;
+    		-webkit-border-bottom-left-radius:10px;
+    		-webkit-border-bottom-right-radius:10px;
+    		-webkit-box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+    		-webkit-transition:all 0.2s ease-in-out;
+    		border-radius:10px 10px 0 0 ;
+    		box-shadow:2px 0px 4px rgba(0, 0, 0, 0.9);
+    		color:#000;
+    		display:inline-block;
+    		padding:0 10px;
+    		text-decoration:none;
+
+    		background:#fff;
+    		transition:all 0.2s ease-in-out;
+    	}
+    	.zDiv {
+    		width: 90px;
+    		display: inline-block;
+    		background:#fff;
+    		padding: 5px;
+    		border-radius:3px;
+
+    	}
+    	.x{
+
+    		width: 100%;
+    	}
+    	.y{
+    		width: 100%;
+    		float: left;
+    	}
+
+    	.xwrapper{
+    		box-sizing:border-box;
+    		-moz-box-sizing:border-box;
+    		float: left;
+    		padding: 5px;
+    		width: 60px;
+    	}
+    	.ywrapper{
+    		box-sizing:border-box;
+    		-moz-box-sizing:border-box;
+    		float: right;
+
+    		padding: 5px;
+    		width: 60px;
+    	}
+    	.xywrapper{
+    		box-sizing:border-box;
+    		-moz-box-sizing:border-box;
+    		width: 70px;
+    	}
+    	.imageSourceDiv {
+    		overflow: hidden;
+    	}
+    	.imagesImportDiv{
+    		overflow: hidden;
+    	}
+    	.xybox{
+    		border:1px #888 solid;
+    		width: auto;
+    		height: auto;
+    		border-radius:3px;
+    		padding:10px;
+    		overflow: hidden;
+    	}
+    	.cookieButton{
+    		position: absolute;
+    		-moz-border-radius:5px 5px 5px 5px ;
+    		-moz-box-shadow:2px 5px 4px rgba(0, 0, 0, 0.9);
+    		-moz-transition:all 0.2s ease-in-out;
+    		-o-border-radius:5px 5px 5px 5px  ;
+    		-o-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		-webkit-border-bottom-left-radius:5px;
+    		-webkit-border-bottom-right-radius:5px;
+    		-webkit-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		border-radius:5px 5px 5px 5px  ;
+    		box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		color:#000;
+    		display:inline-block;
+    		padding:0 10px;
+    		text-decoration:none;
+
+    		background:#fff;
+    		right: 0px;
+
+    		z-index: 20;
+    		bottom: 45px;
+    	}
+    	.saveButton{
+    		position: absolute;
+    		-moz-border-radius:5px 5px 5px 5px ;
+    		-moz-box-shadow:2px 5px 4px rgba(0, 0, 0, 0.9);
+    		-moz-transition:all 0.2s ease-in-out;
+    		-o-border-radius:5px 5px 5px 5px  ;
+    		-o-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		-webkit-border-bottom-left-radius:5px;
+    		-webkit-border-bottom-right-radius:5px;
+    		-webkit-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		border-radius:5px 5px 5px 5px  ;
+    		box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		color:#000;
+    		display:inline-block;
+    		padding:0 10px;
+    		text-decoration:none;
+
+    		background:#fff;
+    		right: 0px;
+
+    		z-index: 20;
+    		bottom: 0px;
+    	}
+    	.undoButton{
+    		position: absolute;
+    		-moz-border-radius:5px 5px 5px 5px ;
+    		-moz-box-shadow:2px 5px 4px rgba(0, 0, 0, 0.9);
+    		-moz-transition:all 0.2s ease-in-out;
+    		-o-border-radius:5px 5px 5px 5px  ;
+    		-o-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		-webkit-border-bottom-left-radius:5px;
+    		-webkit-border-bottom-right-radius:5px;
+    		-webkit-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		border-radius:5px 5px 5px 5px  ;
+    		box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		color:#000;
+    		display:inline-block;
+    		padding:0 10px;
+    		text-decoration:none;
+
+    		background:#fff;
+    		right: 70px;
+
+    		z-index: 20;
+    		top: 0px;
+    	}
+        .colorVariable{
+            float: right;
+        }
+    	.redoButton{
+    		position: absolute;
+    		-moz-border-radius:5px 5px 5px 5px ;
+    		-moz-box-shadow:2px 5px 4px rgba(0, 0, 0, 0.9);
+    		-moz-transition:all 0.2s ease-in-out;
+    		-o-border-radius:5px 5px 5px 5px  ;
+    		-o-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		-webkit-border-bottom-left-radius:5px;
+    		-webkit-border-bottom-right-radius:5px;
+    		-webkit-box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		border-radius:5px 5px 5px 5px  ;
+    		box-shadow:2px 2px 4px rgba(0, 0, 0, 0.9);
+    		color:#000;
+    		display:inline-block;
+    		padding:0 10px;
+    		text-decoration:none;
+
+    		background:#fff;
+    		right: 0px;
+
+    		z-index: 20;
+    		top: 0px;
+    	}
+        .menuTitle {
+            padding:10px;
+            text-align:center;
+            font-weight: bold;
+            font-size: 33px;
+            font-family: "Arial";
+        }
+        .menuWrapper {
+            position: absolute;
+            left : 605px
+            top: 0px;
+        }
+    </style>
+
+</head>
+
+
+
+<body>
+
+	<script src="jscolor.js"></script>
+    <script type="text/javascript" src="settings.js"></script>
+	<script src="cmParams.js"></script>
+	<script type="text/javascript" src="outofrepo/jquery-1.9.1.min.js"></script>
+	<script src="outofrepo/jquery-1.11.1.min.js"></script> 
+	<script src="outofrepo/jquery-ui.min.js"></script>
+    <div class=wrapper>
+    	<div class="categories">
+    		<div class="menuholder" id = "menuholder">
+    			<ul class="menu slide" id="menuslide">
+    			</ul>
+                <script type="text/javascript">
+                    if(charViewerSettings.devMod){
+                        document.write('<ul class="menu slide">');
+                        document.write('<li><a class="red" id="newCategory">+</a></li>');
+                        document.write('</ul>');
+                    }
+                </script>    			
+                
+    			<div class="back"></div>
+    			<div class="shadow"></div>
+                    
+    		</div>
+
+    		<div style="clear:both"></div>
+
+    		
+			<div id= div1>
+				<canvas id="view" width= "1000px" height= "600px" ></canvas>
+			</div>   		
+    		<button type="button" id="saveButton" class="saveButton"><image src="icons/saveicon.png"></image></button> 
+    		<button type="button" id="cookieButton" class="cookieButton"><image src="icons/cookie.png"></image></button>
+    		<button type="button" id="undoButton" class="undoButton"><image src="icons/undo.png"></image></button> 
+    		<button type="button" id="redoButton" class="redoButton"><image src="icons/redo.png"></image></button>  		
+            
+            <div class="colorPan popupPan" id="colorPan"> 
+                <div class="showPopupMenu">
+                    <a id="showColorButton"><image src="icons/palette.png"></image></a> 
+                </div>
+            </div>
+            
+             <script type="text/javascript">
+                    if(charViewerSettings.devMod){
+                        document.write('<div class="toolsPan popupPan"> ');
+                        document.write('<div class="showPopupMenu">');
+                        document.write('<a id="showDevTools"><image src="icons/tools.png"></image></a> ');
+                        document.write('</div></div> ');
+                    }
+            </script>   
+            
+            
+            <div class="sliderPan popupPan">
+                <div class="showPopupMenu">
+                    <a id="showSlidersButton"><image src="icons/sliders.png"></image></a> 
+                </div>
+                
+            </div>
+    		
+    	</div>
+        <div class="imgMenuWrapper " id="imgMenuWrapper">
+            <div id="colorDivContainer">
+                <div class="menuTitle">
+                    <image src="icons/palette.png"></image> COLORS <image src="icons/palette.png"></image>
+                </div>
+                <div id="colorDiv"></div>
+            </div>
+            <div id="slidersDivWrapped">
+                <div class="menuTitle">
+                    <image src="icons/sliders.png"></image> SLIDERS <image src="icons/sliders.png"></image>
+                </div>
+                <div id="slidersDiv"></div>
+            </div>
+            <div id="devDivWrapper">
+                <div class="menuTitle">
+                    <image src="icons/tools.png"></image> DEV TOOLS <image src="icons/tools.png"></image>
+                </div>
+                <div class ="imgMenu" id="imgMenu"> 
+                    <datalist id="colorsSuggestion"></datalist>
+                    Location :<br>
+                    <div class= "xybox">
+                        Category : <span id="curentCat"></span><br><br><input type="text" list="catsSuggestion" name="Category" id="Category"><br>
+                        <datalist id="catsSuggestion"></datalist>
+                        <div id="partLocationInput">
+                            Part : <span id="curentPart"></span><br><input type="text" list="partSuggestion" name="Part" id="Part"><br>
+                        </div>
+                        <datalist id="partSuggestion"></datalist>
+                        <button type="button" id="relocateButton">Send to above location</button> 
+                    </div>
+                    <datalist id="fileSuggestion"></datalist>
+                    <div id="imageSourceDiv" class ="imageSourceDiv">
+                        Source : <br> 
+                        <div class= "xybox">
+                            <span id="curentRef"></span><br>
+                            <input type="text" name="Source" id="refField" list="fileSuggestion"><button type="button" id="changeImageButton">Set Image</button> 
+                        </div>
+                    </div>
+                    <div id="imagesImportDiv" class="imagesImportDiv">
+                        Import : <br>
+                        <div class= "xybox">
+                            <input type="text" name="importLayers" id="partLayerImport" list="fileSuggestion">
+                            <button type="button" id="importLayersButton"></button>  
+                        </div>
+                    </div>
+                    <div id="elementComponentDiv">
+                        Components : <br>
+                        <div class= "xybox">
+                            <div id= "layerListDiv"></div>
+                        </div>
+                    </div>
+
+
+                    <div id ="layerControlDiv">
+                        Rotation : <br>
+                        <div class= "xybox">
+                            <input type="number" name="rotation" id="rotation" step = "0.1" min="-180" max="180">
+                        </div>
+                        Translation : <br>
+                        <div class="xybox">
+                            <div class= "xwrapper">
+                                x:<input type="number" name="dx" id="dxField" step= "0.1" class="x">
+                            </div>
+                            <div class= "ywrapper">
+                                y:<input type="number" name="dy" id="dyField" step= "0.1" class="y"><br>
+                            </div>
+                        </div>
+                        Scale :<br>
+                        <div class="xybox">
+                            <div class= "xwrapper">
+                                x:<input type="number" name="sx" id="sxField" step = "0.1" class="x">
+                            </div>
+                            <div class= "ywrapper">
+                                y:<input type="number" name="sy" id="syField" step = "0.1" class="y"><br>   
+                            </div>
+                        </div>
+                        Z-index : <br>
+                        <div class= "xybox">
+
+                            <input type="number" name="z" id="zField" step = "0.001" class="x">     
+                        </div>
+                        <div id="colorPanel">
+                            Color : 
+                            <div class="xybox">
+                                <input type="text" name="boundColor" id="boundColor" list="colorsSuggestion">
+                                <button type="button" id="validateColorBinding">Bind</button> 
+                            </div>
+                        </div>
+                    </div>
+                    <div id="shapeEditPannel">
+                        Shape Handles :
+                        <div class="xybox" style="text-align:center">
+                           <button type="button" id="shapeEditButton"></image></button> 
+                        </div>
+                    </div>
+                    <div id="shapeParamsPannel">
+                        Shape properties :
+                        <div class="xybox">
+                            Line width :
+                            <input type="number" name="lineWidth" id="lineWidth" step = "1" min="0" ><br>
+                            Fill Shape
+                            <label class="switch">
+                                <input type="checkbox" id="fillShapeSwitch">
+                                <div class="slider round"></div>
+                            </label><br>
+                            Close Shape
+                            <label class="switch">
+                                <input type="checkbox" id="closeShapeShwitch">
+                                <div class="slider round"></div>
+                            </label><br>
+                            
+                            Join type : <select id= "lineJoinSelect">
+                                <option value="bevel">bevel</option>
+                                <option value="miter">miter</option>
+                                <option value="round">round</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div id="shapeColorPanel">
+                        Colors : 
+                        <div class="xybox">
+                            <div id="lineColorDiv">
+                                Line : <br>
+                                <label class="switch">
+                                    <input type="checkbox" id="lineIsBoundCheckbox">
+                                    <div class="slider round"></div>
+                                </label>
+                                <input type="text" name="lineBoundColorInput" id="lineBoundColorInput" list="colorsSuggestion">
+                                <input type="text" class="jscolor" name="lineColorInput" id="lineColorInput" size="8"><br>
+                                <b style="font-size:25px" >&alpha;</b> <input type="range" id="lineAlpha" min="0" max="1" step="0.00392">
+
+                            </div>
+                            <hr>
+                            <div id="surfaceColorDiv">
+                                Surface : <br>
+                                <label class="switch">
+                                    <input type="checkbox" id="surfaceIsBoundCheckbox">
+                                    <div class="slider round"></div>
+                                </label>
+                                <input type="text" name="surfaceBoundColorInput" id="surfaceBoundColorInput" list="colorsSuggestion">
+                                <input type="text" class="jscolor" name="surfaceColorInput" id="surfaceColorInput" size="8"><br>
+                                <b style="font-size:25px" >&alpha;</b> <input type="range" id="surfaceAlpha" min="0" max="1" step="0.00392">   
+                            </div>
+
+                            <button type="button" id="shapeColorsButton">Apply</button> 
+                        </div>
+                    </div>
+                        
+                    <div id="conditionsDiv">
+                        Display Condition : <br>
+                        <div class= "xybox">
+                            <select id= "conditionTypeSelect"></select>
+                            <select id="catBindingInput"></select>
+                            <select id="partBindingInput"></select>
+                            <button type="button" id="validateCondtion">Set Condition</button> 
+
+                        </div>
+                    </div>
+
+                    <br>
+                    <button type="button" id="delImgButton">Delet</button> 
+                    <button type="button" id="copyImgButton">Copy</button> 
+                </div>
+            </div>
+        </div>
+	</div>
+
+	<!--
+	<div class="zPan" id="zPan">
+		<div class="showZButton"><a id="showZButton">Z</a>
+			<canvas id="zCanvas" width= "1000" height= "600px" ></canvas> 
+		</div>
+	</div>	//-->
+
+<script type="text/javascript">
+{
+	
+    function setSwitchVisible(switchId, swithedDiv, others) {
+        var div1 = $("#"+swithedDiv);
+        function showD1(){
+            div1.show(200);
+        }
+        function hide(elem){
+            $("#"+elem).hide(200);
+        }
+        function switchOnClick() {
+            if(!div1) return;
+            if (div1.is(":visible")) {
+                //div1.hide(200);
+            } else {
+
+                div1.show();
+                var count = div1.children(':visible').length;
+                div1.hide();
+                if(count > 0) {
+
+                    showD1();
+                    others.forEach(hide);
+                }
+
+            }
+        }
+        document.getElementById(switchId).addEventListener('click', switchOnClick);
+
+        div1.hide();
+    }
+    if(charViewerSettings.devMod){
+        setSwitchVisible("showColorButton","colorDivContainer",["devDivWrapper","slidersDivWrapped"]);
+        setSwitchVisible("showDevTools","devDivWrapper",["colorDivContainer","slidersDivWrapped"]);
+        setSwitchVisible("showSlidersButton","slidersDivWrapped",["colorDivContainer","devDivWrapper"]);
+        $("#devDivWrapper").show()
+    }else {
+        setSwitchVisible("showColorButton","colorDivContainer",["slidersDivWrapped"]);
+        setSwitchVisible("showSlidersButton","slidersDivWrapped",["colorDivContainer"]);
+        $("#colorDivContainer").show()
+    }
+    
+/*
+var pan1 = $("#colorPan");
+	var pan2 = $("#zPan");
+	var div1 = $("#colorDiv");
+	div1.hide();
+function showP2(){
+	pan2.show(200);
+}
+function showD1(){
+	div1.show(200);
+}
+
+function switchColorVisible() {
+	console.log(div1.children(':visible').length)
+  if(!div1) return;
+  if (div1.is(":visible")) {
+    div1.hide(200,showP2);
+  } else {
+  	
+    div1.show();
+    var count = div1.children(':visible').length;
+    div1.hide();
+    if(count > 0) {
+
+    	pan2.hide(200,showD1);
+    }
+    
+  }
+}
+document.getElementById('showColorButton').addEventListener('click', switchColorVisible);
+
+var can = $("#zCanvas");
+function showP1(){
+	pan1.show(200);
+}
+function showC(){
+	can.show(200);
+}
+	can.hide();
+function switchZVisible() {
+  if(!can) return;
+  if (can.is(":visible")) {
+    can.hide(200,showP1);
+  } else {
+  	
+   	pan1.hide(200,showC);
+  }
+}
+document.getElementById('showZButton').addEventListener('click', switchZVisible);*/
+}	
+
+
+</script>
+
+
+
+<script type="text/javascript" src="allColors.js"></script>
+<script type="text/javascript" src="readCookieSave.js"></script>
+<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-opt.js"></script>
+<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-jsdeps.js"></script>
+<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-launcher.js"></script>
+
+
+</body>
+
+</html>
