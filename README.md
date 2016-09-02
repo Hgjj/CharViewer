@@ -19,7 +19,7 @@ When the sbt project is fully set up enter “cVJS/fullOptJS” in sbt to actual
 Sbt also offer you to setup an eclipse project. Enter “eclipse” in sbt to ask him to do so. To have eclipse set up for scala, you might want to download this version : http://scala-ide.org/.
 
 Building the project might take a bit of time. If you find it too long, you can ask sbt to do less optimization on the code. Build the application with “cVJS/fastOptJS” to do so. 
-**Take note that the output files for the fast optimization are not the same that for the full optimization**. As provided on git the project only use the fully optimized code. If you want to make it use the fast optimized code, you have to find `<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-opt.js"></script>` in tools.hmt and replace it with `<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-**fastopt.js**"></script>`
+**Take note that the output files for the fast optimization are not the same that for the full optimization**. As provided on git the project only use the fully optimized code. If you want to make it use the fast optimized code, you have to find `<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-opt.js"></script>` in tools.hmt and replace it with `<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-`**fastopt.js**`"></script>`.
 
 
 ##How things works.
