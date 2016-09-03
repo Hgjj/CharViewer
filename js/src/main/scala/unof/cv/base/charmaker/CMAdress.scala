@@ -46,7 +46,10 @@ sealed class CMAdress(
     val layerSelect: LayersSelector) {
 
   def getCategory(cm: CharMaker) = {
-    cm.categories(category)
+    if(category<0)
+      None
+    else
+      Some(cm.categories(category))
   }
   def getLayer(cm: CharMaker) = {
     getPart(cm) match {
@@ -151,6 +154,10 @@ sealed class CMAdress(
       fc(cm.categories(category))
     else
       throw new NoSuchElementException("Empty selection mapping")
+  }
+  
+  def nameSelected(cm : CharMaker) = {
+    mapSelected(cm, _.name, _.partName, _.categoryName)
   }
 }
 object LayersSelector {

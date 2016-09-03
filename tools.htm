@@ -377,7 +377,13 @@
                     <image src="icons/tools.png"></image> DEV TOOLS <image src="icons/tools.png"></image>
                 </div>
                 <div class ="imgMenu" id="imgMenu"> 
+
                     <datalist id="colorsSuggestion"></datalist>
+                    <div class="elementName" id="elementName"></div>
+                    Rename :<br>
+                    <div class= "xybox">
+                        <input type="text" name="renameInput" id="renameInput"><button type="button" id="renameButton">Rename</button> 
+                    </div>
                     Location :<br>
                     <div class= "xybox">
                         Category : <span id="curentCat"></span><br><br><input type="text" list="catsSuggestion" name="Category" id="Category"><br>
@@ -633,9 +639,9 @@ document.getElementById('showZButton').addEventListener('click', switchZVisible)
 
 
 <script type="text/javascript" src="allColors.js"></script>
-<script type="text/javascript" src="readCookieSave.js"></script>
 <script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-opt.js"></script>
 <script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-jsdeps.js"></script>
+<script type="text/javascript" src="readCookieSave.js"></script>
 <script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-launcher.js"></script>
 
 

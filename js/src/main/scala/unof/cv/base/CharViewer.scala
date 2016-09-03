@@ -11,7 +11,7 @@ import unof.cv.base.charmaker.CharMaker
 
 @JSExport
 class CharViewer(bodyParts : js.Array[JsBodyPart], val targetCanvas : String, val imageHome : String){
-   val charMaker = CharMaker(bodyParts)
+   val charMaker = CharMaker(bodyParts,false)
    
    var choices : Seq[Int] = Seq.fill(charMaker.categories.size)(0)
    var colorMask : Seq[String] = Seq.fill(charMaker.colors.size)("white")

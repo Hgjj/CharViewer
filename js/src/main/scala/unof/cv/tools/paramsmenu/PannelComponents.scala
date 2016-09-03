@@ -39,10 +39,9 @@ object PannelComponents {
               dd.click(setSelectedImage(callbacks, pIndex, index,layerSelect) _)
             dl.append(dd)
           }
-          selectedPart.images.map(_.ref).zipWithIndex.foreach( printImg(_,SelectImages))
-          selectedPart.shapes.indices.foreach{
-            i=> printImg(("Shape "+(i+1)+" of "+selectedPart.partName,i),SelectShapes)
-          }
+          selectedPart.images.map("Image "+ _.name).zipWithIndex.foreach( printImg(_,SelectImages))
+          selectedPart.shapes.map("Shape "+ _.name).zipWithIndex.foreach( printImg(_,SelectShapes))
+
         }
 
         if (part < 0) {

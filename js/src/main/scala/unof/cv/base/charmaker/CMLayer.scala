@@ -16,6 +16,7 @@ object CMLayer {
   }
 }
 trait CMLayer {
+  def name : String
   def transform: Transforme
   def boundColors: Seq[String]
   def z: Float
@@ -27,5 +28,7 @@ trait CMLayer {
   def setColorBonds(newColors: Seq[String]): CMLayer
   def setZ(newZ: Float): CMLayer
   def setCondition(newCondition: VisibilityCondition): CMLayer
+  def setName (newName : String):CMLayer
   def changeId : CMLayer
+  
 }

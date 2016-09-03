@@ -6,6 +6,7 @@ trait JSShape extends js.Object {
   def points : js.Array[js.Array[JSVec]]
   def transform : js.Array[Number]
   def colorVariables : js.Array[String]
+  def name : String
   
   def z_layer : Number
   def condition : js.Array[String]

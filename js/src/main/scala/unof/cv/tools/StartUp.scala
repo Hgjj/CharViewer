@@ -46,6 +46,7 @@ object StartUp extends JSApp {
     )
     if(cookieDate > fileDate) {
       try {
+        println("The cookie save is the most recent so I load it.")
         loadCookie
       }catch {
         case t :Throwable =>
@@ -65,6 +66,7 @@ object StartUp extends JSApp {
       }
     }else{
        try {
+         println("The file save is the most recent so I load it.")
         loadFile
       }catch {
         case t :Throwable =>
@@ -94,7 +96,7 @@ object StartUp extends JSApp {
   ) = {
    
     val charContext = new DrawingContext(settings.characterCanvas)
-    val charMaker = CharMaker(bodyParts)
+    val charMaker = CharMaker(bodyParts,settings.verbose)
     
     
     new CallbackCenter(choices,colors,sliders,selected,charContext,charMaker,settings)
@@ -105,20 +107,26 @@ object StartUp extends JSApp {
     
     val fileDate = try{
       if(js.isUndefined(fileParam)){
+        println("no files found")
         0l
       }else
         fileParam.date.longValue()
     }catch {
-      case _ : Throwable => 0l
+      case _ : Throwable => 
+        println("no files found")
+        0l
     }
     val cookieDate = try {
       if(js.isUndefined(cookieParam)){
+        println("no cookie found")
         0l
       }else {
         cookieParam.date.longValue()
       }
     }catch {
-      case _ :Throwable => 0l
+      case _ :Throwable => 
+        println("no cookie found")
+        0l
     }
     
     

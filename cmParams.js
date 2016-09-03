@@ -1,19 +1,20 @@
 var fileCMParams = 
-{ "date" : 1472743388186,
+{ "date" : 1472895680316,
   "choices" : [1,1],
-  "sliders" : [],
   "bodyParts" : [
     { "components" : [
         { "colorVariable" : "bgColor",
           "transform" : [1,1,0,-379,-293],
           "condition" : ["always"],
           "z_layer" : -1,
+          "name" : "Backgrounds/Blue/big.png",
           "imageRef" : "Backgrounds/Blue/big.png"
         },
         { "colorVariable" : "None",
           "transform" : [1,1,0,-170,243],
           "condition" : ["linkedto","Misc","colors"],
           "z_layer" : 0,
+          "name" : "Backgrounds/Blue/missing.png",
           "imageRef" : "Backgrounds/Blue/missing.png"
         }
       ],
@@ -27,6 +28,7 @@ var fileCMParams =
           "transform" : [1,1,0,0,0],
           "condition" : ["always"],
           "z_layer" : 0,
+          "name" : "Backgrounds/SomewhatRed/SomewhatRed.jpg",
           "imageRef" : "Backgrounds/SomewhatRed/SomewhatRed.jpg"
         }
       ],
@@ -40,6 +42,7 @@ var fileCMParams =
           "transform" : [1,1,0,60,56],
           "condition" : ["always"],
           "z_layer" : 0,
+          "name" : "Misc/bNw/bNw.png",
           "imageRef" : "Misc/bNw/bNw.png"
         }
       ],
@@ -53,12 +56,14 @@ var fileCMParams =
           "transform" : [1,1,15.800000190734863,-57,268],
           "condition" : ["always"],
           "z_layer" : 0,
+          "name" : "n",
           "imageRef" : "Misc/colors/colors.png"
         },
         { "transform" : [0.5,0.5,10,-302,1165],
           "condition" : ["always"],
           "colorVariables" : ["V(0.8820000290870667)_bgColor","C(0.4233599901199341)_#50ff24"],
           "z_layer" : 0,
+          "name" : "An Nameless Shape",
           "closed" : false,
           "linkedSlider" : ["rotato","didiSlide"],
           "lineJoin" : "round",
@@ -66,10 +71,11 @@ var fileCMParams =
           "deltas" : [
             [
               { "sliderPos" : 100,
-                "state" : { "transform" : [0.5,1.2,-720,-302,1165],
+                "state" : { "transform" : [0.5,1.2000000476837158,-720,-302,1165],
                   "condition" : ["always"],
                   "colorVariables" : ["V(0.8820000290870667)_bgColor","C(0.4233599901199341)_#50ff24"],
                   "z_layer" : 0,
+                  "name" : "An Nameless Shape",
                   "closed" : false,
                   "linkedSlider" : [],
                   "lineJoin" : "round",
@@ -99,10 +105,11 @@ var fileCMParams =
             ],
             [
               { "sliderPos" : -100,
-                "state" : { "transform" : [1.1,0.5,10,-302,1165],
+                "state" : { "transform" : [1.100000023841858,0.5,10,-302,1165],
                   "condition" : ["always"],
                   "colorVariables" : ["C(0.8820000290870667)_#50ff24","C(0.4233599901199341)_#50ff24"],
                   "z_layer" : 0,
+                  "name" : "An Nameless Shape",
                   "closed" : false,
                   "linkedSlider" : [],
                   "lineJoin" : "round",
@@ -134,6 +141,7 @@ var fileCMParams =
                   "condition" : ["always"],
                   "colorVariables" : ["C(0.8820000290870667)_#50ff24","C(0.4233599901199341)_#50ff24"],
                   "z_layer" : 0,
+                  "name" : "An Nameless Shape",
                   "closed" : false,
                   "linkedSlider" : [],
                   "lineJoin" : "round",
@@ -163,8 +171,9 @@ var fileCMParams =
               { "sliderPos" : 150,
                 "state" : { "transform" : [1.5,0.5,10,-302,1165],
                   "condition" : ["always"],
-                  "colorVariables" : ["C(0.8820000290870667)_#50ff24","V(1)_aoihdaoidbauzhdouazd "],
+                  "colorVariables" : ["C(0.8820000290870667)_#50ff24","V(1)_aoihdaoidbauzhdouazd"],
                   "z_layer" : 0,
+                  "name" : "An Nameless Shape",
                   "closed" : false,
                   "linkedSlider" : [],
                   "lineJoin" : "round",
@@ -194,8 +203,9 @@ var fileCMParams =
               { "sliderPos" : 151,
                 "state" : { "transform" : [1.5,0.5,10,-302,1165],
                   "condition" : ["always"],
-                  "colorVariables" : ["C(0.8820000290870667)_#50ff24","V(1)_aoihdaoidbauzhdouazd "],
+                  "colorVariables" : ["C(0.8820000290870667)_#50ff24","V(1)_aoihdaoidbauzhdouazd"],
                   "z_layer" : 0,
+                  "name" : "An Nameless Shape",
                   "closed" : false,
                   "linkedSlider" : [],
                   "lineJoin" : "round",
@@ -252,5 +262,5 @@ var fileCMParams =
     }
   ],
   "colors" : ["#33ADFF","#C55CD5"],
-  "selected" : [1,0,1,0]
+  "selected" : [1,1,0,0]
 };

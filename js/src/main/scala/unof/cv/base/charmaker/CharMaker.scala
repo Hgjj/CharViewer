@@ -25,7 +25,7 @@ import unof.cv.base.delta.DeltaApplier
 
 object CharMaker {
 
-  def apply(options: Seq[JsBodyPart]) = {
+  def apply(options: Seq[JsBodyPart], verbose : Boolean) = {
 
     var partLinkMap = Map[(String, String), Int]()
     def keyOfPart(catName: String, partName: String) = partLinkMap.get((catName, partName)) match {
@@ -87,7 +87,8 @@ object CharMaker {
         c.showSurface,
         getOrElse(() => c.lineJoin, "miter"),
         getOrElse(() => c.closed, false),
-        deltas)
+        deltas,
+        getOrElse(()=>c.name, "An Nameless Shape"))
     }
     def parseImage(c: JSImage): CMImage = {
       usedRefs :+= c.imageRef
@@ -100,7 +101,8 @@ object CharMaker {
         getOrElse(() => Transforme(c.transform), Transforme()),
         c.colorVariable,
         getOrElse(() => c.z_layer.floatValue(), 0f),
-        condition)
+        condition,
+        getOrElse(()=>c.name, c.imageRef))
     }
     def readLayer(d: Dynamic): CMLayer = {
       if (!js.isUndefined(d.imageRef)) {
@@ -117,7 +119,8 @@ object CharMaker {
         f()
       } catch {
         case t: Throwable =>
-          t.printStackTrace()
+          if(verbose)
+            t.printStackTrace()
           orElse
       }
     }
@@ -506,7 +509,7 @@ class CharMaker(
         add(targetCat, targetPart, shape)
     }
   def newImage(targetCat: String, targetPart: String, ref: String) = {
-    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible)
+    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible,ref)
     add(targetCat, targetPart, newComponent)
   }
   def updated(cat: Int, newCat: CMCategory): CharMaker = {

@@ -12,4 +12,4 @@ function getCookie(cname) {
     }
     return "";
 } 
-document.write('<script type="text/javascript">\n var '+getCookie("cookieCMParams") +';\n</script>');
+document.write('<script type="text/javascript">\n var '+unof.cv.tools.LWZ().decompress(localStorage.cookieCMParams) +'\n</script>');

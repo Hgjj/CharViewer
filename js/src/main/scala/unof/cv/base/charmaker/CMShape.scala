@@ -15,7 +15,10 @@ class CMShape(
     val showSurcface: Boolean,
     val lineJoint: String,
     val closed : Boolean,
-    val deltas : Seq[(String,Seq[(Int,CMShape)])]) extends CMLayer {
+    val deltas : Seq[(String,Seq[(Int,CMShape)])],
+    val name : String) extends CMLayer {
+  
+  
   val lineColorIndex = 0
   val surfaceColorIndex = 1
   def boundColors = colors.flatMap {
@@ -33,7 +36,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   def setColorBonds(newColor: Seq[String]) = {
     new CMShape(
@@ -46,7 +50,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   }
 
@@ -61,7 +66,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   }
 
@@ -76,7 +82,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   def setTransform(newTransform: Transforme) =
     new CMShape(
@@ -89,7 +96,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   def setDrawCommands(newDrawCommands: Seq[DrawCommand]) =
     new CMShape(
@@ -102,7 +110,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   def setDrawCommand(newDrawCommand: DrawCommand, curvindex  :Int) =
     new CMShape(
@@ -115,7 +124,8 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
  
   def setLineJoint(newJoint: String) =
@@ -129,7 +139,8 @@ class CMShape(
         showSurcface,
         newJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   def setShowSurface(b: Boolean) =
     new CMShape(
@@ -142,7 +153,8 @@ class CMShape(
         b,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
   def setLineWidth(newWidth: Int) =
     new CMShape(
@@ -155,24 +167,10 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        deltas
+        deltas,
+        name
     )
-
-  def changeId =
-    new CMShape(
-        commands,
-        transform,
-        colors,
-        z,
-        displayCondition,
-        lineWidth,
-        showSurcface,
-        lineJoint,
-        closed,
-        deltas
-    )
-    
-  def setClosed(isClosed :Boolean) = 
+def setClosed(isClosed :Boolean) = 
       new CMShape(
           commands,
           transform,
@@ -183,7 +181,8 @@ class CMShape(
           showSurcface,
           lineJoint,
           isClosed,
-          deltas
+          deltas,
+        name
         )
   
   def setDeltas( newDeltas :Seq[(String,Seq[(Int,CMShape)])]) =
@@ -197,8 +196,40 @@ class CMShape(
         showSurcface,
         lineJoint,
         closed,
-        newDeltas
+        newDeltas,
+        name
     )
+  
+  def setName(newName : String) = 
+    new CMShape(
+        commands,
+        transform,
+        colors,
+        z,
+        displayCondition,
+        lineWidth,
+        showSurcface,
+        lineJoint,
+        closed,
+        deltas,
+        newName
+    )
+  def changeId =
+    new CMShape(
+        commands,
+        transform,
+        colors,
+        z,
+        displayCondition,
+        lineWidth,
+        showSurcface,
+        lineJoint,
+        closed,
+        deltas,
+        name
+    )
+    
+  
 }
 sealed trait DynamicColor {
   val value: String

@@ -21,12 +21,18 @@ object ParMenuDrawer extends SharedPannelFunctions {
     } else {
 
       imgMenu.show()
+      
+      val selectedName = callbacks.selection.nameSelected(callbacks.charMaker)
+      val nameDiv = jQuery(settings.elementName)
+      nameDiv.empty()
+      nameDiv.append(selectedName)
 
       PannelColor.refresh(callbacks, settings)
       PannelComponents.refresh(callbacks, settings)
       PannelCondition.refresh(callbacks, settings)
       PannelImport.refresh(callbacks, settings)
       PannelLocation.refresh(callbacks, settings)
+      PannelRename.refresh(callbacks, settings)
       PannelRotation.refresh(callbacks, settings)
       PannelScale.refresh(callbacks, settings)
       PannelShapeColor.refresh(callbacks, settings)
@@ -52,6 +58,7 @@ object ParMenuDrawer extends SharedPannelFunctions {
     PannelCondition.bind(callbacks, settings)
     PannelImport.bind(callbacks, settings)
     PannelLocation.bind(callbacks, settings)
+    PannelRename.bind(callbacks, settings)
     PannelRotation.bind(callbacks, settings)
     PannelScale.bind(callbacks, settings)
     PannelShapeColor.bind(callbacks, settings)

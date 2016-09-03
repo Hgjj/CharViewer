@@ -73,11 +73,15 @@ var charViewerSettings = {
     "shapeEditButtonOn" : "<image src='icons/curveEddit.png'></image>",
     "shapeEditButtonOff" : "<image src='icons/curveNotEddit.png'></image>",
     "slidersDiv": "#slidersDiv",
+    "elementName" : "#elementName",
+    "renameInput" : "#renameInput",
+    "renameButton" : "#renameButton",
     "cookiSavePeriode" : 3000,
   	"partsMenuFullWidth" : 270,
     "maxSliders" : 100,
   	"colorSlotsCount" : 100,
     "wheelZoomSpeed" : -1/120.0,
     "shapeHandleSize" : 15,
-    "devMod" : true
+    "devMod" : true,
+    "verbose" :true
 }

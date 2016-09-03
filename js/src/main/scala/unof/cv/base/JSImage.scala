@@ -8,4 +8,5 @@ trait JSImage extends js.Object {
   def colorVariable : String
   def z_layer : Number
   def condition : js.Array[String]
+  def name : String
 }

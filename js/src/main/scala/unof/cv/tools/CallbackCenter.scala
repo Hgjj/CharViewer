@@ -46,11 +46,12 @@ import unof.cv.base.charmaker.CurveTo
 import unof.cv.base.charmaker.CurveTo
 import unof.cv.base.charmaker.MoveTo
 import unof.cv.base.charmaker.CurveTo
+import unof.cv.base.charmaker.CMShape
 
 class CallbackCenter(
     startingChoices: Seq[Int],
     startingColorMask: Seq[String],
-    startingSliderValues : Seq[Int],
+    startingSliderValues: Seq[Int],
     startingSelection: Seq[Int],
     val charContext: DrawingContext,
     startingCharMaker: CharMaker,
@@ -132,7 +133,7 @@ class CallbackCenter(
     redoButton.hide()
   }
   def slidersValues = stat.slidersValues
-  private def slidersValues_=(s : Seq[Int]) = {
+  private def slidersValues_=(s: Seq[Int]) = {
     stat.slidersValues = s
     undoButton.show()
     redoButton.hide()
@@ -167,16 +168,16 @@ class CallbackCenter(
 
   Dynamic.global.document.addEventListener("keydown", onKeyPressed _)
   Dynamic.global.document.addEventListener("keyup", onKeyUp _)
-  
+
   DrawMenu.createMenu(setting, this)
   ColorMenu.createMenuColor(setting, this)
   ColorMenu.drawColorMenu(setting, colorMask, charMaker.colors)
-  SlidersMenu.create(this,setting)
-  SlidersMenu.update(this,setting)
+  SlidersMenu.create(this, setting)
+  SlidersMenu.update(this, setting)
   ParMenuDrawer.bindComponents(setting, this)
   DrawMenu.updateMenu(charMaker, charMaker, Seq.fill(choices.size)(0), choices, this, setting)
   ParMenuDrawer.update(setting, this)
-  
+
   jQuery("body").click(refreshColorsOnFirstClick _);
 
   curentCharacter {
@@ -184,7 +185,7 @@ class CallbackCenter(
       DrawChar(c, charContext)
   }
 
-  private def curentCharacter(onload: (Character) => Unit) = charMaker.makeChar(choices, colorMask,slidersValues, Seq(globalTransform))(onload)
+  private def curentCharacter(onload: (Character) => Unit) = charMaker.makeChar(choices, colorMask, slidersValues, Seq(globalTransform))(onload)
 
   private def updateChar: Unit = curentCharacter {
     c =>
@@ -214,7 +215,7 @@ class CallbackCenter(
     ColorMenu.updateColorColors(colorMask)
     DrawMenu.updateMenu(oldCM, charMaker, oldChoices, choices, this, setting)
     ColorMenu.drawColorMenu(setting, charMaker.colors, colorMask)
-    SlidersMenu.update(this,setting)
+    SlidersMenu.update(this, setting)
     ParMenuDrawer.update(setting, this)
     curentCharacter {
       c =>
@@ -242,17 +243,17 @@ class CallbackCenter(
     }
 
   }
-  private def validateColors(oldCm: CharMaker,newCm: CharMaker) = 
+  private def validateColors(oldCm: CharMaker, newCm: CharMaker) =
     validateStuff(oldCm, newCm, _.colors, "white", colorMask, colorMask_=)
-  private def validateSlider(oldCm: CharMaker,newCm: CharMaker) = 
+  private def validateSlider(oldCm: CharMaker, newCm: CharMaker) =
     validateStuff(oldCm, newCm, _.sliders, 0, slidersValues, slidersValues_=)
   private def validateStuff[A](oldCm: CharMaker,
-      newCm: CharMaker,
-      getList : (CharMaker)=>Seq[String],
-      default : A,
-      managedList  :Seq[A],
-      updateList : (Seq[A])=>Unit): Unit = {
-    
+                               newCm: CharMaker,
+                               getList: (CharMaker) => Seq[String],
+                               default: A,
+                               managedList: Seq[A],
+                               updateList: (Seq[A]) => Unit): Unit = {
+
     val oldList = getList(oldCm)
     val newList = getList(newCm)
     if (newList.isEmpty) {
@@ -260,11 +261,11 @@ class CallbackCenter(
     } else if (oldList.isEmpty) {
       updateList(Seq.fill(newList.size)(default))
     } else if (managedList.isEmpty) {
-      updateList( Seq.fill(newList.size)(default))
+      updateList(Seq.fill(newList.size)(default))
     } else {
       val newS = newList.size
       val oldS = oldList.size
-      updateList( if (oldS != newS) {
+      updateList(if (oldS != newS) {
         val dif = oldList.zip(newList).indexWhere(t => t._1 != t._2)
         if (oldS > newS) {
           if (dif < 0)
@@ -382,16 +383,16 @@ class CallbackCenter(
               if (ctrlIsDown) {
                 val invertScreenMatrix = (globalTransform * part.partTransform * s.transform).invert
                 val localMousePos = invertScreenMatrix * componentCoord((evt.pageX, evt.pageY), charContext.canvasElem)
-                
+
                 onShapeRecivingNewCommand(localMousePos, c, p, l)
               } else
                 standardPicking
-            case Some((curve,handle)) =>
+            case Some((curve, handle)) =>
               selection = CMAdress(c, p, l, SelectShapes)
               selectedCurveComand = curve
               ParMenuDrawer.update(setting, this)
               if (ctrlIsDown) {
-                onShapeLoosingComande(c,p,l, curve)
+                onShapeLoosingComande(c, p, l, curve)
                 draggedHandle = None
               }
           }
@@ -429,7 +430,7 @@ class CallbackCenter(
     }
   }
   def onMouseWheel(evt: WheelEvent): Any = {
-    if ((shiftIsDown || !devMod) && !dragAll ) {
+    if ((shiftIsDown || !devMod) && !dragAll) {
       val wheel = evt.deltaY * wheelZoomSpeed
       val tr = globalTransform
       val zoom = math.exp(wheel) * tr.sx
@@ -573,7 +574,7 @@ class CallbackCenter(
         reqNameCat()
       }
     }
-    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible)
+    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible,"Nothing")
     val emptyPart = new CMPart("Empty", Seq(noImage), Nil, Transforme(), 0, CMPart.newLinkKey)
 
     val oldCm = charMaker
@@ -587,14 +588,15 @@ class CallbackCenter(
     def simpleRef(s: String) = s.split("images[/\\\\]").last
     val CMAdress(c, p, _, _) = selection
     def f(part: CMPart) = {
-      def newComp(s: String) = new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible)
+      def newComp(s: String) = 
+        new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible,simpleRef(s))
       val newPart = part.setImages((part.images ++ refs.map(newComp)).sortBy { _.ref })
       charMaker = charMaker.updated(c, p, newPart)
     }
     def g(cat: CMCategory) = {
 
       val newParts = refs
-        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible))
+        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible,simpleRef(s)))
         .map(i => new CMPart(i.ref, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)) ++
         cat.possibleParts
       val newCat = new CMCategory(cat.categoryName, newParts.sortBy(_.partName))
@@ -613,12 +615,12 @@ class CallbackCenter(
       val newCm = charMaker.remove(selection).add(newCategory, newPart, l)
       selection = newCm.getLocation(l)
       charMaker = newCm.enforceLinkConsitancy
-      
+
     }
     def relocatePart(oldPart: CMPart) = {
 
       val relocated = oldPart.setName(newPart)
-      
+
       val newCm = charMaker
         .remove(selection.category, selection.part).addPart(newCategory, relocated)
         .enforceLinkConsitancy
@@ -631,7 +633,7 @@ class CallbackCenter(
         .enforceLinkConsitancy
     }
     val oldCM = charMaker
-    
+
     val oldChoices = choices
     selection.forSelected(
       charMaker,
@@ -797,11 +799,81 @@ class CallbackCenter(
     }
     updateAll(oldCM, choices)
   }
-  def selectPart{
-    selection = CMAdress(selection.category,selection.part)
+  def askNameChange(newName: String): String = {
+    def blabla(level: String): String = {
+      "There already is a " + level +
+        " named " + newName + ".\nYou can use the location pannel if you want to merge this " +
+        level + " with an other."
+    }
+    selection.getCategory(charMaker) match {
+      case None => "Nothing is selected.\n I think Nothing is already a good name for nothing."
+      case Some(c) =>
+        selection.getPart(charMaker) match {
+          case None =>
+            if (charMaker.categories.exists { _.categoryName == newName })
+              blabla("category")
+            else {
+              val newCats = charMaker.categories
+                .updated(selection.category, c.setName(newName))
+                .sortBy { _.categoryName }
+              val i = newCats.indexWhere { _.categoryName == newName }
+              val oldCM = charMaker
+              val oldChoices = choices
+              val unchangedChoices = choices.take(selection.category) ++ choices.drop(selection.category + 1)
+              choices = (choices.take(i) :+ selection.part) ++ choices.drop(i)
+              selection = CMAdress(i, selection.part, selection.layer, selection.layerSelect)
+              charMaker = new CharMaker(newCats, charMaker.colors, charMaker.sliders, charMaker.imageMap)
+              updateAll(oldCM, oldChoices)
+              ""
+            }
+          case Some(p) =>
+
+            selection.getLayer(charMaker) match {
+              case None => if (c.possibleParts.exists { _.partName == newName })
+                blabla(" part in " + c.categoryName)
+              else {
+                val newParts = c.possibleParts
+                  .updated(selection.part, p.setName(newName))
+                  .sortBy { _.partName }
+                val i = newParts.indexWhere { _.partName == newName }
+                val oldCM = charMaker
+                val oldChoices = choices
+                choices = choices.updated(selection.part, i)
+                charMaker = charMaker.updated(selection.category, c.setPart(newParts))
+                updateAll(oldCM, oldChoices)
+                ""
+
+              }
+              case Some(l) =>
+                val oldCM = charMaker
+                l match {
+                  case img: CMImage =>
+                    if (p.images.exists(_.name == newName))
+                      blabla(" image in " + p.partName + " in " + c.categoryName)
+                    else {
+                      charMaker = charMaker.updated(selection, img.setName(newName))
+                      updateAll(oldCM, choices)
+                      ""
+                    }
+                  case s: CMShape =>
+                    if (p.shapes.exists(_.name == newName))
+                      blabla(" shape in " + p.partName + " in " + c.categoryName)
+                    else {
+                      charMaker = charMaker.updated(selection, s.setName(newName))
+                      updateAll(oldCM, choices)
+                      ""
+                    }
+                }
+
+            }
+        }
+    }
+  }
+  def selectPart {
+    selection = CMAdress(selection.category, selection.part)
     updateAll(charMaker, choices)
   }
-  def selectCategrory{
+  def selectCategrory {
     selection = CMAdress(selection.category)
     updateAll(charMaker, choices)
   }
@@ -818,14 +890,14 @@ class CallbackCenter(
       selection.forSelectedShape(charMaker) {
         s =>
           selectedCurveComand =
-            charMaker.getShape(selection.category, selection.part, selection.layer).commands.size-1
+            charMaker.getShape(selection.category, selection.part, selection.layer).commands.size - 1
           selectedShape = Some((selection.category, selection.part, selection.layer))
       }
-    } else{
+    } else {
       selectedCurveComand = -1
       selectedShape = None
     }
-      
+
     updateChar
   }
   def onShapeLoosingComande(category: Int, part: Int, shape: Int, curve: Int) {
@@ -835,10 +907,10 @@ class CallbackCenter(
     charMaker = charMaker.updateShape(category, part, shape, newShape)
     updateAll(oldCM, choices)
   }
-  def onShapeRecivingNewCommand(commandPos : Vec, category: Int, part: Int, shape: Int) {
+  def onShapeRecivingNewCommand(commandPos: Vec, category: Int, part: Int, shape: Int) {
     val oldCM = charMaker
     val targetShape = charMaker.getPart(category, part).shapes(shape)
-    val (newShape,newSelect) = ShapeManipulator.addCommande(targetShape, selectedCurveComand,commandPos)
+    val (newShape, newSelect) = ShapeManipulator.addCommande(targetShape, selectedCurveComand, commandPos)
     selectedCurveComand = newSelect
     charMaker = charMaker.updateShape(category, part, shape, newShape)
     updateAll(oldCM, choices)
@@ -861,8 +933,8 @@ class CallbackCenter(
   def onSave(evt: JQueryEventObject) = {
     CMPrinter.print(setting.saveFileName, stat)
   }
-  def onSliderChange(sliderIndex  :Int, newValues : Int) = {
-    
+  def onSliderChange(sliderIndex: Int, newValues: Int) = {
+
     slidersValues = slidersValues.updated(sliderIndex, newValues)
     updateChar
   }

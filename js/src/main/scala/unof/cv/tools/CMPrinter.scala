@@ -44,10 +44,11 @@ object CMPrinter {
     }
   }
   def cookie(state: AppStat) = {
-    val save = all(state, "cookieCMParams").filterNot { _.isWhitespace }
-    val now = Date.now
-    val expire = new Date(now + 10 * 365 * 24 * 60 * 60 * 1000)
-    Dynamic.global.document.cookie = save + "; expires=" + expire.toDateString()
+    val save = LWZ.compress(all(state, "cookieCMParams")
+      .filterNot { _.isWhitespace })
+      .map(_.toChar)
+      .mkString
+    Dynamic.global.localStorage.setItem( "cookieCMParams",save )
   }
   private def all(
 
@@ -58,14 +59,13 @@ object CMPrinter {
     val colors = state.colorMask
     val choices = state.choices
     val selected = Seq(
-        state.selection.category,
-        state.selection.part,
-        state.selection.layer,
-        if(state.selection.layerSelect ==  SelectImages)
-          0
-        else
-          1
-    )
+      state.selection.category,
+      state.selection.part,
+      state.selection.layer,
+      if (state.selection.layerSelect == SelectImages)
+        0
+      else
+        1)
 
     def format(s: Seq[Any]) = s.mkString("[ ", ", ", " ]")
     val partFields = Seq(
@@ -80,8 +80,8 @@ object CMPrinter {
       "colorVariable",
       "z_layer",
       "condition",
-      "deltas",
-      "linkedSlider")
+      "name")
+
     val shapeFields = Seq(
       "points",
       "transform",
@@ -93,7 +93,8 @@ object CMPrinter {
       "lineJoin",
       "closed",
       "deltas",
-      "linkedSlider")
+      "linkedSlider",
+      "name")
     def assembleStruct(parNames: Seq[String], parValues: Seq[Any]) = {
       parNames.zip(parValues)
         .map {
@@ -118,22 +119,22 @@ object CMPrinter {
         Seq(LinkedVisibility.key, theCat, thePart)
       case other => Seq(other.key)
     }).mkString("[ \"", "\", \"", "\" ]")
-    def oneShape(s: CMShape):String = {
-      val (sliders,deltas) = s.deltas.toSeq.unzip
-      val deltaString = format(deltas.map{
-        s=>
-          format(s.map{
-          case(pos,shape)=>
-          "{\"sliderPos\" : "+pos+", \"state\" : "+oneShape(shape).replaceAll("\n", "")+"}"
-        })
+    def oneShape(s: CMShape): String = {
+      val (sliders, deltas) = s.deltas.toSeq.unzip
+      val deltaString = format(deltas.map {
+        s =>
+          format(s.map {
+            case (pos, shape) =>
+              "{\"sliderPos\" : " + pos + ", \"state\" : " + oneShape(shape).replaceAll("\n", "") + "}"
+          })
       })
       val values = Seq(
         format(s.commands.map {
           c =>
             format((c match {
-              case ct : CurveTo =>
-                Seq( ct.cp1, ct.cp2, ct.end)
-              case mt : MoveTo =>
+              case ct: CurveTo =>
+                Seq(ct.cp1, ct.cp2, ct.end)
+              case mt: MoveTo =>
                 Seq(mt.pos)
             }).map(oneVec))
 
@@ -147,30 +148,32 @@ object CMPrinter {
         "\"" + s.lineJoint + "\"",
         s.closed,
         deltaString,
-        format(sliders)
-        )
+        format(sliders.map("\"" + _.map(escapeEnoyingChar).mkString + "\"")),
+        "\"" + s.name.map(escapeEnoyingChar).mkString + "\"")
       assembleStruct(shapeFields, values)
     }
-    def oneImage(img: CMImage):String = {
-    
+    def oneImage(img: CMImage): String = {
+
       val values = Seq(
         "\"" + cm.imageMap(img.ref).hRef + "\"",
         img.transform.toString(),
         "\"" + img.boundColor.map(escapeEnoyingChar).mkString + "\"",
         img.z,
-        oneCondition(img.displayCondition))
+        oneCondition(img.displayCondition),
+        "\"" + img.name.map(escapeEnoyingChar).mkString + "\"")
       assembleStruct(imageFields, values)
     }
 
     def onePart(catName: String, part: CMPart) = {
-      Seq(
+      val values = Seq(
         "\"" + part.partName.map(escapeEnoyingChar).mkString + "\"",
         "\"" + catName.map(escapeEnoyingChar).mkString + "\"",
         part.partZ,
         part.partTransform.toString(),
-        part.components.map(oneLayer).mkString("[\n", ",\n", "\n\t\t]")).zip(partFields).map {
-          t => "\"" + t._2 + "\" : " + t._1
-        }.mkString("\n\t{ ", ",\n\t\t ", " \n\t}")
+        part.components.map(oneLayer).mkString("[\n", ",\n", "\n\t\t]"))
+      values.zip(partFields).map {
+        t => "\"" + t._2 + "\" : " + t._1
+      }.mkString("\n\t{ ", ",\n\t\t ", " \n\t}")
     }
 
     def bodyParts =

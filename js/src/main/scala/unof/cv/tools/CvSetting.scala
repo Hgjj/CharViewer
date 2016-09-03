@@ -77,6 +77,9 @@ trait CvSetting extends js.Object{
   def shapeEditButtonOn : String
   def shapeEditButtonOff : String
   def slidersDiv : String
+  def elementName : String
+  def renameInput : String
+  def renameButton : String
 	def colorSlotsCount : Number
 	def maxSliders : Number
 	def cookiSavePeriode : Number
@@ -84,6 +87,7 @@ trait CvSetting extends js.Object{
 	def wheelZoomSpeed : Number
 	def colorBindingButton : String
 	def devMod : Boolean
+	def verbose : Boolean
 }
 //^ +"(.+)" : .*
 //  def $1 : String
