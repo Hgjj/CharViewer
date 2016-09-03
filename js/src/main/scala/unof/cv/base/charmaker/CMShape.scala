@@ -291,11 +291,11 @@ class CurveTo(val cp1 : Vec, val cp2 : Vec, val end :Vec) extends DrawCommand{
     if(i > 2 || i < 0)
       throw new NoSuchElementException("DrawCommandTo have 3 points. "+i+" is not ok")
     if(i == 0)
-      new CurveTo(v,cp2,end)
-    else if( i == 1)
-      new CurveTo(cp1,v,end)
-    else
       new CurveTo(cp1,cp2,v)
+    else if( i == 1)
+      new CurveTo(v,cp2,end)
+    else
+      new CurveTo(cp1,v,end)
   }
   def pointAt(i : Int) = {
     if(i > 2 || i < 0)

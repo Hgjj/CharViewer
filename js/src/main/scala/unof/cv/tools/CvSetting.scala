@@ -80,6 +80,9 @@ trait CvSetting extends js.Object{
   def elementName : String
   def renameInput : String
   def renameButton : String
+  def newShapeButton : String
+  def newImageButton : String
+  def newPartButton : String
 	def colorSlotsCount : Number
 	def maxSliders : Number
 	def cookiSavePeriode : Number

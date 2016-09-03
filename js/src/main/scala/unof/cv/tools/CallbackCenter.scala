@@ -187,10 +187,10 @@ class CallbackCenter(
 
   private def curentCharacter(onload: (Character) => Unit) = charMaker.makeChar(choices, colorMask, slidersValues, Seq(globalTransform))(onload)
 
-  private def updateChar: Unit = curentCharacter {
-    c =>
-      DrawChar(c, charContext)
-      drawHandlesIfNeeded
+  private def updateChar = curentCharacter { drawChar }
+  private def drawChar(c: Character) = {
+    DrawChar(c, charContext)
+    drawHandlesIfNeeded
   }
   def refreshColorsOnFirstClick(evt: JQueryEventObject): Any = {
     updateAll(charMaker, choices)
@@ -207,7 +207,8 @@ class CallbackCenter(
           shape,
           Seq(globalTransform, part.partTransform),
           charContext,
-          setting)
+          setting,
+          selectedCurveComand)
     }
   }
   private def updateAll(oldCM: CharMaker, oldChoices: Seq[Int]) {
@@ -225,19 +226,23 @@ class CallbackCenter(
   }
 
   private def validateSelection(newCm: CharMaker) = {
-
-    if (selection.category >= newCm.categories.size) {
-      selection = CMAdress()
-    } else if (selection.part >= newCm.categories(selection.category).possibleParts.size) {
-      selection = CMAdress(selection.category)
-    } else {
-      selection.forSelectedPart(newCm) {
-        p =>
-          selection.layerSelect.forAnyLayers(p) {
-            l =>
-              if (selection.layer >= l.size)
-                selection = CMAdress(selection.category, selection.part)
+    if (selection.category >= 0) {
+      if (selection.category >= newCm.categories.size) {
+        selection = CMAdress()
+      } else if (selection.category >= 0) {
+        if (selection.part >= newCm.categories(selection.category).possibleParts.size) {
+          selection = CMAdress(selection.category)
+        } else if (selection.layer >= 0) {
+          selection.forSelectedPart(newCm) {
+            p =>
+              selection.layerSelect.forAnyLayers(p) {
+                l =>
+                  if (selection.layer >= l.size)
+                    selection = CMAdress(selection.category, selection.part)
+              }
           }
+
+        }
       }
 
     }
@@ -373,11 +378,13 @@ class CallbackCenter(
         case Some((c, p, l)) =>
           val part = charMaker.getPart(c, p)
           val s = part.shapes(l)
+
           draggedHandle = ShapeManipulator.click(
             componentCoord((evt.pageX, evt.pageY), charContext.canvasElem),
             s,
             Seq(globalTransform, part.partTransform),
-            setting)
+            setting,
+            selectedCurveComand)
           draggedHandle match {
             case None =>
               if (ctrlIsDown) {
@@ -389,12 +396,17 @@ class CallbackCenter(
                 standardPicking
             case Some((curve, handle)) =>
               selection = CMAdress(c, p, l, SelectShapes)
-              selectedCurveComand = curve
-              ParMenuDrawer.update(setting, this)
-              if (ctrlIsDown) {
-                onShapeLoosingComande(c, p, l, curve)
-                draggedHandle = None
+              if (handle == 0) {
+                println("Callbacks , handle : " + handle)
+                selectedCurveComand = curve
+                ParMenuDrawer.update(setting, this)
+                if (ctrlIsDown) {
+                  onShapeLoosingComande(c, p, l, curve)
+                  draggedHandle = None
+                } else
+                  updateChar
               }
+
           }
       }
     } else
@@ -402,6 +414,7 @@ class CallbackCenter(
 
     def standardPicking = curentCharacter {
       c =>
+
         val local = componentCoord((evt.pageX, evt.pageY), charContext.canvasElem)
         val index = Picker.pick(local, c, charContext)
         if (index >= 0) {
@@ -417,6 +430,22 @@ class CallbackCenter(
           val tr = l.transform
           distHeldMouse = stat.partInvertTransform * local - (tr.dx, tr.dy)
           partHeld = true
+          selectedShape match {
+            case None =>
+            case Some((cat, p, s)) =>
+              l match {
+                case _: CMShape =>
+                  if (cat == selection.category &&
+                    p == selection.part &&
+                    s == selection.layer &&
+                    selection.layerSelect == SelectShapes) {
+                    selectedCurveComand = -1
+                    drawChar(c)
+                  }
+                case _ =>
+              }
+          }
+
         }
         def ifPart(p: CMPart) = {
           val tr = p.partTransform
@@ -424,7 +453,6 @@ class CallbackCenter(
           partHeld = true
         }
         selection.forSelected(charMaker, ifLayer _, ifPart _, (c) => Unit)
-
         ParMenuDrawer.update(setting, this)
 
     }
@@ -574,7 +602,7 @@ class CallbackCenter(
         reqNameCat()
       }
     }
-    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible,"Nothing")
+    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible, "Nothing")
     val emptyPart = new CMPart("Empty", Seq(noImage), Nil, Transforme(), 0, CMPart.newLinkKey)
 
     val oldCm = charMaker
@@ -588,15 +616,15 @@ class CallbackCenter(
     def simpleRef(s: String) = s.split("images[/\\\\]").last
     val CMAdress(c, p, _, _) = selection
     def f(part: CMPart) = {
-      def newComp(s: String) = 
-        new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible,simpleRef(s))
+      def newComp(s: String) =
+        new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, simpleRef(s))
       val newPart = part.setImages((part.images ++ refs.map(newComp)).sortBy { _.ref })
       charMaker = charMaker.updated(c, p, newPart)
     }
     def g(cat: CMCategory) = {
 
       val newParts = refs
-        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible,simpleRef(s)))
+        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, simpleRef(s)))
         .map(i => new CMPart(i.ref, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)) ++
         cat.possibleParts
       val newCat = new CMCategory(cat.categoryName, newParts.sortBy(_.partName))
@@ -694,6 +722,62 @@ class CallbackCenter(
     }
     selection.forSelected(charMaker, copyLayer(_), copyPart(_), copyCat(_))
     updateAll(oldCm, oldChoices)
+  }
+  def onPartCreated(partName: String) = {
+    val hostCat = charMaker.categories(selection.category)
+    val okPartName = {
+      val trimedPart = partName.trim()
+      val startPartName = if (trimedPart == "") {
+        "Anon"
+      } else {
+        trimedPart
+      }
+      def isOk(name: String) = !hostCat.possibleParts.exists { _.partName == name }
+      def reqNamePart(i: Int = 0): String = {
+        val testPartName = startPartName + "(" + i + ")"
+        if (isOk(testPartName))
+          testPartName
+        else
+          reqNamePart(i + 1)
+      }
+      if (isOk(startPartName))
+        startPartName
+      else {
+        reqNamePart()
+      }
+    }
+
+    val i = new CMImage("None", Transforme(), "None", 0, AlwayVisible, "Nothing")
+    val p = new CMPart(okPartName, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)
+    val oldCM = charMaker
+    charMaker = charMaker.add(selection.category, p)
+    updateAll(oldCM, choices)
+  }
+  def onShapeCreated = {
+    val shape = new CMShape(
+      Seq(new MoveTo(50, 50),
+        new CurveTo((50, 50), (50, 100), (50, 100)),
+        new CurveTo((50, 100), (100, 100), (100, 100)),
+        new CurveTo((100, 100), (100, 50), (100, 50))),
+      Transforme(),
+      Seq(ConstantColor("black", 1), ConstantColor("white", 0.5f)),
+      0,
+      AlwayVisible,
+      5,
+      true,
+      "miter",
+      true,
+      Nil,
+      "A Nameless Curve")
+    val oldCM = charMaker
+    charMaker = charMaker.add(selection.category, selection.part, shape)
+    updateAll(oldCM, choices)
+  }
+  def onImageCreated = {
+    val image = new CMImage("None", Transforme(), "None", 0, AlwayVisible, "Nothing")
+    val oldCM = charMaker
+    charMaker = charMaker.add(selection.category, selection.part, image)
+    updateAll(oldCM, choices)
   }
   def onImageCreated(image: CMImage) = {
     val CMAdress(category, part, _, _) = selection

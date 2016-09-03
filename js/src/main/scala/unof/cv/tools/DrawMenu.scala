@@ -10,6 +10,8 @@ import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
 import unof.cv.base.AllKnownColors
 import unof.cv.base.charmaker.CharMaker
+import scala.scalajs.js.Dynamic
+
 object DrawMenu {
 
   val partNameFontSize: Int = 20
@@ -163,10 +165,15 @@ object DrawMenu {
     }
 
   }
+  def onCatPlusClicked(callbacks : CallbackCenter)(evt : JQueryEventObject) = {
+    val res = Dynamic.global.prompt("Name this new Category","")
+    if(res!=null)
+      callbacks.onCategoryCreated(res.toString())
+  }
   def createMenu(settings: CvSetting, callbacks: CallbackCenter) = {
     
     val onPartInMenuClicked = callbacks.onPartInMenuClicked _
-
+    jQuery(settings.newCategoryButton).click(onCatPlusClicked(callbacks) _)
     val slide = jQuery(settings.categoriesTabContainer)
     callbacks.currentOptions.categories.zip(callbacks.currentChoices)
       .zipWithIndex
