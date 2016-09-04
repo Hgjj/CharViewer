@@ -214,3 +214,6 @@ exit
 cVJS/fastOptJS
 cVJS/fullOptJS
 exit
+cVJS/fastOptJS
+cVJS/fullOptJS
+exit

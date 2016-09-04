@@ -42,8 +42,23 @@ object CharMaker {
         AlwayVisible
       else if (s(0).toLowerCase() == VisibleIfNoLink.key)
         VisibleIfNoLink
-      else if (s.length > 2 && s(0).toLowerCase() == LinkedVisibility.key)
+      else if (s.length == 3 && s(0).toLowerCase() == LinkedVisibility.key)
         LinkedVisibility(keyOfPart(s(1), s(2)))
+      else if(s.length == 4 && s(0).toLowerCase() == SliderVisibility.key){
+        val opp : (Int,Int)=>Boolean = {
+          s(2) match {
+            case "<" => _<_
+            case "<=" => _<=_
+            case ">" => _>_
+            case ">=" => _>=_
+            case "==" => _==_
+            case "!=" => _!=_
+            case other => throw new IllegalArgumentException("Cannot parse "+other+" as a boolean binary opperator")
+          }
+        }
+        SliderVisibility(s(1),opp,s(3).toInt)
+      }
+        
       else
         throw new IllegalArgumentException(s.mkString(" ") + " cannot be parsed to a valid condtion")
 
@@ -88,7 +103,7 @@ object CharMaker {
         getOrElse(() => c.lineJoin, "miter"),
         getOrElse(() => c.closed, false),
         deltas,
-        getOrElse(()=>c.name, "An Nameless Shape"))
+        getOrElse(()=>c.name, "A Nameless Shape"))
     }
     def parseImage(c: JSImage): CMImage = {
       usedRefs :+= c.imageRef
@@ -748,6 +763,7 @@ class CharMaker(
     val catPartLocation = categories.indices.zip(choices)
     val catPerKeyMap = partPerCat.map(t => (t._1.linkKey, t._2)).toMap
 
+    val sliderMap = sliders.zip(sliderValues).toMap
     def removeInvisible(s: Seq[CMLayer]) = {
       val (nlCondition, others) =
         s.partition(_.displayCondition == VisibleIfNoLink)
@@ -767,6 +783,8 @@ class CharMaker(
                     throw new Exception("The layer " + lin + " in " + cat + " is linked to a concurent choice")
                   true
               }
+            case SliderVisibility(sliderName,opp,value)=>
+              opp(sliderMap(sliderName),value)
           }
       }
       if (visibleLinked.isEmpty)
@@ -775,7 +793,6 @@ class CharMaker(
         visibleLinked ++ alwayVisible
 
     }
-    val sliderMap = sliders.zip(sliderValues).toMap
 
     val visibleImages = removeInvisible(partPerCat.flatMap(_._1.components))
     val imagePerPart = visibleImages.flatMap {
@@ -845,11 +862,8 @@ class CharMaker(
                 } else
                   maybe
               }
-              println("CM : firstAbove " + firstAbove._2.lineWidth)
-              println("CM : justBellow " + justBellow._2.lineWidth)
               val above = DeltaApplier.makeDiffShape(source, firstAbove._2, colorMap)
               val bellow = DeltaApplier.makeDiffShape(source, justBellow._2, colorMap)
-              println("CM : ("+sliderValue+" - "+justBellow._1+") / ("+firstAbove._1+" - "+justBellow._1+")")
               val r = (sliderValue - justBellow._1) / (firstAbove._1 - justBellow._1).toFloat
               Some(DeltaApplier.interPolateDiffShape(r, above, bellow))
 

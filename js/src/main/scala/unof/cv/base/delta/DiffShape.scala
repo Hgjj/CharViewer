@@ -14,5 +14,4 @@ class DiffShape(
     val lineWidth: Float,
     val lineJoint: String,
     val closed: Boolean) {
-  println("DiffShape lineWidth "+lineWidth)
 } 

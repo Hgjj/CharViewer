@@ -81,6 +81,7 @@ object SlidersMenu {
 
   private def sliderChanged(callbacks: CallbackCenter, index: Int, input: JQuery)(evt: JQueryEventObject) = {
     val v = input.value().toString().toInt
+    callbacks.setShapeSelected(false)
     callbacks.onSliderChange(index, v)
   }
 }

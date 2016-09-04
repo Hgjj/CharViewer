@@ -16,3 +16,9 @@ object LinkedVisibility {
 case class LinkedVisibility(partKey : Int) extends VisibilityCondition{
   def key = LinkedVisibility.key
 }
+object SliderVisibility{
+ def key = "compareSlider"
+}
+case class SliderVisibility(slider : String, opp : (Int,Int)=>Boolean, value : Int) extends VisibilityCondition{
+  def key = SliderVisibility.key
+}

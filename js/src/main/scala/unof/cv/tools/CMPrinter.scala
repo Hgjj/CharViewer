@@ -58,6 +58,7 @@ object CMPrinter {
     val cm = state.charMaker
     val colors = state.colorMask
     val choices = state.choices
+    val sliders = state.slidersValues
     val selected = Seq(
       state.selection.category,
       state.selection.part,
@@ -183,8 +184,9 @@ object CMPrinter {
     def colorsMask = "\"colors\" : " + format(colors.map("\"" + _ + "\""))
     def savedChoices = "\"choices\" : " + format(choices)
     def savedSelected = "\"selected\" : " + format(selected)
+    def savedSliders = "\"sliders\" : "+format(sliders)
     def savedDate = "\"date\" : " + Date.now
-    Seq(bodyParts, colorsMask, savedChoices, savedSelected, savedDate)
+    Seq(bodyParts, colorsMask, savedChoices, savedSelected,savedSliders, savedDate)
       .mkString(structName + " = {", ",\n", "\n};")
   }
 

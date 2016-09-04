@@ -13,6 +13,7 @@ import org.scalajs.jquery.JQueryEventObject
 object ParMenuDrawer extends SharedPannelFunctions {
 
   def update(settings: CvSetting, callbacks: CallbackCenter): Unit = {
+   
     val imgMenu = jQuery(settings.imgMenuComponent)
     val options = callbacks.currentOptions
     val category = callbacks.currentSelection.category

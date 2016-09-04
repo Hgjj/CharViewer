@@ -112,6 +112,7 @@ class CallbackCenter(
 
   def charMaker = stat.charMaker
   private def charMaker_=(cm: CharMaker) {
+    resetSliders
     validateChoices(stat.charMaker, cm)
     validateSelection(cm)
     validateColors(stat.charMaker, cm)
@@ -518,7 +519,7 @@ class CallbackCenter(
   }
   def onColorChange(color: Int, jscolor: JQueryEventObject): Any = {
     colorMask = colorMask.updated(color, "#" + jscolor.target.asInstanceOf[Dynamic].value.toString)
-
+    resetSliders
     updateChar
     if (selection._3 >= 0)
       ParMenuDrawer.update(setting, this)
@@ -973,9 +974,11 @@ class CallbackCenter(
     if (selected) {
       selection.forSelectedShape(charMaker) {
         s =>
+
           selectedCurveComand =
             charMaker.getShape(selection.category, selection.part, selection.layer).commands.size - 1
           selectedShape = Some((selection.category, selection.part, selection.layer))
+          resetSliders
       }
     } else {
       selectedCurveComand = -1
@@ -1041,6 +1044,14 @@ class CallbackCenter(
     }
     val offset: Vec = rec(local)
     v - offset
+  }
+  def resetSliders = {
+    if (slidersValues.exists(_ != 0)) {
+      slidersValues = Seq.fill(slidersValues.size)(0)
+
+      SlidersMenu.update(this, setting)
+    }
+
   }
 
 }
