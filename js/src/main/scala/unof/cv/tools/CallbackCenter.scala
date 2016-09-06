@@ -75,12 +75,15 @@ class CallbackCenter(
   private val wheelZoomSpeed = setting.wheelZoomSpeed.floatValue()
   redoButton.hide()
 
-  private def startingAdress = if (startingSelection.size < 4)
-    CMAdress(startingCharMaker, startingSelection(0), startingSelection(1), startingSelection(2))
-  else if (startingSelection(3) == 0)
-    CMAdress(startingSelection(0), startingSelection(1), startingSelection(2), SelectImages)
-  else
-    CMAdress(startingSelection(0), startingSelection(1), startingSelection(2), SelectShapes)
+  private def startingAdress =
+    if (startingSelection.size < 3)
+      CMAdress()
+    else if (startingSelection.size < 4)
+      CMAdress(startingCharMaker, startingSelection(0), startingSelection(1), startingSelection(2))
+    else if (startingSelection(3) == 0)
+      CMAdress(startingSelection(0), startingSelection(1), startingSelection(2), SelectImages)
+    else
+      CMAdress(startingSelection(0), startingSelection(1), startingSelection(2), SelectShapes)
 
   private val stat = new AppStat(
     startingChoices,
@@ -1123,13 +1126,13 @@ class CallbackCenter(
           newOriginPos._1,
           newOriginPos._2)
         val oldOrigin = (oldTranfrom.dx, oldTranfrom.dy)
-        val refChange = newTransform.invert * oldTranfrom 
+        val refChange = newTransform.invert * oldTranfrom
         println("Callbacks : change : " + refChange)
         val newCommands = oldCommands.map {
           _.map {
-            v => 
-              val res  =refChange * v
-              println("Callbacks  : from "+v+" to "+res)
+            v =>
+              val res = refChange * v
+              println("Callbacks  : from " + v + " to " + res)
               res
           }
         }
