@@ -229,3 +229,7 @@ exit
 cVJS/fastOptJS
 cVJS/fullOptJS
 exit
+cVJS/fullOptJS
+cVJS/fastOptJS
+cVJS/fullOptJS
+exit

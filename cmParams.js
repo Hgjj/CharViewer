@@ -141,8 +141,5 @@ var fileCMParams = {"bodyParts" : [
 		] 
 	}
 ],
-"colors" : [ "#33ADFF", "#C55CD5" ],
-"choices" : [ 1, 1 ],
-"sliders" : [ 0, 0, 0, 0 ],
-"date" : 1473157388063
+"date" : 1473163210691
 };

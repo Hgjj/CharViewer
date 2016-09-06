@@ -269,12 +269,13 @@ class CallbackCenter(
     validateStuff(oldCm, newCm, _.colors, "white", colorMask, colorMask_=)
   private def validateSlider(oldCm: CharMaker, newCm: CharMaker) =
     validateStuff(oldCm, newCm, _.sliders, 0, slidersValues, slidersValues_=)
-  private def validateStuff[A](oldCm: CharMaker,
-                               newCm: CharMaker,
-                               getList: (CharMaker) => Seq[String],
-                               default: A,
-                               managedList: Seq[A],
-                               updateList: (Seq[A]) => Unit): Unit = {
+  private def validateStuff[A](
+    oldCm: CharMaker,
+    newCm: CharMaker,
+    getList: (CharMaker) => Seq[Any],
+    default: A,
+    managedList: Seq[A],
+    updateList: (Seq[A]) => Unit): Unit = {
 
     val oldList = getList(oldCm)
     val newList = getList(newCm)
@@ -307,28 +308,13 @@ class CallbackCenter(
 
   }
   private def validateChoices(oldCm: CharMaker, newCm: CharMaker) = {
-    val zi = (oldCm.categories.map(_.categoryName) zip newCm.categories.map { _.categoryName })
-    val dif = zi.indexWhere(t => t._1 != t._2)
-    if (choices.exists { _ < 0 })
-      throw new IllegalArgumentException("Can't choose something lesser than 0")
-    if (oldCm.categories.size > newCm.categories.size) {
-
-      if (dif < 0)
-        choices = choices.dropRight(1)
-      else
-        choices = choices.take(dif) ++ choices.drop(dif + 1)
-    } else if (oldCm.categories.size < newCm.categories.size) {
-      if (dif < 0) {
-        choices :+= 0
-      } else
-        choices = (choices.take(dif) :+ 0) ++ choices.drop(dif)
-    } else if (dif > 0) {
-      val choiceMap = (oldCm.categories.map(_.categoryName).zip(choices)).toMap.withDefault(x => 0)
-      choices = newCm.categories.map(c => choiceMap(c.categoryName))
-    }
-
-    choices = choices.take(newCm.categories.size).zip(newCm.categories) map {
-      t => t._1 min t._2.possibleParts.size - 1
+    validateStuff(oldCm, newCm, _.categories.map(_.categoryName), 0, choices, choices_= _)
+    choices = choices.zipWithIndex.map {
+      case (choice,cat) =>
+        if(choice < newCm.categories(cat).possibleParts.size)
+          choice
+        else
+          0
     }
   }
   def currentOptions = charMaker
@@ -414,7 +400,6 @@ class CallbackCenter(
             case Some((curve, handle)) =>
               selection = CMAdress(c, p, l, SelectShapes)
               if (handle == 0) {
-                println("Callbacks , handle : " + handle)
                 selectedCurveComand = curve
                 ParMenuDrawer.update(setting, this)
                 if (ctrlIsDown) {
@@ -1127,12 +1112,10 @@ class CallbackCenter(
           newOriginPos._2)
         val oldOrigin = (oldTranfrom.dx, oldTranfrom.dy)
         val refChange = newTransform.invert * oldTranfrom
-        println("Callbacks : change : " + refChange)
         val newCommands = oldCommands.map {
           _.map {
             v =>
               val res = refChange * v
-              println("Callbacks  : from " + v + " to " + res)
               res
           }
         }
@@ -1150,7 +1133,6 @@ class CallbackCenter(
     SlidersMenu.update(this, setting)
   }
   def onLayerSelected(selected: Int, select: LayersSelector) = {
-    println("CM select " + selected)
     selection = CMAdress(selection.category, selection.part, selected, select)
     ParMenuDrawer.update(setting, this)
 

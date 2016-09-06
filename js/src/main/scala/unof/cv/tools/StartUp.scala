@@ -15,14 +15,22 @@ object StartUp extends JSApp {
    
     def getOrElse[A](f: () => A, orElse: A) = {
       try {
-        f()
+        val v = f()
+        if(js.isUndefined(v))
+          orElse
+        else{
+          println("This following object is not undefined")
+          println(v.toString())
+          v
+        }
+          
       } catch {
         case _: Throwable => orElse
       }
     }
     def loadCookie = init(
           cookieParam.bodyParts,
-          getOrElse(() => cookieParam.colors,js.Array[String]()),
+          getOrElse(() => cookieParam.colors,Nil),
           getOrElse(() => cookieParam.sliders.map(_.intValue()), Nil),
           getOrElse(() => cookieParam.choices.map(_.intValue()), Nil),
           getOrElse(() => cookieParam.selected.map(_.intValue()), Nil),
@@ -30,7 +38,7 @@ object StartUp extends JSApp {
     )
     def loadFile = init(
           fileParam.bodyParts,
-          getOrElse(() => fileParam.colors,js.Array[String]()),
+          getOrElse(() => fileParam.colors,Nil),
           getOrElse(() => fileParam.sliders.map(_.intValue()), Nil),
           getOrElse(() => fileParam.choices.map(_.intValue()), Nil),
           getOrElse(() => fileParam.selected.map(_.intValue()), Nil),
@@ -38,7 +46,7 @@ object StartUp extends JSApp {
     )
     def loadNothing = init(
       js.Array(), 
-      js.Array(),
+      Nil,
       Seq(),
       Seq(),
       Seq(-1,-1,-1),
@@ -88,7 +96,7 @@ object StartUp extends JSApp {
   }
   def init(
       bodyParts : js.Array[JsBodyPart],
-      colors : js.Array[String],
+      colors : Seq[String],
       sliders : Seq[Int],
       choices : Seq[Int],
       selected : Seq[Int],
