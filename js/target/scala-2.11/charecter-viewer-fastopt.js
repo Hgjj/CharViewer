@@ -5509,18 +5509,7 @@ $c_Lunof_cv_base_charmaker_CharMaker.prototype.extractSliderNames__Lunof_cv_base
     };
     var jsx$1 = b.elems$1
   };
-  return $as_sci_Set(jsx$1)
-});
-$c_Lunof_cv_base_charmaker_CharMaker.prototype.add__I__I__Lunof_cv_base_charmaker_CMLayer__Lunof_cv_base_charmaker_CharMaker = (function(cat, opt, layer) {
-  if ($is_Lunof_cv_base_charmaker_CMImage(layer)) {
-    var x2 = $as_Lunof_cv_base_charmaker_CMImage(layer);
-    return this.add__I__I__Lunof_cv_base_charmaker_CMImage__Lunof_cv_base_charmaker_CharMaker(cat, opt, x2)
-  } else if ($is_Lunof_cv_base_charmaker_CMShape(layer)) {
-    var x3 = $as_Lunof_cv_base_charmaker_CMShape(layer);
-    return this.add__I__I__Lunof_cv_base_charmaker_CMShape__Lunof_cv_base_charmaker_CharMaker(cat, opt, x3)
-  } else {
-    throw new $c_s_MatchError().init___O(layer)
-  }
+  return $as_sci_Set($as_sc_SetLike(jsx$1).$$minus__O__sc_Set("None"))
 });
 $c_Lunof_cv_base_charmaker_CharMaker.prototype.getLocation__T__T__T2 = (function(cat, opt) {
   var catIndex = this.getLocation__T__I(cat);
@@ -5549,7 +5538,7 @@ $c_Lunof_cv_base_charmaker_CharMaker.prototype.extractSliderNames__Lunof_cv_base
     })
   })(this));
   var this$1 = $m_sc_Seq$();
-  return $as_sci_Set($as_sc_TraversableOnce(jsx$2.flatMap__F1__scg_CanBuildFrom__O(jsx$1, this$1.ReusableCBFInstance$2)).toSet__sci_Set().$$minus__O__sc_Set("None"))
+  return $as_sc_TraversableOnce(jsx$2.flatMap__F1__scg_CanBuildFrom__O(jsx$1, this$1.ReusableCBFInstance$2)).toSet__sci_Set()
 });
 $c_Lunof_cv_base_charmaker_CharMaker.prototype.updateShape__I__I__I__Lunof_cv_base_charmaker_CMShape__Lunof_cv_base_charmaker_CharMaker = (function(cat, opt, com, newShape) {
   var oldCat = $as_Lunof_cv_base_charmaker_CMCategory(this.categories$1.apply__I__O(cat));
@@ -8568,14 +8557,21 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.onImageCopyed__V = (function() {
   var this$6 = this$4.unof$cv$tools$AppStat$$mySelection$1;
   var this$5 = this.unof$cv$tools$CallbackCenter$$stat$1;
   var cm = this$5.myCharMaker$1;
-  var fl = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(arg$outer, category$2$1, part$2$1) {
+  var fi = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(arg$outer, category$2$1, part$2$1) {
     return (function(x$21$2) {
-      var x$21 = $as_Lunof_cv_base_charmaker_CMLayer(x$21$2);
-      arg$outer.unof$cv$tools$CallbackCenter$$copyLayer$1__Lunof_cv_base_charmaker_CMLayer__I__I__Lorg_scalajs_jquery_JQuery(x$21, category$2$1, part$2$1)
+      var x$21 = $as_Lunof_cv_base_charmaker_CMImage(x$21$2);
+      arg$outer.unof$cv$tools$CallbackCenter$$copyImage$1__Lunof_cv_base_charmaker_CMImage__I__I__Lorg_scalajs_jquery_JQuery(x$21, category$2$1, part$2$1)
+    })
+  })(this, category$2, part$2));
+  var fs = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(arg$outer$1, category$2$2, part$2$2) {
+    return (function(shape$2) {
+      var shape = $as_Lunof_cv_base_charmaker_CMShape(shape$2);
+      arg$outer$1.unof$cv$tools$CallbackCenter$$copyShape$1__Lunof_cv_base_charmaker_CMShape__I__I__Lorg_scalajs_jquery_JQuery(shape, category$2$2, part$2$2)
     })
   })(this, category$2, part$2));
   if ((this$6.layer$1 >= 0)) {
-    this$6.forWhateverSelected__Lunof_cv_base_charmaker_CharMaker__F1__V(cm, fl)
+    this$6.forSelectedImage__Lunof_cv_base_charmaker_CharMaker__F1__V(cm, fi);
+    this$6.forSelectedShape__Lunof_cv_base_charmaker_CharMaker__F1__V(cm, fs)
   } else if ((this$6.part$1 >= 0)) {
     var arg1 = $as_Lunof_cv_base_charmaker_CMCategory(cm.categories$1.apply__I__O(this$6.category$1)).possibleParts$1.apply__I__O(this$6.part$1);
     var x$22 = $as_Lunof_cv_base_charmaker_CMPart(arg1);
@@ -8909,6 +8905,29 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$f$5__Lu
   var newTransform = $as_Lunof_cv_base_Transforme(x1.$$und1__O());
   var newZ = $uF(x1.$$und2__O());
   return p.setZ__F__Lunof_cv_base_charmaker_CMLayer(newZ).setTransform__Lunof_cv_base_Transforme__Lunof_cv_base_charmaker_CMLayer(newTransform)
+});
+$c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$copyShape$1__Lunof_cv_base_charmaker_CMShape__I__I__Lorg_scalajs_jquery_JQuery = (function(shape, category$2, part$2) {
+  var d = shape.deltaLink$1;
+  if (d.isSource__Z()) {
+    var this$1 = $m_Lunof_cv_base_charmaker_DeltaLink$();
+    var newLink = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$1.getKey__I(), "None", 0);
+    var newLayer = new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(shape.commands$1, shape.transform$1, shape.colors$1, shape.z$1, shape.displayCondition$1, shape.lineWidth$1, shape.showSurcface$1, shape.lineJoint$1, shape.closed$1, newLink, shape.name$1)
+  } else {
+    var newLayer = new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(shape.commands$1, shape.transform$1, shape.colors$1, shape.z$1, shape.displayCondition$1, shape.lineWidth$1, shape.showSurcface$1, shape.lineJoint$1, shape.closed$1, shape.deltaLink$1, shape.name$1)
+  };
+  var this$2 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  this.unof$cv$tools$CallbackCenter$$charMaker$und$eq__Lunof_cv_base_charmaker_CharMaker__V(this$2.myCharMaker$1.add__I__I__Lunof_cv_base_charmaker_CMShape__Lunof_cv_base_charmaker_CharMaker(category$2, part$2, newLayer));
+  var this$3 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  var x = ("Callbacks : after copy : " + this$3.myCharMaker$1.sliders$1.mkString__T__T(","));
+  var this$5 = $m_s_Console$();
+  var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
+  this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var this$7 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  var jsx$1 = this$7.myChoices$1;
+  var this$8 = $m_sc_Seq$();
+  this.unof$cv$tools$CallbackCenter$$choices$und$eq__sc_Seq__Lorg_scalajs_jquery_JQuery($as_sc_Seq(jsx$1.updated__I__O__scg_CanBuildFrom__O(category$2, part$2, this$8.ReusableCBFInstance$2)));
+  var this$9 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  return this.unof$cv$tools$CallbackCenter$$selection$und$eq__Lunof_cv_base_charmaker_CMAdress__Lorg_scalajs_jquery_JQuery($as_Lunof_cv_base_charmaker_CMAdress(this$9.myCharMaker$1.locationMap__sci_Map().apply__O__O(newLayer.id$1)))
 });
 $c_Lunof_cv_tools_CallbackCenter.prototype.validateSlider__p1__Lunof_cv_base_charmaker_CharMaker__Lunof_cv_base_charmaker_CharMaker__V = (function(oldCm, newCm) {
   var f = (function(x$2$2) {
@@ -9525,6 +9544,17 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.isCrtl__T__Z = (function(key) {
   var lowKey = $as_T(key.toLowerCase());
   return (((lowKey === "ctrl") || (lowKey === "meta")) || (lowKey === "control"))
 });
+$c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$copyImage$1__Lunof_cv_base_charmaker_CMImage__I__I__Lorg_scalajs_jquery_JQuery = (function(img, category$2, part$2) {
+  var newLayer = new $c_Lunof_cv_base_charmaker_CMImage().init___T__Lunof_cv_base_Transforme__T__F__Lunof_cv_base_charmaker_VisibilityCondition__T(img.ref$1, img.transform$1, img.boundColor$1, img.z$1, img.displayCondition$1, img.name$1);
+  var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  this.unof$cv$tools$CallbackCenter$$charMaker$und$eq__Lunof_cv_base_charmaker_CharMaker__V(this$1.myCharMaker$1.add__I__I__Lunof_cv_base_charmaker_CMImage__Lunof_cv_base_charmaker_CharMaker(category$2, part$2, newLayer));
+  var this$2 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  var jsx$1 = this$2.myChoices$1;
+  var this$3 = $m_sc_Seq$();
+  this.unof$cv$tools$CallbackCenter$$choices$und$eq__sc_Seq__Lorg_scalajs_jquery_JQuery($as_sc_Seq(jsx$1.updated__I__O__scg_CanBuildFrom__O(category$2, part$2, this$3.ReusableCBFInstance$2)));
+  var this$4 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  return this.unof$cv$tools$CallbackCenter$$selection$und$eq__Lunof_cv_base_charmaker_CMAdress__Lorg_scalajs_jquery_JQuery($as_Lunof_cv_base_charmaker_CMAdress(this$4.myCharMaker$1.locationMap__sci_Map().apply__O__O(newLayer.id$1)))
+});
 $c_Lunof_cv_tools_CallbackCenter.prototype.validateSelection__p1__Lunof_cv_base_charmaker_CharMaker__O = (function(newCm) {
   var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
   if ((this$1.unof$cv$tools$AppStat$$mySelection$1.category$1 >= 0)) {
@@ -9793,17 +9823,6 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.onMouseUp__Lorg_scalajs_dom_raw_Mouse
   this.unof$cv$tools$CallbackCenter$$partHeld$1 = false;
   this.dragAll$1 = false;
   this.draggedHandle$1 = $m_s_None$()
-});
-$c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$copyLayer$1__Lunof_cv_base_charmaker_CMLayer__I__I__Lorg_scalajs_jquery_JQuery = (function(layer, category$2, part$2) {
-  var newLayer = layer.changeId__Lunof_cv_base_charmaker_CMLayer();
-  var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
-  this.unof$cv$tools$CallbackCenter$$charMaker$und$eq__Lunof_cv_base_charmaker_CharMaker__V(this$1.myCharMaker$1.add__I__I__Lunof_cv_base_charmaker_CMLayer__Lunof_cv_base_charmaker_CharMaker(category$2, part$2, newLayer));
-  var this$2 = this.unof$cv$tools$CallbackCenter$$stat$1;
-  var jsx$1 = this$2.myChoices$1;
-  var this$3 = $m_sc_Seq$();
-  this.unof$cv$tools$CallbackCenter$$choices$und$eq__sc_Seq__Lorg_scalajs_jquery_JQuery($as_sc_Seq(jsx$1.updated__I__O__scg_CanBuildFrom__O(category$2, part$2, this$3.ReusableCBFInstance$2)));
-  var this$4 = this.unof$cv$tools$CallbackCenter$$stat$1;
-  return this.unof$cv$tools$CallbackCenter$$selection$und$eq__Lunof_cv_base_charmaker_CMAdress__Lorg_scalajs_jquery_JQuery($as_Lunof_cv_base_charmaker_CMAdress(this$4.myCharMaker$1.locationMap__sci_Map().apply__O__O(newLayer.id__I())))
 });
 $c_Lunof_cv_tools_CallbackCenter.prototype.onImageRefChanged__T__V = (function(newImageRef) {
   var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
@@ -16021,9 +16040,6 @@ $c_Lunof_cv_base_charmaker_CMImage.prototype.id__I = (function() {
 $c_Lunof_cv_base_charmaker_CMImage.prototype.setTransform__Lunof_cv_base_Transforme__Lunof_cv_base_charmaker_CMLayer = (function(newTransform) {
   return new $c_Lunof_cv_base_charmaker_CMImage().init___T__Lunof_cv_base_Transforme__T__F__Lunof_cv_base_charmaker_VisibilityCondition__T(this.ref$1, newTransform, this.boundColor$1, this.z$1, this.displayCondition$1, this.name$1)
 });
-$c_Lunof_cv_base_charmaker_CMImage.prototype.changeId__Lunof_cv_base_charmaker_CMLayer = (function() {
-  return new $c_Lunof_cv_base_charmaker_CMImage().init___T__Lunof_cv_base_Transforme__T__F__Lunof_cv_base_charmaker_VisibilityCondition__T(this.ref$1, this.transform$1, this.boundColor$1, this.z$1, this.displayCondition$1, this.name$1)
-});
 $c_Lunof_cv_base_charmaker_CMImage.prototype.setZ__F__Lunof_cv_base_charmaker_CMLayer = (function(newZ) {
   return new $c_Lunof_cv_base_charmaker_CMImage().init___T__Lunof_cv_base_Transforme__T__F__Lunof_cv_base_charmaker_VisibilityCondition__T(this.ref$1, this.transform$1, this.boundColor$1, newZ, this.displayCondition$1, this.name$1)
 });
@@ -16112,9 +16128,6 @@ $c_Lunof_cv_base_charmaker_CMShape.prototype.id__I = (function() {
 });
 $c_Lunof_cv_base_charmaker_CMShape.prototype.setTransform__Lunof_cv_base_Transforme__Lunof_cv_base_charmaker_CMLayer = (function(newTransform) {
   return new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(this.commands$1, newTransform, this.colors$1, this.z$1, this.displayCondition$1, this.lineWidth$1, this.showSurcface$1, this.lineJoint$1, this.closed$1, this.deltaLink$1, this.name$1)
-});
-$c_Lunof_cv_base_charmaker_CMShape.prototype.changeId__Lunof_cv_base_charmaker_CMLayer = (function() {
-  return new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(this.commands$1, this.transform$1, this.colors$1, this.z$1, this.displayCondition$1, this.lineWidth$1, this.showSurcface$1, this.lineJoint$1, this.closed$1, this.deltaLink$1, this.name$1)
 });
 $c_Lunof_cv_base_charmaker_CMShape.prototype.z__F = (function() {
   return this.z$1
@@ -16537,8 +16550,10 @@ $c_Lunof_cv_base_delta_DeltaApplier$.prototype.sumCommandsDiff__p1__sc_Seq__sc_S
   return $as_sc_Seq(jsx$8.map__F1__scg_CanBuildFrom__O(jsx$1, this$6.ReusableCBFInstance$2))
 });
 $c_Lunof_cv_base_delta_DeltaApplier$.prototype.makeColorDif__p1__T__T__T3 = (function(originalColor, deltaColor) {
-  var c1 = $m_Lunof_cv_base_AllKnownColors$().toFloat3__T__T3(originalColor);
-  var c2 = $m_Lunof_cv_base_AllKnownColors$().toFloat3__T__T3(deltaColor);
+  var oCode = $m_Lunof_cv_base_AllKnownColors$().colorThis__T__T(originalColor);
+  var dCode = $m_Lunof_cv_base_AllKnownColors$().colorThis__T__T(deltaColor);
+  var c1 = $m_Lunof_cv_base_AllKnownColors$().toFloat3__T__T3(oCode);
+  var c2 = $m_Lunof_cv_base_AllKnownColors$().toFloat3__T__T3(dCode);
   return new $c_T3().init___O__O__O($fround(($uF(c2.$$und1$1) - $uF(c1.$$und1$1))), $fround(($uF(c2.$$und2$1) - $uF(c1.$$und2$1))), $fround(($uF(c2.$$und3$1) - $uF(c1.$$und3$1))))
 });
 $c_Lunof_cv_base_delta_DeltaApplier$.prototype.colorSum$1__p1__Lunof_cv_base_charmaker_DynamicColor__T3__sci_Map__T = (function(d, c, colorMap$2) {
@@ -16550,7 +16565,7 @@ $c_Lunof_cv_base_delta_DeltaApplier$.prototype.colorSum$1__p1__Lunof_cv_base_cha
       throw new $c_s_MatchError().init___O(d)
     };
     var x3 = $as_Lunof_cv_base_charmaker_BoundColor(d);
-    var c1 = $m_Lunof_cv_base_AllKnownColors$().toFloat3__T__T3($as_T(colorMap$2.apply__O__O(x3.value$1)))
+    var c1 = $m_Lunof_cv_base_AllKnownColors$().toFloat3__T__T3($m_Lunof_cv_base_AllKnownColors$().colorThis__T__T($as_T(colorMap$2.apply__O__O(x3.value$1))))
   };
   var this$1 = $m_Lunof_cv_base_AllKnownColors$();
   var _1 = this.s$1__p1__F__F__F($uF(c.$$und1$1), $uF(c1.$$und1$1));
@@ -16927,13 +16942,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadFile$1__p1__Lunof_cv_tools_CvSetting__L
     if ((v === (void 0))) {
       var jsx$7 = orElse
     } else {
-      var this$4 = $m_s_Console$();
-      var this$5 = $as_Ljava_io_PrintStream(this$4.outVar$2.v$1);
-      this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v);
-      var this$7 = $m_s_Console$();
-      var this$8 = $as_Ljava_io_PrintStream(this$7.outVar$2.v$1);
-      this$8.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+      var thiz = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v);
+      if ((thiz === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$7 = v
     }
   } catch (e) {
@@ -16965,13 +16977,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadFile$1__p1__Lunof_cv_tools_CvSetting__L
     if ((v$1 === (void 0))) {
       var jsx$5 = orElse$1
     } else {
-      var this$14 = $m_s_Console$();
-      var this$15 = $as_Ljava_io_PrintStream(this$14.outVar$2.v$1);
-      this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x$1 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$1);
-      var this$17 = $m_s_Console$();
-      var this$18 = $as_Ljava_io_PrintStream(this$17.outVar$2.v$1);
-      this$18.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+      var thiz$1 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$1);
+      if ((thiz$1 === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$5 = v$1
     }
   } catch (e$1) {
@@ -17003,13 +17012,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadFile$1__p1__Lunof_cv_tools_CvSetting__L
     if ((v$2 === (void 0))) {
       var jsx$3 = orElse$2
     } else {
-      var this$24 = $m_s_Console$();
-      var this$25 = $as_Ljava_io_PrintStream(this$24.outVar$2.v$1);
-      this$25.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x$2 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$2);
-      var this$27 = $m_s_Console$();
-      var this$28 = $as_Ljava_io_PrintStream(this$27.outVar$2.v$1);
-      this$28.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+      var thiz$2 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$2);
+      if ((thiz$2 === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$3 = v$2
     }
   } catch (e$3) {
@@ -17041,13 +17047,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadFile$1__p1__Lunof_cv_tools_CvSetting__L
     if ((v$3 === (void 0))) {
       var jsx$1 = orElse$3
     } else {
-      var this$34 = $m_s_Console$();
-      var this$35 = $as_Ljava_io_PrintStream(this$34.outVar$2.v$1);
-      this$35.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x$3 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$3);
-      var this$37 = $m_s_Console$();
-      var this$38 = $as_Ljava_io_PrintStream(this$37.outVar$2.v$1);
-      this$38.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+      var thiz$3 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$3);
+      if ((thiz$3 === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$1 = v$3
     }
   } catch (e$4) {
@@ -17075,13 +17078,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadCookie$1__p1__Lunof_cv_tools_CvSetting_
     if ((v === (void 0))) {
       var jsx$7 = orElse
     } else {
-      var this$4 = $m_s_Console$();
-      var this$5 = $as_Ljava_io_PrintStream(this$4.outVar$2.v$1);
-      this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v);
-      var this$7 = $m_s_Console$();
-      var this$8 = $as_Ljava_io_PrintStream(this$7.outVar$2.v$1);
-      this$8.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+      var thiz = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v);
+      if ((thiz === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$7 = v
     }
   } catch (e) {
@@ -17113,13 +17113,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadCookie$1__p1__Lunof_cv_tools_CvSetting_
     if ((v$1 === (void 0))) {
       var jsx$5 = orElse$1
     } else {
-      var this$14 = $m_s_Console$();
-      var this$15 = $as_Ljava_io_PrintStream(this$14.outVar$2.v$1);
-      this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x$1 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$1);
-      var this$17 = $m_s_Console$();
-      var this$18 = $as_Ljava_io_PrintStream(this$17.outVar$2.v$1);
-      this$18.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+      var thiz$1 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$1);
+      if ((thiz$1 === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$5 = v$1
     }
   } catch (e$1) {
@@ -17151,13 +17148,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadCookie$1__p1__Lunof_cv_tools_CvSetting_
     if ((v$2 === (void 0))) {
       var jsx$3 = orElse$2
     } else {
-      var this$24 = $m_s_Console$();
-      var this$25 = $as_Ljava_io_PrintStream(this$24.outVar$2.v$1);
-      this$25.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x$4 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$2);
-      var this$27 = $m_s_Console$();
-      var this$28 = $as_Ljava_io_PrintStream(this$27.outVar$2.v$1);
-      this$28.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"));
+      var thiz$2 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$2);
+      if ((thiz$2 === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$3 = v$2
     }
   } catch (e$3) {
@@ -17180,8 +17174,8 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadCookie$1__p1__Lunof_cv_tools_CvSetting_
     while ((i$2 < len$2)) {
       var index$2 = i$2;
       var arg1$2 = array$5[index$2];
-      var x$4$1 = $as_jl_Number(arg1$2);
-      var elem$2 = $numberIntValue(x$4$1);
+      var x$4 = $as_jl_Number(arg1$2);
+      var elem$2 = $numberIntValue(x$4);
       array$6.push(elem$2);
       i$2 = ((1 + i$2) | 0)
     };
@@ -17189,13 +17183,10 @@ $c_Lunof_cv_tools_StartUp$.prototype.loadCookie$1__p1__Lunof_cv_tools_CvSetting_
     if ((v$3 === (void 0))) {
       var jsx$1 = orElse$3
     } else {
-      var this$34 = $m_s_Console$();
-      var this$35 = $as_Ljava_io_PrintStream(this$34.outVar$2.v$1);
-      this$35.java$lang$JSConsoleBasedPrintStream$$printString__T__V("This following object is not undefined\n");
-      var x$5 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$3);
-      var this$37 = $m_s_Console$();
-      var this$38 = $as_Ljava_io_PrintStream(this$37.outVar$2.v$1);
-      this$38.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"));
+      var thiz$3 = $s_sc_TraversableLike$class__toString__sc_TraversableLike__T(v$3);
+      if ((thiz$3 === null)) {
+        throw new $c_jl_NullPointerException().init___()
+      };
       var jsx$1 = v$3
     }
   } catch (e$4) {

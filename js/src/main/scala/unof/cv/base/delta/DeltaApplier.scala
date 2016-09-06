@@ -84,7 +84,7 @@ object DeltaApplier extends Drawer {
           case c : ConstantColor =>
             AllKnownColors.toFloat3(AllKnownColors.colorThis(c.value))
           case b : BoundColor =>
-            AllKnownColors.toFloat3(colorMap(b.value))
+            AllKnownColors.toFloat3(AllKnownColors.colorThis(colorMap(b.value)))
         }
       }
       
@@ -200,8 +200,10 @@ object DeltaApplier extends Drawer {
   private def makeColorDif(
     originalColor: String,
     deltaColor: String) = {
-    val c1 = AllKnownColors.toFloat3(originalColor)
-    val c2 = AllKnownColors.toFloat3(deltaColor)
+    val oCode = AllKnownColors.colorThis(originalColor)
+    val dCode = AllKnownColors.colorThis(deltaColor)
+    val c1 = AllKnownColors.toFloat3(oCode)
+    val c2 = AllKnownColors.toFloat3(dCode)
     (
       c2._1 - c1._1,
       c2._2 - c1._2,

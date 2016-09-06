@@ -16,12 +16,13 @@ object StartUp extends JSApp {
     def getOrElse[A](f: () => A, orElse: A) = {
       try {
         val v = f()
-        if(js.isUndefined(v))
+        if(js.isUndefined(v))//Result are randoms...
           orElse
         else{
-          println("This following object is not undefined")
-          println(v.toString())
-          v
+          val a = 0
+          //Good practice!!! Force it to throw if v is actually undefined
+          val b = if(v.toString().isEmpty()) a/0 
+           v
         }
           
       } catch {

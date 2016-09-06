@@ -759,13 +759,25 @@ class CallbackCenter(
       selection = CMAdress(category, charMaker.categories(category).possibleParts.indexOf(newPart))
       choices = choices.updated(category, part)
     }
-    def copyLayer(layer: CMLayer) = {
-      val newLayer = layer.changeId
+    def copyImage(img : CMImage) = {
+      val newLayer = img.changeId
       charMaker = charMaker.add(category, part, newLayer)
       choices = choices.updated(category, part)
       selection = charMaker.locationMap(newLayer.id)
     }
-    selection.forSelected(charMaker, copyLayer(_), copyPart(_), copyCat(_))
+    def copyShape(shape: CMShape) = {
+      val d = shape.deltaLink
+      val newLayer = if(d.isSource){
+        shape.setDeltaLink(DeltaLink())
+      }else{
+        shape
+      }.changeId
+      charMaker = charMaker.add(category, part, newLayer)
+      println("Callbacks : after copy : "+charMaker.sliders.mkString(","))
+      choices = choices.updated(category, part)
+      selection = charMaker.locationMap(newLayer.id)
+    }
+    selection.forSelected(charMaker, copyImage(_),copyShape _, copyPart(_), copyCat(_))
     updateAll(oldCm, oldChoices)
   }
   def onPartCreated(partName: String) = {

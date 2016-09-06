@@ -1,19 +1,19 @@
 [0m[[0minfo[0m] [0mFull optimizing C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\scala-2.11\charecter-viewer-opt.js[0m
-[0m[[0mdebug[0m] [0mLinker: Compute reachability: 58228 us[0m
-[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 19027 us[0m
-[0m[[0mdebug[0m] [0mBasic Linking: 78906 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: false[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 60345 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 370 methods.[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 228022 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: 292390 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 98108 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 7178 us[0m
-[0m[[0mdebug[0m] [0mRefiner: 105521 us[0m
-[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 117 -- invalidated: 438[0m
-[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3506 -- invalidated: 274[0m
-[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 558700 us[0m
+[0m[[0mdebug[0m] [0mLinker: Compute reachability: 62467 us[0m
+[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 18135 us[0m
+[0m[[0mdebug[0m] [0mBasic Linking: 82649 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: true[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 43675 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 6413 methods.[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 897718 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: 945078 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 66790 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 5665 us[0m
+[0m[[0mdebug[0m] [0mRefiner: 72630 us[0m
+[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 0 -- invalidated: 555[0m
+[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 0 -- invalidated: 3778[0m
+[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 895825 us[0m
 [0m[[0minfo[0m] [0mClosure: 0 error(s), 0 warning(s)[0m
-[0m[[0mdebug[0m] [0mClosure: Compiler pass: 10561707 us[0m
-[0m[[0mdebug[0m] [0mClosure: Write result: 1313224 us[0m
+[0m[[0mdebug[0m] [0mClosure: Compiler pass: 15254976 us[0m
+[0m[[0mdebug[0m] [0mClosure: Write result: 2875375 us[0m
 [0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 169 -- invalidated: 0 -- trees read: 0[0m

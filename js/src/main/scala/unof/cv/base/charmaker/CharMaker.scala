@@ -748,10 +748,10 @@ class CharMaker(
   }
 
   def extractSliderNames(s: CMShape): Set[String] = {
-    Set(s.deltaLink.slider)
+    Set(s.deltaLink.slider) - "None"
   }
   def extractSliderNames(p: CMPart): Set[String] =
-    p.shapes.flatMap(extractSliderNames).toSet - "None"
+    p.shapes.flatMap(extractSliderNames).toSet 
   def extractSliderNames(c: CMCategory): Set[String] =
     c.possibleParts.flatMap(extractSliderNames).toSet
   def extractSliderNames: Set[String] =
