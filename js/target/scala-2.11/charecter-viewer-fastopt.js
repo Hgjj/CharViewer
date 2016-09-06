@@ -8154,30 +8154,6 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$simpleR
   var this$3 = new $c_scm_ArrayOps$ofRef().init___AO(xs);
   return $as_T($s_sc_IndexedSeqOptimized$class__last__sc_IndexedSeqOptimized__O(this$3))
 });
-$c_Lunof_cv_tools_CallbackCenter.prototype.onDeltaMovedOnSlider__I__V = (function(newPosition) {
-  var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
-  var jsx$1 = this$1.unof$cv$tools$AppStat$$mySelection$1;
-  var this$2 = this.unof$cv$tools$CallbackCenter$$stat$1;
-  jsx$1.forSelectedShape__Lunof_cv_base_charmaker_CharMaker__F1__V(this$2.myCharMaker$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(arg$outer, newPosition$1) {
-    return (function(s$2) {
-      var s = $as_Lunof_cv_base_charmaker_CMShape(s$2);
-      var d = s.deltaLink$1;
-      if ((!d.isSource__Z())) {
-        var this$3 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
-        var oldCM = this$3.myCharMaker$1;
-        var this$4 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
-        var this$6 = this$4.myCharMaker$1;
-        var this$5 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
-        var adress = this$5.unof$cv$tools$AppStat$$mySelection$1;
-        var newLink = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(d.key$1, d.slider$1, newPosition$1);
-        var shape = new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(s.commands$1, s.transform$1, s.colors$1, s.z$1, s.displayCondition$1, s.lineWidth$1, s.showSurcface$1, s.lineJoint$1, s.closed$1, newLink, s.name$1);
-        arg$outer.unof$cv$tools$CallbackCenter$$charMaker$und$eq__Lunof_cv_base_charmaker_CharMaker__V(this$6.updateShape__I__I__I__Lunof_cv_base_charmaker_CMShape__Lunof_cv_base_charmaker_CharMaker(adress.category$1, adress.part$1, adress.layer$1, shape));
-        var this$7 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
-        arg$outer.unof$cv$tools$CallbackCenter$$updateAll__Lunof_cv_base_charmaker_CharMaker__sc_Seq__V(oldCM, this$7.myChoices$1)
-      }
-    })
-  })(this, newPosition)))
-});
 $c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$deletShape$1__Lunof_cv_base_charmaker_CMShape__I__I__V = (function(s, category$3, part$3) {
   var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
   var jsx$1 = this$1.myCharMaker$1;
@@ -8204,6 +8180,30 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$deletSh
   } else {
     this.unof$cv$tools$CallbackCenter$$charMaker$und$eq__Lunof_cv_base_charmaker_CharMaker__V(newCm)
   }
+});
+$c_Lunof_cv_tools_CallbackCenter.prototype.onDeltaMovedOnSlider__I__V = (function(newPosition) {
+  var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  var jsx$1 = this$1.unof$cv$tools$AppStat$$mySelection$1;
+  var this$2 = this.unof$cv$tools$CallbackCenter$$stat$1;
+  jsx$1.forSelectedShape__Lunof_cv_base_charmaker_CharMaker__F1__V(this$2.myCharMaker$1, new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(arg$outer, newPosition$1) {
+    return (function(s$2) {
+      var s = $as_Lunof_cv_base_charmaker_CMShape(s$2);
+      var d = s.deltaLink$1;
+      if ((!d.isSource__Z())) {
+        var this$3 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
+        var oldCM = this$3.myCharMaker$1;
+        var this$4 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
+        var this$6 = this$4.myCharMaker$1;
+        var this$5 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
+        var adress = this$5.unof$cv$tools$AppStat$$mySelection$1;
+        var newLink = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(d.key$1, d.slider$1, newPosition$1);
+        var shape = new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(s.commands$1, s.transform$1, s.colors$1, s.z$1, s.displayCondition$1, s.lineWidth$1, s.showSurcface$1, s.lineJoint$1, s.closed$1, newLink, s.name$1);
+        arg$outer.unof$cv$tools$CallbackCenter$$charMaker$und$eq__Lunof_cv_base_charmaker_CharMaker__V(this$6.updateShape__I__I__I__Lunof_cv_base_charmaker_CMShape__Lunof_cv_base_charmaker_CharMaker(adress.category$1, adress.part$1, adress.layer$1, shape));
+        var this$7 = arg$outer.unof$cv$tools$CallbackCenter$$stat$1;
+        arg$outer.unof$cv$tools$CallbackCenter$$updateAll__Lunof_cv_base_charmaker_CharMaker__sc_Seq__V(oldCM, this$7.myChoices$1)
+      }
+    })
+  })(this, newPosition)))
 });
 $c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$deletImage$1__Lunof_cv_base_charmaker_CMImage__V = (function(i) {
   var this$1 = this.unof$cv$tools$CallbackCenter$$stat$1;
@@ -8659,7 +8659,7 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.onMenuChanged__Lunof_cv_base_charmake
   $m_Lunof_cv_tools_DrawMenu$().updateMenu__Lunof_cv_base_charmaker_CharMaker__Lunof_cv_base_charmaker_CharMaker__sc_Seq__sc_Seq__Lunof_cv_tools_CallbackCenter__Lunof_cv_tools_CvSetting__V(oldCm, newCM, oldChoices, newChoices, this, this.unof$cv$tools$CallbackCenter$$setting$f)
 });
 $c_Lunof_cv_tools_CallbackCenter.prototype.startingAdress__p1__Lunof_cv_base_charmaker_CMAdress = (function() {
-  return ((this.startingSelection$1.size__I() < 4) ? $m_Lunof_cv_base_charmaker_CMAdress$().apply__Lunof_cv_base_charmaker_CharMaker__I__I__I__Lunof_cv_base_charmaker_CMAdress(this.startingCharMaker$1, $uI(this.startingSelection$1.apply__I__O(0)), $uI(this.startingSelection$1.apply__I__O(1)), $uI(this.startingSelection$1.apply__I__O(2))) : (($uI(this.startingSelection$1.apply__I__O(3)) === 0) ? $m_Lunof_cv_base_charmaker_CMAdress$().apply__I__I__I__Lunof_cv_base_charmaker_LayersSelector__Lunof_cv_base_charmaker_CMAdress($uI(this.startingSelection$1.apply__I__O(0)), $uI(this.startingSelection$1.apply__I__O(1)), $uI(this.startingSelection$1.apply__I__O(2)), $m_Lunof_cv_base_charmaker_SelectImages$()) : $m_Lunof_cv_base_charmaker_CMAdress$().apply__I__I__I__Lunof_cv_base_charmaker_LayersSelector__Lunof_cv_base_charmaker_CMAdress($uI(this.startingSelection$1.apply__I__O(0)), $uI(this.startingSelection$1.apply__I__O(1)), $uI(this.startingSelection$1.apply__I__O(2)), $m_Lunof_cv_base_charmaker_SelectShapes$())))
+  return ((this.startingSelection$1.size__I() < 3) ? new $c_Lunof_cv_base_charmaker_CMAdress().init___I__I__I__Lunof_cv_base_charmaker_LayersSelector((-1), (-1), (-1), $m_Lunof_cv_base_charmaker_SelectNone$()) : ((this.startingSelection$1.size__I() < 4) ? $m_Lunof_cv_base_charmaker_CMAdress$().apply__Lunof_cv_base_charmaker_CharMaker__I__I__I__Lunof_cv_base_charmaker_CMAdress(this.startingCharMaker$1, $uI(this.startingSelection$1.apply__I__O(0)), $uI(this.startingSelection$1.apply__I__O(1)), $uI(this.startingSelection$1.apply__I__O(2))) : (($uI(this.startingSelection$1.apply__I__O(3)) === 0) ? $m_Lunof_cv_base_charmaker_CMAdress$().apply__I__I__I__Lunof_cv_base_charmaker_LayersSelector__Lunof_cv_base_charmaker_CMAdress($uI(this.startingSelection$1.apply__I__O(0)), $uI(this.startingSelection$1.apply__I__O(1)), $uI(this.startingSelection$1.apply__I__O(2)), $m_Lunof_cv_base_charmaker_SelectImages$()) : $m_Lunof_cv_base_charmaker_CMAdress$().apply__I__I__I__Lunof_cv_base_charmaker_LayersSelector__Lunof_cv_base_charmaker_CMAdress($uI(this.startingSelection$1.apply__I__O(0)), $uI(this.startingSelection$1.apply__I__O(1)), $uI(this.startingSelection$1.apply__I__O(2)), $m_Lunof_cv_base_charmaker_SelectShapes$()))))
 });
 $c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$relocatePart$1__Lunof_cv_base_charmaker_CMPart__T__T__V = (function(oldPart, newCategory$1, newPart$1) {
   var relocated = new $c_Lunof_cv_base_charmaker_CMPart().init___T__sc_Seq__sc_Seq__Lunof_cv_base_Transforme__F__I(newPart$1, oldPart.images$1, oldPart.shapes$1, oldPart.partTransform$1, oldPart.partZ$1, oldPart.linkKey$1);
@@ -9862,6 +9862,13 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.onImageConditionChanged__Lunof_cv_bas
   var this$6 = this.unof$cv$tools$CallbackCenter$$stat$1;
   this.unof$cv$tools$CallbackCenter$$updateAll__Lunof_cv_base_charmaker_CharMaker__sc_Seq__V(oldCM, this$6.myChoices$1)
 });
+$c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$f$2__Lunof_cv_base_charmaker_CMShape__F__I__Lunof_cv_base_charmaker_CMShape = (function(shape, newAlpha$1, colorIndex$1) {
+  var col = $as_Lunof_cv_base_charmaker_DynamicColor(shape.colors$1.apply__I__O(colorIndex$1)).setAlpha__F__Lunof_cv_base_charmaker_DynamicColor(newAlpha$1);
+  var jsx$1 = shape.colors$1;
+  var this$1 = $m_sc_Seq$();
+  var newColor = $as_sc_Seq(jsx$1.updated__I__O__scg_CanBuildFrom__O(colorIndex$1, col, this$1.ReusableCBFInstance$2));
+  return new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(shape.commands$1, shape.transform$1, newColor, shape.z$1, shape.displayCondition$1, shape.lineWidth$1, shape.showSurcface$1, shape.lineJoint$1, shape.closed$1, shape.deltaLink$1, shape.name$1)
+});
 $c_Lunof_cv_tools_CallbackCenter.prototype.validateColors__p1__Lunof_cv_base_charmaker_CharMaker__Lunof_cv_base_charmaker_CharMaker__V = (function(oldCm, newCm) {
   var f = (function(x$1$2) {
     var x$1 = $as_Lunof_cv_base_charmaker_CharMaker(x$1$2);
@@ -9940,13 +9947,6 @@ $c_Lunof_cv_tools_CallbackCenter.prototype.validateColors__p1__Lunof_cv_base_cha
     };
     f$1(arg1$3)
   }
-});
-$c_Lunof_cv_tools_CallbackCenter.prototype.unof$cv$tools$CallbackCenter$$f$2__Lunof_cv_base_charmaker_CMShape__F__I__Lunof_cv_base_charmaker_CMShape = (function(shape, newAlpha$1, colorIndex$1) {
-  var col = $as_Lunof_cv_base_charmaker_DynamicColor(shape.colors$1.apply__I__O(colorIndex$1)).setAlpha__F__Lunof_cv_base_charmaker_DynamicColor(newAlpha$1);
-  var jsx$1 = shape.colors$1;
-  var this$1 = $m_sc_Seq$();
-  var newColor = $as_sc_Seq(jsx$1.updated__I__O__scg_CanBuildFrom__O(colorIndex$1, col, this$1.ReusableCBFInstance$2));
-  return new $c_Lunof_cv_base_charmaker_CMShape().init___sc_Seq__Lunof_cv_base_Transforme__sc_Seq__F__Lunof_cv_base_charmaker_VisibilityCondition__I__Z__T__Z__Lunof_cv_base_charmaker_DeltaLink__T(shape.commands$1, shape.transform$1, newColor, shape.z$1, shape.displayCondition$1, shape.lineWidth$1, shape.showSurcface$1, shape.lineJoint$1, shape.closed$1, shape.deltaLink$1, shape.name$1)
 });
 $c_Lunof_cv_tools_CallbackCenter.prototype.setShapeSelected__Z__V = (function(selected) {
   if (selected) {
@@ -11801,6 +11801,13 @@ $c_Lunof_cv_tools_ShapeManipulator$.prototype.unof$cv$tools$ShapeManipulator$$re
 $c_Lunof_cv_tools_ShapeManipulator$.prototype.curveTo$1__p1__I__T2__sc_Seq__Lunof_cv_base_charmaker_CurveTo = (function(from, commandPos$2, commands$1) {
   return new $c_Lunof_cv_base_charmaker_CurveTo().init___T2__T2__T2($as_Lunof_cv_base_charmaker_DrawCommand(commands$1.apply__I__O(from)).last__T2(), commandPos$2, commandPos$2)
 });
+$c_Lunof_cv_tools_ShapeManipulator$.prototype.unof$cv$tools$ShapeManipulator$$inSquareBound$1__T2__T2__I__Z = (function(squareCenter, mousePos$1, hHandleSize$1) {
+  var jsx$1 = $m_Lunof_cv_base_Algebra$DDVector$();
+  var t = $as_T2($m_Lunof_cv_base_Algebra$DDVector$().$$minus$extension__T2__F1(mousePos$1).apply__O__O(squareCenter));
+  var dif = jsx$1.abs$extension__T2__T2(t);
+  var hDim = new $c_s_Tuple2$mcDD$sp().init___D__D(hHandleSize$1, hHandleSize$1);
+  return $uZ($m_Lunof_cv_base_Algebra$DDVector$().$$less$extension__T2__F1(dif).apply__O__O(hDim))
+});
 $c_Lunof_cv_tools_ShapeManipulator$.prototype.removeCommand__Lunof_cv_base_charmaker_CMPart__I__I__Lunof_cv_base_charmaker_CMPart = (function(hostPart, deltaGroupKey, commandIndex) {
   var jsx$2 = hostPart.shapes$1;
   var jsx$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(deltaGroupKey$1, commandIndex$1) {
@@ -11813,13 +11820,6 @@ $c_Lunof_cv_tools_ShapeManipulator$.prototype.removeCommand__Lunof_cv_base_charm
   var this$1 = $m_sc_Seq$();
   var newShapes = $as_sc_Seq(jsx$2.map__F1__scg_CanBuildFrom__O(jsx$1, this$1.ReusableCBFInstance$2));
   return new $c_Lunof_cv_base_charmaker_CMPart().init___T__sc_Seq__sc_Seq__Lunof_cv_base_Transforme__F__I(hostPart.partName$1, hostPart.images$1, newShapes, hostPart.partTransform$1, hostPart.partZ$1, hostPart.linkKey$1)
-});
-$c_Lunof_cv_tools_ShapeManipulator$.prototype.unof$cv$tools$ShapeManipulator$$inSquareBound$1__T2__T2__I__Z = (function(squareCenter, mousePos$1, hHandleSize$1) {
-  var jsx$1 = $m_Lunof_cv_base_Algebra$DDVector$();
-  var t = $as_T2($m_Lunof_cv_base_Algebra$DDVector$().$$minus$extension__T2__F1(mousePos$1).apply__O__O(squareCenter));
-  var dif = jsx$1.abs$extension__T2__T2(t);
-  var hDim = new $c_s_Tuple2$mcDD$sp().init___D__D(hHandleSize$1, hHandleSize$1);
-  return $uZ($m_Lunof_cv_base_Algebra$DDVector$().$$less$extension__T2__F1(dif).apply__O__O(hDim))
 });
 $c_Lunof_cv_tools_ShapeManipulator$.prototype.drawControlHandle$1__p1__T2__T2__Lorg_scalajs_dom_raw_CanvasRenderingContext2D__D__V = (function(boundingPoint, handlePos, ctx$1, handleSize$1) {
   ctx$1.beginPath();
@@ -12166,55 +12166,61 @@ $c_Lunof_cv_tools_SlidersMenu$.prototype.init___ = (function() {
 });
 $c_Lunof_cv_tools_SlidersMenu$.prototype.update__Lunof_cv_tools_CallbackCenter__Lunof_cv_tools_CvSetting__V = (function(callbacks, setting) {
   var this$1 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
-  var this$3 = this$1.unof$cv$tools$AppStat$$mySelection$1;
-  var this$2 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
-  var cm = this$2.myCharMaker$1;
-  if ((this$3.layer$1 >= 0)) {
-    var p = $as_Lunof_cv_base_charmaker_CMPart($as_Lunof_cv_base_charmaker_CMCategory(cm.categories$1.apply__I__O(this$3.category$1)).possibleParts$1.apply__I__O(this$3.part$1));
-    var x1 = this$3.layerSelect$1;
-    var x = $m_Lunof_cv_base_charmaker_SelectImages$();
-    if ((x === x1)) {
-      var arg1 = p.images$1.apply__I__O(this$3.layer$1);
-      $as_Lunof_cv_base_charmaker_CMImage(arg1);
-      var this$4 = $m_Lunof_cv_base_charmaker_DeltaLink$();
-      var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$4.getKey__I(), "None", 0)
-    } else {
-      var x$3 = $m_Lunof_cv_base_charmaker_SelectShapes$();
-      if ((!(x$3 === x1))) {
-        var x$5 = $m_Lunof_cv_base_charmaker_SelectNone$();
-        if ((x$5 === x1)) {
-          throw new $c_jl_UnsupportedOperationException().init___T("Positive layer with slect none")
+  if ((this$1.unof$cv$tools$AppStat$$mySelection$1.category$1 > 0)) {
+    var this$2 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
+    var this$4 = this$2.unof$cv$tools$AppStat$$mySelection$1;
+    var this$3 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
+    var cm = this$3.myCharMaker$1;
+    if ((this$4.layer$1 >= 0)) {
+      var p = $as_Lunof_cv_base_charmaker_CMPart($as_Lunof_cv_base_charmaker_CMCategory(cm.categories$1.apply__I__O(this$4.category$1)).possibleParts$1.apply__I__O(this$4.part$1));
+      var x1 = this$4.layerSelect$1;
+      var x = $m_Lunof_cv_base_charmaker_SelectImages$();
+      if ((x === x1)) {
+        var arg1 = p.images$1.apply__I__O(this$4.layer$1);
+        $as_Lunof_cv_base_charmaker_CMImage(arg1);
+        var this$5 = $m_Lunof_cv_base_charmaker_DeltaLink$();
+        var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$5.getKey__I(), "None", 0)
+      } else {
+        var x$3 = $m_Lunof_cv_base_charmaker_SelectShapes$();
+        if ((!(x$3 === x1))) {
+          var x$5 = $m_Lunof_cv_base_charmaker_SelectNone$();
+          if ((x$5 === x1)) {
+            throw new $c_jl_UnsupportedOperationException().init___T("Positive layer with slect none")
+          };
+          throw new $c_s_MatchError().init___O(x1)
         };
-        throw new $c_s_MatchError().init___O(x1)
+        var arg1$1 = p.shapes$1.apply__I__O(this$4.layer$1);
+        var s = $as_Lunof_cv_base_charmaker_CMShape(arg1$1);
+        var selectedDelta = s.deltaLink$1
+      }
+    } else if ((this$4.part$1 >= 0)) {
+      var arg1$2 = $as_Lunof_cv_base_charmaker_CMCategory(cm.categories$1.apply__I__O(this$4.category$1)).possibleParts$1.apply__I__O(this$4.part$1);
+      $as_Lunof_cv_base_charmaker_CMPart(arg1$2);
+      var this$6 = $m_Lunof_cv_base_charmaker_DeltaLink$();
+      var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$6.getKey__I(), "None", 0)
+    } else {
+      if ((this$4.category$1 < 0)) {
+        throw new $c_ju_NoSuchElementException().init___T("Empty selection mapping")
       };
-      var arg1$1 = p.shapes$1.apply__I__O(this$3.layer$1);
-      var s = $as_Lunof_cv_base_charmaker_CMShape(arg1$1);
-      var selectedDelta = s.deltaLink$1
+      var arg1$3 = cm.categories$1.apply__I__O(this$4.category$1);
+      $as_Lunof_cv_base_charmaker_CMCategory(arg1$3);
+      var this$7 = $m_Lunof_cv_base_charmaker_DeltaLink$();
+      var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$7.getKey__I(), "None", 0)
     }
-  } else if ((this$3.part$1 >= 0)) {
-    var arg1$2 = $as_Lunof_cv_base_charmaker_CMCategory(cm.categories$1.apply__I__O(this$3.category$1)).possibleParts$1.apply__I__O(this$3.part$1);
-    $as_Lunof_cv_base_charmaker_CMPart(arg1$2);
-    var this$5 = $m_Lunof_cv_base_charmaker_DeltaLink$();
-    var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$5.getKey__I(), "None", 0)
   } else {
-    if ((this$3.category$1 < 0)) {
-      throw new $c_ju_NoSuchElementException().init___T("Empty selection mapping")
-    };
-    var arg1$3 = cm.categories$1.apply__I__O(this$3.category$1);
-    $as_Lunof_cv_base_charmaker_CMCategory(arg1$3);
-    var this$6 = $m_Lunof_cv_base_charmaker_DeltaLink$();
-    var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$6.getKey__I(), "None", 0)
+    var this$8 = $m_Lunof_cv_base_charmaker_DeltaLink$();
+    var selectedDelta = new $c_Lunof_cv_base_charmaker_DeltaLink().init___I__T__I(this$8.getKey__I(), "None", 0)
   };
   var slidesDivName = $as_T(setting.slidersDiv);
   (0, $g.jQuery)(slidesDivName);
   var elem = $as_sci_Map($m_s_Predef$().Map$2.apply__sc_Seq__sc_GenMap($m_sci_Nil$()));
   var rangeMap = new $c_sr_ObjectRef().init___O(elem);
-  var this$8 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
-  this$8.myCharMaker$1.categories$1.foreach__F1__V(new $c_Lunof_cv_tools_SlidersMenu$$anonfun$update$1().init___sr_ObjectRef(rangeMap));
-  var this$9 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
-  var newSlidesName = this$9.myCharMaker$1.sliders$1;
   var this$10 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
-  var newSlidersValues = this$10.mySlidersValues$1;
+  this$10.myCharMaker$1.categories$1.foreach__F1__V(new $c_Lunof_cv_tools_SlidersMenu$$anonfun$update$1().init___sr_ObjectRef(rangeMap));
+  var this$11 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
+  var newSlidesName = this$11.myCharMaker$1.sliders$1;
+  var this$12 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
+  var newSlidersValues = this$12.mySlidersValues$1;
   if ((newSlidesName.isEmpty__Z() || newSlidersValues.isEmpty__Z())) {
     var end = (((-1) + $numberIntValue($as_jl_Number(setting.colorSlotsCount))) | 0);
     var isEmpty$4 = (end < 0);
@@ -12232,10 +12238,10 @@ $c_Lunof_cv_tools_SlidersMenu$.prototype.update__Lunof_cv_tools_CallbackCenter__
       }
     }
   } else {
-    var this$16 = $m_sc_Seq$();
-    var jsx$1 = $as_sc_IterableLike(newSlidesName.zip__sc_GenIterable__scg_CanBuildFrom__O(newSlidersValues, this$16.ReusableCBFInstance$2));
-    var this$17 = $m_sc_Seq$();
-    $as_sc_IterableLike(jsx$1.zipWithIndex__scg_CanBuildFrom__O(this$17.ReusableCBFInstance$2)).foreach__F1__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(selectedDelta$1, rangeMap$1) {
+    var this$18 = $m_sc_Seq$();
+    var jsx$1 = $as_sc_IterableLike(newSlidesName.zip__sc_GenIterable__scg_CanBuildFrom__O(newSlidersValues, this$18.ReusableCBFInstance$2));
+    var this$19 = $m_sc_Seq$();
+    $as_sc_IterableLike(jsx$1.zipWithIndex__scg_CanBuildFrom__O(this$19.ReusableCBFInstance$2)).foreach__F1__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(selectedDelta$1, rangeMap$1) {
       return (function(x0$1$2) {
         var x0$1 = $as_T2(x0$1$2);
         if ((x0$1 !== null)) {
@@ -12267,8 +12273,8 @@ $c_Lunof_cv_tools_SlidersMenu$.prototype.update__Lunof_cv_tools_CallbackCenter__
             var s$2 = ("" + value);
             slideValuSpan.append(s$2);
             if ((name === selectedDelta$1.slider$1)) {
-              var this$26 = selectedDelta$1.position$1;
-              sliderElem.val(("" + this$26));
+              var this$28 = selectedDelta$1.position$1;
+              sliderElem.val(("" + this$28));
               return sliderElem.attr("disabled", true)
             } else {
               return (void 0)
@@ -33890,11 +33896,11 @@ $c_scm_ArrayOps$ofBoolean.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofBoolean.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofBoolean.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofBoolean.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofBoolean.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofBoolean.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -34141,11 +34147,11 @@ $c_scm_ArrayOps$ofByte.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofByte.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofByte.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofByte.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofByte.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofByte.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -34393,11 +34399,11 @@ $c_scm_ArrayOps$ofChar.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofChar.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofChar.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofChar.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofChar.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofChar.prototype.init___AC = (function(repr) {
   this.repr$1 = repr;
@@ -34646,11 +34652,11 @@ $c_scm_ArrayOps$ofDouble.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofDouble.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofDouble.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofDouble.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofDouble.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofDouble.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -34897,11 +34903,11 @@ $c_scm_ArrayOps$ofFloat.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofFloat.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofFloat.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofFloat.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofFloat.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofFloat.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -35148,11 +35154,11 @@ $c_scm_ArrayOps$ofInt.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofInt.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofInt.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofInt.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofInt.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofInt.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -35399,11 +35405,11 @@ $c_scm_ArrayOps$ofLong.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofLong.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofLong.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofLong.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofLong.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofLong.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -35652,11 +35658,11 @@ $c_scm_ArrayOps$ofRef.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofRef.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofRef.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofRef.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofRef.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofRef.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -35906,11 +35912,11 @@ $c_scm_ArrayOps$ofShort.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofShort.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofShort.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofShort.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofShort.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofShort.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)
@@ -36152,11 +36158,11 @@ $c_scm_ArrayOps$ofUnit.prototype.length__I = (function() {
 $c_scm_ArrayOps$ofUnit.prototype.mkString__T = (function() {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", "", "")
 });
-$c_scm_ArrayOps$ofUnit.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
-  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
-});
 $c_scm_ArrayOps$ofUnit.prototype.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O = (function(that, bf) {
   return $s_sc_TraversableLike$class__$$plus$plus__sc_TraversableLike__sc_GenTraversableOnce__scg_CanBuildFrom__O(this, that, bf)
+});
+$c_scm_ArrayOps$ofUnit.prototype.zipWithIndex__scg_CanBuildFrom__O = (function(bf) {
+  return $s_sc_IndexedSeqOptimized$class__zipWithIndex__sc_IndexedSeqOptimized__scg_CanBuildFrom__O(this, bf)
 });
 $c_scm_ArrayOps$ofUnit.prototype.lastIndexWhere__F1__I__I = (function(p, end) {
   return $s_sc_IndexedSeqOptimized$class__lastIndexWhere__sc_IndexedSeqOptimized__F1__I__I(this, p, end)

@@ -27,9 +27,13 @@ object SlidersMenu {
 
   }
   def update(callbacks: CallbackCenter, setting: CvSetting) = {
-    val selectedDelta = callbacks.selection.mapSelected(
-      callbacks.charMaker,
-      (i) => DeltaLink(), (s) => s.deltaLink, (p) => DeltaLink(), (c) => DeltaLink())
+    val selectedDelta =
+      if (callbacks.selection.category > 0)
+        callbacks.selection.mapSelected(
+          callbacks.charMaker,
+          (i) => DeltaLink(), (s) => s.deltaLink, (p) => DeltaLink(), (c) => DeltaLink())
+      else
+        DeltaLink()
     val slidesDivName = setting.slidersDiv
     val slidesDiv = jQuery(slidesDivName)
     var rangeMap = Map[String, (Int, Int)]()
