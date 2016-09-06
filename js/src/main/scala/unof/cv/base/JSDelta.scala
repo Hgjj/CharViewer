@@ -4,6 +4,7 @@ import scala.scalajs.js.Dynamic
 
 @js.native
 trait JSDelta extends js.Object {
-  def sliderPos : Number
-  def state : JSShape
+  def key : Number
+  def slider : String
+  def position : Number
 }

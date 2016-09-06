@@ -104,6 +104,9 @@
             overflow: hidden;
             white-space: nowrap;
         }
+        .transformationDivWrapper{
+            height: 60px;
+        }
         .popupsDiv {
             position: absolute;
             border-collapse:collapse;
@@ -255,6 +258,9 @@
     		top: 0px;
     	}
         .colorVariable{
+            float: right;
+        }
+        .transformationField{
             float: right;
         }
     	.redoButton{
@@ -523,13 +529,45 @@
                             <button type="button" id="shapeColorsButton">Apply</button> 
                         </div>
                     </div>
-                        
+                    <div id="deltasDiv">
+                        Tranfromations : <br>
+                        <div class= "xybox">
+                            <select id= "tranformationList" size="5"></select><br>
+                            <datalist id="sliderList"></datalist>
+                            <!--<button type="button" name="newDelta" id="newDelta">Create new tranfromation</button><br>//-->
+                            <hr>
+                            <div>
+                                Slider 
+                                <div class="transformationField">
+                                    <input type="text" id="tranformationSliderSelect" name="tranformationSliderSelect" list="sliderList"></select>
+                                </div>
+                            </div><br>
+                            <div>
+                                Position 
+                                <div class="transformationField">
+                                    <input type="number" id="tranformationPosition" name="tranformationPosition" step="1">
+                                </div>
+                            </div><br>
+                            <div>
+                                Source 
+                                <div class="transformationField">
+                                    <select id= "tranformationSourceList"></select>
+                                </div> 
+                            </div><br>
+                            <button type="button" name="bindDeltaButton" id="bindDeltaButton">Validate Slider and Source</button>
+                            
+                             
+                        </div>
+                    </div>    
                     <div id="conditionsDiv">
                         Display Condition : <br>
                         <div class= "xybox">
                             <select id= "conditionTypeSelect"></select>
                             <select id="catBindingInput"></select>
                             <select id="partBindingInput"></select>
+                            <select id="sliderBindingInput"></select>
+                            <select id="oppSelect"></select>
+                            <input type="number"  id="conditionCeil" name="conditionCeil" step="1"></select>
                             <button type="button" id="validateCondtion">Set Condition</button> 
 
                         </div>

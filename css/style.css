@@ -236,3 +236,50 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.colapsePan {
+    display:none; 
+}
+.show {
+    display: none; 
+}
+.hide:target + .show {
+    display: inline; 
+}
+.hide:target {
+    display: none; 
+}
+.hide:target ~ .colapsePan {
+    display:inline; 
+}
+
+/*style the (+) and (-) */
+.hide, .show {
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    font-size: 20px;
+    color: #fff;
+    text-shadow: 0 1px 0 #666;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 1px 1px 2px #000;
+    background: #cccbbb;
+    opacity: .95;
+    margin-right: 0;
+    margin-bottom: 25px;
+}
+
+.hide:hover, .show:hover {
+    color: #eee;
+    text-shadow: 0 0 1px #666;
+    text-decoration: none;
+    box-shadow: 0 0 4px #222 inset;
+    opacity: 1;
+    margin-bottom: 25px;
+}
+
+.colapsePan p{
+    height:auto;
+    margin:0;
+}

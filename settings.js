@@ -79,6 +79,17 @@ var charViewerSettings = {
     "newShapeButton" : "#newShapeButton",
     "newImageButton" : "#newImageButton",
     "newPartButton" :  "#newPartButton",
+    "sliderBindingInput" : "#sliderBindingInput",
+    "oppSelect" : "#oppSelect",
+    "conditionCeil" : "#conditionCeil",
+    "deltasDiv" : "#deltasDiv",
+    "tranformationList" : "#tranformationList",
+    "sliderList" : "#sliderList",
+    "tranformationSliderSelect" : "#tranformationSliderSelect",
+    "tranformationPosition" : "#tranformationPosition",
+    "tranformationSourceList" : "#tranformationSourceList",
+    "bindDeltaButton" : "#bindDeltaButton",
+    "newDelta" : "#newDelta",
     "cookiSavePeriode" : 3000,
   	"partsMenuFullWidth" : 270,
     "maxSliders" : 100,
@@ -86,5 +97,5 @@ var charViewerSettings = {
     "wheelZoomSpeed" : -1/120.0,
     "shapeHandleSize" : 15,
     "devMod" : true,
-    "verbose" :true
+    "verbose" :false
 }

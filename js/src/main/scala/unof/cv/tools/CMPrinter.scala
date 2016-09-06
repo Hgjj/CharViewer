@@ -21,6 +21,8 @@ import unof.cv.base.charmaker.LinkedVisibility
 import unof.cv.base.charmaker.MoveTo
 import unof.cv.base.charmaker.SelectImages
 import unof.cv.base.charmaker.VisibilityCondition
+import unof.cv.base.charmaker.SliderVisibility
+import unof.cv.base.charmaker.DeltaLink
 
 object CMPrinter {
 
@@ -93,8 +95,7 @@ object CMPrinter {
       "showSurface",
       "lineJoin",
       "closed",
-      "deltas",
-      "linkedSlider",
+      "deltaLink",
       "name")
     def assembleStruct(parNames: Seq[String], parValues: Seq[Any]) = {
       parNames.zip(parValues)
@@ -118,17 +119,22 @@ object CMPrinter {
       case LinkedVisibility(key) =>
         val (theCat, thePart) = cm.linkKeyMap(key)
         Seq(LinkedVisibility.key, theCat, thePart)
+      case SliderVisibility(s,o,c) =>
+        Seq(SliderVisibility.key,s,SliderVisibility.parseOpp(o),c)
       case other => Seq(other.key)
     }).mkString("[ \"", "\", \"", "\" ]")
+    def oneDeltaLink(d : DeltaLink)= {
+      val params = Seq(
+          "key",
+          "slider",
+          "position"
+      )
+      val values = Seq(d.key,"\""+d.slider.map { escapeEnoyingChar }.mkString+"\"",d.position)
+      assembleStruct(params, values)
+    }
     def oneShape(s: CMShape): String = {
-      val (sliders, deltas) = s.deltas.toSeq.unzip
-      val deltaString = format(deltas.map {
-        s =>
-          format(s.map {
-            case (pos, shape) =>
-              "{\"sliderPos\" : " + pos + ", \"state\" : " + oneShape(shape).replaceAll("\n", "") + "}"
-          })
-      })
+      val deltas= oneDeltaLink(s.deltaLink)
+      
       val values = Seq(
         format(s.commands.map {
           c =>
@@ -148,8 +154,7 @@ object CMPrinter {
         s.showSurcface,
         "\"" + s.lineJoint + "\"",
         s.closed,
-        deltaString,
-        format(sliders.map("\"" + _.map(escapeEnoyingChar).mkString + "\"")),
+        deltas,
         "\"" + s.name.map(escapeEnoyingChar).mkString + "\"")
       assembleStruct(shapeFields, values)
     }

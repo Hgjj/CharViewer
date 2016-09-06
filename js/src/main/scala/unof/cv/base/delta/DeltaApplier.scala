@@ -73,7 +73,8 @@ object DeltaApplier extends Drawer {
       delta.z - original.z,
       dLineWidth,
       original.lineJoint,
-      original.closed)
+      original.closed,
+      delta.id)
   }
   def applyDiffShape(to : CMShape, diff : DiffShape,colorMap : Map[String,String], additionalTransforms : Seq[Transforme])= {
     def s (a:Float,b:Float) = 1f min (a + b) max 0f
@@ -106,7 +107,7 @@ object DeltaApplier extends Drawer {
       to.showSurcface,
       sumCommandsDiff(to.commands, diff.commands),
       additionalTransforms:+sumTransfromDiff(to.transform, diff.transform),
-      to.id,
+      diff.locationId,
       to.closed
     )
   }
@@ -120,7 +121,10 @@ object DeltaApplier extends Drawer {
         a._2 * r1 + b._2 * r2,
         a._3 * r1 + b._3 * r2)
         
-
+    val idOfClosest = if(r1 < 0.5)
+      d1.locationId
+    else
+      d2.locationId
     new DiffShape(
       interpolateCommands(r1, d1.commands, d2.commands),
       interpolateTransforms(r1, d1.transform, d2.transform),
@@ -131,7 +135,8 @@ object DeltaApplier extends Drawer {
       d1.z * r1 + d2.z * r2,
       (math.pow(d1.lineWidth, r1) * math.pow(d2.lineWidth, r2)).toFloat,
       d1.lineJoint,
-      d1.closed)
+      d1.closed,
+      idOfClosest)
   }
   def sumDiffShape(d1: DiffShape, d2: DiffShape) = {
     def t3Sum(a: (Float, Float, Float), b: (Float, Float, Float)) =
@@ -149,7 +154,8 @@ object DeltaApplier extends Drawer {
       d1.z + d2.z,
       d1.lineWidth * d2.lineWidth,
       d1.lineJoint,
-      d1.closed)
+      d1.closed,
+      d1.locationId)
   }
   def sumAllImagesDifs(difs: Seq[CharacterImagePart]) = {
     ???

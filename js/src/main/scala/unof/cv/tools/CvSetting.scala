@@ -83,6 +83,16 @@ trait CvSetting extends js.Object{
   def newShapeButton : String
   def newImageButton : String
   def newPartButton : String
+  def sliderBindingInput : String
+  def oppSelect : String
+  def conditionCeil : String
+  def deltasDiv : String
+  def tranformationList : String
+  def sliderList : String
+  def tranformationSliderSelect : String
+  def tranformationPosition : String
+  def tranformationSourceList : String
+  def bindDeltaButton : String
 	def colorSlotsCount : Number
 	def maxSliders : Number
 	def cookiSavePeriode : Number

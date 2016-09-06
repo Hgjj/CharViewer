@@ -4,15 +4,16 @@ import scala.scalajs.js
 import scala.scalajs.js.Any.fromBoolean
 import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.Any.fromInt
+
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import org.scalajs.jquery.jQuery
+
 import unof.cv.base.AllKnownColors
 import unof.cv.base.charmaker.BoundColor
 import unof.cv.base.charmaker.CMShape
 import unof.cv.base.charmaker.ConstantColor
 import unof.cv.tools.CallbackCenter
-import unof.cv.tools.CvSetting
 import unof.cv.tools.CvSetting
 
 object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel {
@@ -106,9 +107,9 @@ object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel 
     surfaceColorInput.change(shapeConstColorCharge(callbacks, surfaceIsBoundCheckbox, surfaceColorInput, 1)_)
 
     val lineAlpha = jQuery(settings.lineAlpha)
-    lineAlpha.change(shapeAlphaColorCharge(callbacks, lineAlpha, 0)_)
+    lineAlpha.on("input",shapeAlphaColorCharge(callbacks, lineAlpha, 0)_)
     val surfaceAlpha = jQuery(settings.surfaceAlpha)
-    surfaceAlpha.change(shapeAlphaColorCharge(callbacks, surfaceAlpha, 1)_)
+    surfaceAlpha.on("input",shapeAlphaColorCharge(callbacks, surfaceAlpha, 1)_)
   }
 
   private def colorDynamicTypeSwitched(callbacks: CallbackCenter, switch: JQuery, bondInput: JQuery, constInput: JQuery, colorIndex: Int)(evt: JQueryEventObject) {

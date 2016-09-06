@@ -42,6 +42,13 @@ trait SharedPannelFunctions {
       c => list.append("<option value=\"" + c + "\">" + c + "</option>")
     }
   }
+  protected def setNamedOptionsInList(options: Seq[(String,String)], list: JQuery) {
+    list.empty()
+    options.foreach {
+      t => 
+        list.append("<option value=\"" + t._1 + "\">" + t._2 + "</option>")
+    }
+  }
   
   protected def getTrParamInCPI(callbacks: CallbackCenter, f: (Transforme) => Double) = {
     callbacks.selection.mapSelected(

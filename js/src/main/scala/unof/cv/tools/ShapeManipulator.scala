@@ -30,6 +30,7 @@ import unof.cv.base.charmaker.MoveTo
 import unof.cv.base.charmaker.CurveTo
 import unof.cv.base.charmaker.CMShape
 import unof.cv.base.charmaker.CMShape
+import unof.cv.base.charmaker.CMPart
 
 object ShapeManipulator {
   def drawShapeHandles(shape: CMShape, transforms: Seq[Transforme], context: DrawingContext, settings: CvSetting, selectedCommand: Int) = {
@@ -40,10 +41,46 @@ object ShapeManipulator {
     ctx.setTransform(1, 0, 0, 1, 0, 0)
 
     val t = reduceTransforms(shape, transforms)
-
+    val center = t * (0, 0)
+    
     curves.zipWithIndex.foldLeft((0.0, 0.0)) {
       (prev, curveindex) =>
         drawCurve(curveindex._1, prev, t, curveindex._2)
+    }
+    
+    drawCenter(center)
+    
+    def drawCenter(pos: Vec) = {
+      val hsHalf = handleSize / 2
+
+      def drawReticula = {
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, hsHalf, 0, 2 * math.Pi, false);
+        ctx.closePath()
+        ctx.stroke();
+        var start: Vec = (hsHalf / 2, 0)
+        var end: Vec = (hsHalf / 2 + hsHalf,0)
+        (1 to 4) foreach {
+          i =>
+            val s = pos + start
+            val e = pos + end
+            ctx.beginPath()
+            ctx.moveTo(s.x, s.y)
+            ctx.lineTo(e.x, e.y)
+            ctx.closePath()
+            ctx.stroke()
+            start = start.halfPiRotate
+            end = end.halfPiRotate
+        }
+      }
+
+      ctx.strokeStyle = "black";
+      ctx.lineWidth = 3
+      drawReticula
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = 1
+      drawReticula
+
     }
     def drawBoundingPoint(pos: Vec, selected: Boolean) = {
       ctx.beginPath();
@@ -132,52 +169,75 @@ object ShapeManipulator {
       dif < hDim
     }
     val transform = reduceTransforms(shape, transforms)
-    shape.commands.zipWithIndex.flatMap {
-      case (mt: MoveTo, i) =>
-        Seq((i, 0, mt.pos))
-      case (ct: CurveTo, i) =>
-        Seq((i, 1, ct.cp1), (i, 2, ct.cp2), (i, 0, ct.end))
-    }
-      .find {
-        case (index, inPos, point) =>
-          if (selectedIndex < 0 ||
-            inPos == 0 || inPos == 2 && index == selectedIndex ||
-            inPos == 1 && index - 1 == selectedIndex) {
-            if (inPos > 0) {
-              inSquareBound(transform * point)
-            } else {
-              inCircleBounds(transform * point)
-            }
-          } else false
+    val center = transform * (0, 0)
+    if (inCircleBounds(center))
+      Some((-1, -1))
+    else
+      shape.commands.zipWithIndex.flatMap {
+        case (mt: MoveTo, i) =>
+          Seq((i, 0, mt.pos))
+        case (ct: CurveTo, i) =>
+          Seq((i, 1, ct.cp1), (i, 2, ct.cp2), (i, 0, ct.end))
+      }
+        .find {
+          case (index, inPos, point) =>
+            if (selectedIndex < 0 ||
+              inPos == 0 || inPos == 2 && index == selectedIndex ||
+              inPos == 1 && index - 1 == selectedIndex) {
+              if (inPos > 0) {
+                inSquareBound(transform * point)
+              } else {
+                inCircleBounds(transform * point)
+              }
+            } else false
 
-      }.map(t => (t._1, t._2))
+        }
+        .map(t => (t._1, t._2))
 
   }
 
-  def move(mousePos: Vec, movedPoint: (Int, Int), pointOwner: CMShape, callback: CallbackCenter, invertScreenMatrix: Transforme) = {
+  def move(mousePos: Vec, movedPoint: (Int, Int), pointOwner: CMShape, callback: CallbackCenter, invertScreenMatrix: Transforme, invertPartMatrix: Transforme) = {
     val localMousePos = invertScreenMatrix * mousePos
-
-    callback.onShapeManipulated(localMousePos, movedPoint._1, movedPoint._2)
+    if (movedPoint._1 < 0) {
+      callback.onShapeOriginChanged(invertPartMatrix * mousePos)
+    } else
+      callback.onShapeManipulated(localMousePos, movedPoint._1, movedPoint._2)
 
   }
-  def addCommande(targetShape: CMShape,
-                  selectedCommand: Int,
-                  commandPos: Vec): (CMShape, Int) = {
-    val commands = targetShape.commands
+  def addCommande(
+    hostPart: CMPart,
+    deltaGroup: Int,
+    selectedCommand: Int,
+    commandPos: Vec): (CMPart, Int) = {
+    var soureNewCommandPos = -1
+    val newShapes = hostPart.shapes.map {
+      s =>
+        if (s.deltaLink.key == deltaGroup) {
+          val v = addCommande(s, selectedCommand, commandPos)
+          if (s.deltaLink.isSource)
+            soureNewCommandPos = v._2
+          v._1
+        } else s
+    }
+    (hostPart.setShapes(newShapes), soureNewCommandPos)
+  }
+
+  private def addCommande(
+    shape: CMShape,
+    selectedCommand: Int,
+    commandPos: Vec): (CMShape, Int) = {
+    val commands = shape.commands
     def curveTo(from: Int) = new CurveTo(
       commands(from).last,
       commandPos,
       commandPos)
-    val newDeltas = targetShape.deltas.map {
-      t => (t._1, t._2.map(tt => (tt._1, addCommande(tt._2, selectedCommand, commandPos)._1)))
-    }
-    val shape = targetShape.setDeltas(newDeltas)
+
     if (selectedCommand < 0 || commands.isEmpty)
       (shape.setDrawCommands(commands :+ new MoveTo(commandPos)), commands.size)
     else if (selectedCommand == commands.size - 1)
       (shape.setDrawCommands(commands :+ curveTo(selectedCommand)), commands.size)
     else {
-      targetShape.commands(selectedCommand) match {
+      shape.commands(selectedCommand) match {
         case mt: MoveTo =>
           val newComands = (commands.take(selectedCommand) :+
             new MoveTo(commandPos) :+
@@ -198,7 +258,17 @@ object ShapeManipulator {
 
     }
   }
-  def removeCommande(targetShape: CMShape, commandIndex: Int): CMShape = {
+  def removeCommand(hostPart: CMPart, deltaGroupKey: Int, commandIndex: Int) = {
+    val newShapes = hostPart.shapes.map {
+      s =>
+        val delta = s.deltaLink
+        if (delta.key == deltaGroupKey) {
+          removeCommande(s, commandIndex)
+        } else s
+    }
+    hostPart.setShapes(newShapes)
+  }
+  private def removeCommande(targetShape: CMShape, commandIndex: Int): CMShape = {
     val oldCommands = targetShape.commands
     val newCommands = {
       if (commandIndex == oldCommands.size - 1)
@@ -214,9 +284,7 @@ object ShapeManipulator {
           oldCommands.take(commandIndex) ++ oldCommands.drop(commandIndex + 1)
       }
     }
-    val newDeltas = targetShape.deltas.map {
-      t => (t._1, t._2.map(tt => (tt._1, removeCommande(tt._2, commandIndex))))
-    }
-    targetShape.setDrawCommands(newCommands).setDeltas(newDeltas)
+
+    targetShape.setDrawCommands(newCommands)
   }
 }

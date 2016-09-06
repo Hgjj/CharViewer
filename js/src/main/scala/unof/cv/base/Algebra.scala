@@ -46,8 +46,8 @@ object Algebra {
     def dot(v: Vec) = t._1 * v._1 + t._2 * v._2
     def direction = this / this.norm
 
-    def piRotate = (-t._2, t._1)
-    def minusPiRotate = (t._2, -t._1)
+    def halfPiRotate = (-t._2, t._1)
+    def minusHalfPiRotate = (t._2, -t._1)
 
     def <-> (v :Vec) = {
       

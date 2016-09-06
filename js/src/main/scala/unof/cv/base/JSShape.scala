@@ -14,8 +14,7 @@ trait JSShape extends js.Object {
   def showSurface : Boolean
   def lineJoin : String
   def closed : Boolean
-  def deltas : js.Array[js.Array[JSDelta]]
-  def linkedSlider : js.Array[String]
+  def deltaLink : JSDelta
 }
 @js.native
 trait JSVec extends js.Object {

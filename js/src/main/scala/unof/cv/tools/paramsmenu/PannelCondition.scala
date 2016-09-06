@@ -14,9 +14,10 @@ import unof.cv.base.charmaker.VisibleIfNoLink
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
 import unof.cv.tools.CvSetting
+import unof.cv.base.charmaker.SliderVisibility
 
 object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePannel with BasicPannel {
-  
+
   def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: unof.cv.base.charmaker.CMCategory): Unit = {
     hide(settings)
   }
@@ -26,9 +27,15 @@ object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePan
     val condition = image.displayCondition
     val catInput = jQuery(settings.catBindingInput)
     val partInput = jQuery(settings.partBindingInput)
-    typeInput.value(conditionName(condition))
+    val sliderInput = jQuery(settings.sliderBindingInput)
+    val oppInput = jQuery(settings.oppSelect)
+    val ceilInput = jQuery(settings.conditionCeil)
+    typeInput.value(condition.key)
     condition match {
       case LinkedVisibility(key) =>
+        sliderInput.hide(500)
+        oppInput.hide(500)
+        ceilInput.hide(500)
         activateCatAndPartBondSelect(
           callbacks,
           jQuery(settings.boundableCatList),
@@ -39,7 +46,21 @@ object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePan
         catInput.value("" + catName)
         catSelectBondChange(callbacks, catInput, partInput, jQuery(settings.boundablePartList))(null)
         partInput.value("" + partName)
+      case SliderVisibility(slider, opp, value) =>
+        sliderInput.show(500)
+        oppInput.show(500)
+        ceilInput.show(500)
+        catInput.hide(500)
+        partInput.hide(500)
+        sliderInput.value(slider)
+        setOptionsInList(callbacks.charMaker.sliders, sliderInput)
+        oppInput.value(SliderVisibility.parseOpp(opp))
+        ceilInput.value("" + value)
+
       case _ =>
+        sliderInput.hide(500)
+        oppInput.hide(500)
+        ceilInput.hide(500)
         catInput.hide(500)
         partInput.hide(500)
 
@@ -57,30 +78,47 @@ object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePan
     val partBondList = jQuery(settings.boundablePartList)
     val catSelect = jQuery(settings.catBindingInput)
     val partSelect = jQuery(settings.partBindingInput)
+    val slides = jQuery(settings.sliderBindingInput)
+    val opps = jQuery(settings.oppSelect)
+    val ceils = jQuery(settings.conditionCeil)
     val typesName = Seq(
-      conditionName(AlwayVisible),
-      conditionName(LinkedVisibility(0)),
-      conditionName(VisibleIfNoLink))
+      AlwayVisible.key,
+      LinkedVisibility.key,
+      VisibleIfNoLink.key,
+      SliderVisibility.key)
     setOptionsInList(typesName, typeInput)
-    typeInput.change(conditionTypeChange(callbacks, typeInput, catBondList, catSelect, partBondList, partSelect)_)
+    typeInput.change(conditionTypeChange(
+      callbacks,
+      typeInput,
+      catBondList,
+      catSelect,
+      partBondList,
+      partSelect,
+      slides,
+      opps,
+      ceils)_)
     catSelect.change(catSelectBondChange(callbacks, catSelect, partSelect, partBondList)_)
 
     val conditionButton = jQuery(settings.validateCondtion)
-    conditionButton.click(onVisibilityConditionChange(callbacks, typeInput, catSelect, partSelect) _)
+    conditionButton.click(onVisibilityConditionChange(
+      callbacks,
+      typeInput,
+      catSelect,
+      partSelect,
+      slides,
+      opps,
+      ceils) _)
 
+    val oppInput = jQuery(settings.oppSelect)
+    setOptionsInList(Seq("<", ">", "<=", ">=", "==", "!="), oppInput)
   }
-  def conditionName(c: VisibilityCondition) = c match {
-    case LinkedVisibility(_) => "Linked to"
-    case AlwayVisible        => "Always"
-    case VisibleIfNoLink     => "No visible links"
-  }
+
   private def activateCatAndPartBondSelect(
-      callbacks: CallbackCenter,
-      catList: JQuery,
-      catInput: JQuery,
-      partList: JQuery,
-      partInput: JQuery
-  ) {
+    callbacks: CallbackCenter,
+    catList: JQuery,
+    catInput: JQuery,
+    partList: JQuery,
+    partInput: JQuery) {
     catInput.show(500)
     val forbiddenCatIndex = callbacks.selection._1
     val allCats = callbacks.currentOptions.categories
@@ -95,29 +133,64 @@ object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePan
     val partNames = callbacks.currentOptions.getCategory(catName).possibleParts.map(_.partName)
     setOptionsInList(partNames, partData)
   }
-  private def onVisibilityConditionChange(callbacks: CallbackCenter, typeInput: JQuery, catInput: JQuery, partInput: JQuery)(evt: JQueryEventObject) = {
+  private def onVisibilityConditionChange(
+    callbacks: CallbackCenter,
+    typeInput: JQuery,
+    catInput: JQuery,
+    partInput: JQuery,
+    sliderInput: JQuery,
+    oppInput: JQuery,
+    ceilInput: JQuery)(evt: JQueryEventObject) = {
+
     val conditionType = typeInput.value().toString()
-    if (conditionType == conditionName(AlwayVisible)) {
+    if (conditionType == AlwayVisible.key) {
       callbacks.onImageConditionChanged(AlwayVisible)
-    } else if (conditionType == conditionName(VisibleIfNoLink)) {
+    } else if (conditionType == VisibleIfNoLink.key) {
       callbacks.onImageConditionChanged(VisibleIfNoLink)
-    } else if (conditionType == conditionName(LinkedVisibility(0))) {
+    } else if (conditionType == LinkedVisibility.key) {
       val category = catInput.value().toString()
       val part = partInput.value().toString()
       val linkedPart = callbacks.currentOptions.getPart(category, part)
       callbacks.onImageConditionChanged(LinkedVisibility(linkedPart.linkKey))
+    } else if (conditionType == SliderVisibility.key) {
+      val opp = SliderVisibility.parseOpp(oppInput.value().toString())
+      val ceil = ceilInput.value().toString().toInt
+      val linkedSlider = sliderInput.value().toString()
+      callbacks.onImageConditionChanged(SliderVisibility(linkedSlider, opp, ceil))
     } else {
       throw new NotImplementedError("WTF is the condition " + conditionType + "?")
     }
 
   }
-  private def conditionTypeChange(callbacks: CallbackCenter, typeInput: JQuery, catList: JQuery, catInput: JQuery, partList: JQuery, partInput: JQuery)(evt: JQueryEventObject) {
+  private def conditionTypeChange(
+    callbacks: CallbackCenter,
+    typeInput: JQuery,
+    catList: JQuery,
+    catInput: JQuery,
+    partList: JQuery,
+    partInput: JQuery,
+    sliderInput: JQuery,
+    oppInput: JQuery,
+    ceilInput: JQuery)(evt: JQueryEventObject) {
     val inputTypeName = typeInput.value().toString()
-    if (inputTypeName == conditionName(AlwayVisible) || inputTypeName == conditionName(VisibleIfNoLink)) {
+    if (inputTypeName == AlwayVisible.key || inputTypeName == VisibleIfNoLink.key) {
       catInput.hide(500)
       partInput.hide(500)
-    } else {
+      sliderInput.hide(500)
+      oppInput.hide(500)
+      ceilInput.hide(500)
+    } else if (inputTypeName == LinkedVisibility.key) {
+      sliderInput.hide(500)
+      oppInput.hide(500)
+      ceilInput.hide(500)
       activateCatAndPartBondSelect(callbacks, catList, catInput, partList, partInput)
-    }
+    } else if (inputTypeName == SliderVisibility.key) {
+      sliderInput.show(500)
+      oppInput.show(500)
+      ceilInput.show(500)
+      catInput.hide(500)
+      partInput.hide(500)
+      setOptionsInList(callbacks.charMaker.sliders, sliderInput)
+    } else ???
   }
 }

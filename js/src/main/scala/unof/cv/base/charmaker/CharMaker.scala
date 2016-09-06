@@ -25,14 +25,22 @@ import unof.cv.base.delta.DeltaApplier
 
 object CharMaker {
 
-  def apply(options: Seq[JsBodyPart], verbose : Boolean) = {
+  def apply(options: Seq[JsBodyPart], verbose: Boolean) = {
 
     var partLinkMap = Map[(String, String), Int]()
+    var deltaLinkMap = Map[Int, Int]()
     def keyOfPart(catName: String, partName: String) = partLinkMap.get((catName, partName)) match {
       case Some(key) => key
       case None =>
         val key = CMPart.newLinkKey
         partLinkMap += ((catName, partName) -> key)
+        key
+    }
+    def keyOfLink(linkValue: Int) = deltaLinkMap.get(linkValue) match {
+      case Some(key) => key
+      case None =>
+        val key = DeltaLink.getKey
+        deltaLinkMap += (linkValue -> key)
         key
     }
     def parseCondition(s: Seq[String]) = {
@@ -44,29 +52,18 @@ object CharMaker {
         VisibleIfNoLink
       else if (s.length == 3 && s(0).toLowerCase() == LinkedVisibility.key)
         LinkedVisibility(keyOfPart(s(1), s(2)))
-      else if(s.length == 4 && s(0).toLowerCase() == SliderVisibility.key){
-        val opp : (Int,Int)=>Boolean = {
-          s(2) match {
-            case "<" => _<_
-            case "<=" => _<=_
-            case ">" => _>_
-            case ">=" => _>=_
-            case "==" => _==_
-            case "!=" => _!=_
-            case other => throw new IllegalArgumentException("Cannot parse "+other+" as a boolean binary opperator")
-          }
-        }
-        SliderVisibility(s(1),opp,s(3).toInt)
-      }
-        
-      else
-        throw new IllegalArgumentException(s.mkString(" ") + " cannot be parsed to a valid condtion")
+      else if (s.length == 4 && s(0).toLowerCase() == SliderVisibility.key) {
+        val opp = SliderVisibility.parseOpp(s(2))
+
+        SliderVisibility(s(1), opp, s(3).toInt)
+      } else
+        throw new IllegalArgumentException(s.mkString("[", ",", "]") + " cannot be parsed to a valid condtion")
 
     }
 
-    var usedRefs: Seq[String] = Nil
-    var usedColors: Seq[String] = Nil
-    var usedSlider: Seq[String] = Nil
+    var usedRefs: Set[String] = Set()
+    var usedColors: Set[String] = Set()
+    var usedSlider: Set[String] = Set()
     def parseShape(c: JSShape): CMShape = {
       def arrToC(arr: js.Array[JSVec]) = {
         arr.toSeq match {
@@ -80,18 +77,16 @@ object CharMaker {
       val colors = c.colorVariables.map(DynamicColor.apply(_, 1))
       colors foreach {
         case BoundColor(c) =>
-          usedColors :+= c
+          usedColors += c
         case _ =>
       }
-      val deltas = getOrElse(() => c.linkedSlider.toSeq.zip(c.deltas.toSeq
-        .map {
-          d =>
-            d.toSeq.map {
-              x =>
-                (x.sliderPos.intValue(), parseShape(x.state.asInstanceOf[JSShape]))
-            }
-        }), Nil)
-      usedSlider ++= deltas.map(_._1)
+      val delta = getOrElse(() => {
+        val d = c.deltaLink
+        val k = keyOfLink(d.key.intValue())
+        DeltaLink(k, d.slider, d.position.intValue())
+      }, DeltaLink())
+      if (delta.slider != "None")
+        usedSlider += delta.slider
       new CMShape(
         c.points.map(arrToC),
         getOrElse(() => Transforme(c.transform), Transforme()),
@@ -102,12 +97,12 @@ object CharMaker {
         c.showSurface,
         getOrElse(() => c.lineJoin, "miter"),
         getOrElse(() => c.closed, false),
-        deltas,
-        getOrElse(()=>c.name, "A Nameless Shape"))
+        delta,
+        getOrElse(() => c.name, "A Nameless Shape"))
     }
     def parseImage(c: JSImage): CMImage = {
-      usedRefs :+= c.imageRef
-      usedColors :+= c.colorVariable
+      usedRefs += c.imageRef
+      usedColors += c.colorVariable
       val condition =
         getOrElse(() => parseCondition(c.condition), AlwayVisible)
 
@@ -117,7 +112,7 @@ object CharMaker {
         c.colorVariable,
         getOrElse(() => c.z_layer.floatValue(), 0f),
         condition,
-        getOrElse(()=>c.name, c.imageRef))
+        getOrElse(() => c.name, c.imageRef))
     }
     def readLayer(d: Dynamic): CMLayer = {
       if (!js.isUndefined(d.imageRef)) {
@@ -134,7 +129,7 @@ object CharMaker {
         f()
       } catch {
         case t: Throwable =>
-          if(verbose)
+          if (verbose)
             t.printStackTrace()
           orElse
       }
@@ -170,7 +165,7 @@ object CharMaker {
             options.sortBy { _.partName })
       }
     var imagesRefMap = (
-      (usedRefs.toSet - "None").map((r: String) => (r, new ImageRef(r))) +
+      (usedRefs - "None").map((r: String) => (r, new ImageRef(r))) +
       {
         val noneRef = new ImageRef("None")
         val image: HTMLImageElement = dom.document.createElement("img").asInstanceOf[HTMLImageElement]
@@ -181,7 +176,7 @@ object CharMaker {
     new CharMaker(
       categories.sortBy { _.categoryName },
       colors,
-      usedSlider,
+      usedSlider.toSeq,
       imagesRefMap)
   }
 }
@@ -266,6 +261,10 @@ class CharMaker(
   def getCategory(catName: String) = categories.find { _.categoryName == catName } match {
     case Some(cat) => cat
     case None      => throw new NoSuchElementException("Ther is no category named " + catName)
+  }
+  def getCategory(layer: CMLayer): CMCategory = {
+    val add = locationMap(layer.id)
+    categories(add.category)
   }
   def getPart(img: CMLayer): CMPart = {
     val add = locationMap(img.id)
@@ -461,7 +460,21 @@ class CharMaker(
     val (unchangedCats, changedCats) = categories.partition { _.categoryName != targetCat }
     val newCat = changedCats match {
       case Nil => new CMCategory(targetCat, Seq(part))
-      case s   => s.head.setPart((s.head.possibleParts :+ part).sortBy(_.partName))
+      case s =>
+        val changedCat = s.head
+        val oldParts = changedCat.possibleParts
+        val fusionIndex = oldParts.indexWhere { _.partName == part.partName }
+        val newParts = if (fusionIndex < 0)
+          oldParts :+ part
+        else {
+          val recieving = oldParts(fusionIndex)
+          oldParts.updated(
+            fusionIndex,
+            recieving
+              .setImages((recieving.images ++ part.images).sortBy { _.name })
+              .setShapes((recieving.shapes ++ part.shapes).sortBy { _.name }))
+        }
+        s.head.setPart((newParts).sortBy(_.partName))
     }
 
     val newCats = (unchangedCats :+ newCat).sortBy(_.categoryName)
@@ -524,7 +537,7 @@ class CharMaker(
         add(targetCat, targetPart, shape)
     }
   def newImage(targetCat: String, targetPart: String, ref: String) = {
-    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible,ref)
+    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible, ref)
     add(targetCat, targetPart, newComponent)
   }
   def updated(cat: Int, newCat: CMCategory): CharMaker = {
@@ -670,8 +683,7 @@ class CharMaker(
     else
       updated(adress.category, h)
   }
-
-  def enforceLinkConsitancy: CharMaker = {
+  def map(i: (CMImage) => CMImage, s: (CMShape) => CMShape) = {
     var changedCat = false
     val newCat = categories.map {
       c =>
@@ -679,27 +691,20 @@ class CharMaker(
         val newParts = c.possibleParts.map {
           p =>
             var changedLayer = false
-            def checkLayers[A <: CMLayer](layers: Seq[A]): Seq[A] = layers.map {
-              s =>
-                s.displayCondition match {
-                  case LinkedVisibility(key) =>
-                    linkKeyMap.get(key) match {
-                      case None =>
-                        changedLayer = true
-                        s.setCondition(AlwayVisible).asInstanceOf[A]
-                      case Some((catName, partName)) =>
-                        if (catName == c.categoryName) {
-                          changedLayer = true
-                          s.setCondition(AlwayVisible).asInstanceOf[A]
-                        } else
-                          s
-                    }
-                  case _ => s
-                }
+            val newShapes = p.shapes map {
+              shape =>
+                val newS = s(shape)
+                if (newS != shape)
+                  changedLayer = true
+                newS
             }
-            val newShapes = checkLayers(p.shapes)
-            val newImages = checkLayers(p.images)
-
+            val newImages = p.images map {
+              image =>
+                val newI = i(image)
+                if (newI != image)
+                  changedLayer = true
+                newI
+            }
             if (changedLayer) {
               changedPart = true
               p.setImages(newImages).setShapes(newShapes)
@@ -722,16 +727,31 @@ class CharMaker(
       this
     }
   }
+  def enforceLinkConsitancy: CharMaker = {
+    def check[A <: CMLayer](a: A): A = {
+      val categoryName = getCategory(a).categoryName
+      a.displayCondition match {
+        case LinkedVisibility(key) =>
+          linkKeyMap.get(key) match {
+            case None =>
+              a.setCondition(AlwayVisible).asInstanceOf[A]
+            case Some((catName, partName)) =>
+              if (catName == categoryName) {
+                a.setCondition(AlwayVisible).asInstanceOf[A]
+              } else
+                a
+          }
+        case _ => a
+      }
+    }
+   map(check, check)
+  }
 
   def extractSliderNames(s: CMShape): Set[String] = {
-    s.deltas.flatMap {
-      t =>
-        val v = t._2.map(_._2).flatMap(extractSliderNames).toSet
-        v + t._1
-    }.toSet
+    Set(s.deltaLink.slider)
   }
   def extractSliderNames(p: CMPart): Set[String] =
-    p.shapes.flatMap(extractSliderNames).toSet
+    p.shapes.flatMap(extractSliderNames).toSet - "None"
   def extractSliderNames(c: CMCategory): Set[String] =
     c.possibleParts.flatMap(extractSliderNames).toSet
   def extractSliderNames: Set[String] =
@@ -783,8 +803,8 @@ class CharMaker(
                     throw new Exception("The layer " + lin + " in " + cat + " is linked to a concurent choice")
                   true
               }
-            case SliderVisibility(sliderName,opp,value)=>
-              opp(sliderMap(sliderName),value)
+            case SliderVisibility(sliderName, opp, value) =>
+              opp(sliderMap(sliderName), value)
           }
       }
       if (visibleLinked.isEmpty)
@@ -805,34 +825,35 @@ class CharMaker(
     else
       colors.zip(colorMask).toMap + ("None" -> "white")
 
-    def makeASingleDiffOfADeltaPile(source: CMShape, pile: Seq[(String, Seq[(Int, CMShape)])]) = {
+    def makeASingleDiffOfADeltaPile(source: CMShape, pile: Seq[(String, Seq[CMShape])]) = {
 
-      def oneSliderDiff(slide: Seq[(Int, CMShape)], sliderValue: Int) =
+      def oneSliderDiff(slide: Seq[CMShape], sliderValue: Int) =
         if (sliderValue == 0)
           None
-        else slide.find(_._1 == sliderValue) match {
-          case Some((v, s)) =>
+        else slide.find(_.deltaLink.position == sliderValue) match {
+          case Some(s) =>
             Some(DeltaApplier.makeDiffShape(source, s, colorMap))
           case None =>
-
             val (nlCondition, others) =
-              slide.partition(_._2.displayCondition == VisibleIfNoLink)
+              slide.partition(_.displayCondition == VisibleIfNoLink)
             val (alwayVisible, linked) =
-              others.partition(_._2.displayCondition == AlwayVisible)
+              others.partition(_.displayCondition == AlwayVisible)
             val visibleLinked = linked.filter {
               lin =>
-                lin._2.displayCondition match {
+                lin.displayCondition match {
                   case LinkedVisibility(partKey) =>
                     catPerKeyMap.get(partKey) match {
                       case None => false
                       case Some(cat) =>
-                        val add = locationMap(lin._2.id)
+                        val add = locationMap(lin.id)
                         val ctgri = categories(add.category)
 
                         if (cat == ctgri.categoryName)
                           throw new Exception("The layer " + lin + " in " + cat + " is linked to a concurent choice")
                         true
                     }
+                  case SliderVisibility(s, o, c) =>
+                    o(sliderMap(s), c)
                 }
             }
             val activeDeltas = if (visibleLinked.isEmpty)
@@ -843,28 +864,28 @@ class CharMaker(
             if (activeDeltas.isEmpty)
               None
             else {
-              val (bellows, aboves) = activeDeltas.span(_._1 <= sliderValue)
+              val (bellows, aboves) = activeDeltas.span(_.deltaLink.position <= sliderValue)
               val firstAbove = if (aboves.isEmpty) {
-                (0, source)
+                source
               } else {
                 val maybe = aboves.head
-                if (maybe._1 >= 0 && sliderValue <=0) {
-                  (0, source)
+                if (maybe.deltaLink.position >= 0 && sliderValue <= 0) {
+                  source
                 } else
                   maybe
               }
               val justBellow = if (bellows.isEmpty) {
-                (0, source)
+                source
               } else {
                 val maybe = bellows.last
-                if (maybe._1 <= 0 && sliderValue >= 0) {
-                  (0, source)
+                if (maybe.deltaLink.position <= 0 && sliderValue >= 0) {
+                  source
                 } else
                   maybe
               }
-              val above = DeltaApplier.makeDiffShape(source, firstAbove._2, colorMap)
-              val bellow = DeltaApplier.makeDiffShape(source, justBellow._2, colorMap)
-              val r = (sliderValue - justBellow._1) / (firstAbove._1 - justBellow._1).toFloat
+              val above = DeltaApplier.makeDiffShape(source, firstAbove, colorMap)
+              val bellow = DeltaApplier.makeDiffShape(source, justBellow, colorMap)
+              val r = (sliderValue - justBellow.deltaLink.position) / (firstAbove.deltaLink.position - justBellow.deltaLink.position).toFloat
               Some(DeltaApplier.interPolateDiffShape(r, above, bellow))
 
             }
@@ -872,7 +893,10 @@ class CharMaker(
 
       val p = pile.flatMap {
         t =>
-          oneSliderDiff(t._2, sliderMap(t._1))
+          val sliderValue = sliderMap(t._1)
+          val reasonableSliderValue =
+            (t._2.head.deltaLink.position min 0) max sliderValue min (t._2.last.deltaLink.position max 0)
+          oneSliderDiff(t._2, reasonableSliderValue)
       }
       if (p.isEmpty)
         None
@@ -891,39 +915,64 @@ class CharMaker(
           .zip(categories)
           .flatMap(t => t._2.possibleParts(t._1).components)
 
-        val parts = visibleImages
-          .sortBy(img => (img.z + getPart(img).partZ, img.id))
-          .map {
-            case cmi: CMImage =>
-              new CharacterImagePart(
-                imageMap(cmi.ref).htmlImage.get,
-                colorMap(cmi.boundColor),
-                Seq(getPart(cmi).partTransform, cmi.transform),
-                cmi.id)
-            case cms: CMShape =>
-              val lineColor = cms.colors(cms.lineColorIndex)
-              val surfaceColor = cms.colors(cms.surfaceColorIndex)
-              makeASingleDiffOfADeltaPile(cms, cms.deltas) match {
-                case None =>
-                  new CharacterShapePart(
-                    parseDynamicColor(lineColor),
-                    lineColor.alpha,
-                    parseDynamicColor(surfaceColor),
-                    surfaceColor.alpha,
-                    cms.lineWidth,
-                    cms.lineJoint,
-                    cms.showSurcface,
-                    cms.commands,
-                    Seq(getPart(cms).partTransform, cms.transform),
-                    cms.id,
-                    cms.closed)
-                case Some(diff) =>
-                  DeltaApplier.applyDiffShape(cms, diff, colorMap, Seq(getPart(cms).partTransform))
-              }
+        val (images, shapes) = visibleImages.partition { _.isInstanceOf[CMImage] }
 
-          }
+        val imageParts = images.asInstanceOf[Seq[CMImage]].map {
+          cmi =>
+            (new CharacterImagePart(
+              imageMap(cmi.ref).htmlImage.get,
+              colorMap(cmi.boundColor),
+              Seq(getPart(cmi).partTransform, cmi.transform),
+              cmi.id), cmi.z + getPart(cmi).partZ)
+        }
+        val linkedShapes = shapes
+          .asInstanceOf[Seq[CMShape]]
+          .groupBy { _.deltaLink.key }
+          .toSeq.unzip._2
 
-        onload(new Character(parts, charTransforms))
+        val shapeParts = linkedShapes.map {
+          pile =>
+            val slideMap = pile.groupBy { _.deltaLink.slider }
+            val source = slideMap.get("None") match {
+              case None =>
+                throw new Exception("There is no source for a slider group.")
+              case Some(Seq(src)) => src
+              case Some(s) =>
+                throw new Exception("There is multpilesource source for a slider group: " + s.toString())
+            }
+            val orderedDeltaPile = (slideMap - "None").toSeq
+              .map(t => (t._1, t._2.sortBy { _.deltaLink.position }))
+            makeASingleDiffOfADeltaPile(source, orderedDeltaPile) match {
+              case None =>
+                val lineColor = source.colors(source.lineColorIndex)
+                val surfaceColor = source.colors(source.surfaceColorIndex)
+                (new CharacterShapePart(
+                  parseDynamicColor(lineColor),
+                  lineColor.alpha,
+                  parseDynamicColor(surfaceColor),
+                  surfaceColor.alpha,
+                  source.lineWidth,
+                  source.lineJoint,
+                  source.showSurcface,
+                  source.commands,
+                  Seq(getPart(source).partTransform, source.transform),
+                  source.id,
+                  source.closed), source.z + getPart(source).partZ)
+              case Some(diff) =>
+                
+                 (
+                  DeltaApplier.applyDiffShape(
+                    source,
+                    diff,
+                    colorMap,
+                    Seq(getPart(source).partTransform)),
+                    source.z + getPart(source).partZ + diff.z)
+            }
+
+        }
+        val sorted = (imageParts ++ shapeParts)
+          .sortBy(_._2).unzip._1
+        onload(new Character(sorted, charTransforms))
     }
 
   }

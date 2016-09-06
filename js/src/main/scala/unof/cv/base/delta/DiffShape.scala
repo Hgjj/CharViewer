@@ -13,5 +13,6 @@ class DiffShape(
     val z: Float,
     val lineWidth: Float,
     val lineJoint: String,
-    val closed: Boolean) {
+    val closed: Boolean,
+    val locationId : Int) {
 } 
