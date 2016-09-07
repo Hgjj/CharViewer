@@ -3,12 +3,12 @@ package unof.cv.tools.paramsmenu
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import org.scalajs.jquery.jQuery
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CharMaker
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CharacterLibrary
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-
-object PannelSource extends SharedPannelFunctions with ImageExclusivePannel {
+import SharedPannelFunctions._
+object PannelSource extends  ImageExclusivePannel {
   def myPannel(settings: CvSetting): String = settings.imageSourceDiv
   def displayImageParams(image: CMImage, callbacks: CallbackCenter, settings: CvSetting): Unit = {
 
@@ -25,7 +25,7 @@ object PannelSource extends SharedPannelFunctions with ImageExclusivePannel {
     val refField = jQuery(settings.sourceSelectionField)
     jQuery(settings.changeImageButton).click(sourceChange(callbacks, refField) _)
   }
-  private def updateSuggestionList(options: CharMaker, settings: CvSetting) {
+  private def updateSuggestionList(options: CharacterLibrary, settings: CvSetting) {
     val newList = options.imageMap.toSeq
       .map(_._1)
       .flatMap {

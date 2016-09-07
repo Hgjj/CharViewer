@@ -4,11 +4,11 @@ import scala.scalajs.js
 import scala.scalajs.js.Any.fromFunction1
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.jQuery
-import unof.cv.base.Transforme
+import unof.cv.utils.Transforme
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-
-object PannelZ extends SharedPannelFunctions {
+import SharedPannelFunctions._
+object PannelZ {
   
   def refresh(callbacks: CallbackCenter, settings: CvSetting) {
     val z = 
@@ -27,6 +27,6 @@ object PannelZ extends SharedPannelFunctions {
     zField.on("input", onTransformChange(callbacks, zChange(zField) _)_)
   }
   private def zChange(jq: JQuery)(t: Transforme, z: Float): (Transforme, Float) = {
-    (Transforme(t.sx, t.sy, t.rotation, t.dx, t.dy), jq.toFloat)
+    (Transforme(t.sx, t.sy, t.rotation, t.dx, t.dy), jq.value().toString().toFloat)
   }
 }

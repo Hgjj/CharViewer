@@ -7,16 +7,16 @@ import scala.scalajs.js
 import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.Any.fromInt
 import scala.scalajs.js.Any.fromString
-import unof.cv.base.charmaker.CMAdress.toT4
+import unof.cv.base.charLib.CMAdress.toT4
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-import unof.cv.base.charmaker.CharMaker
-import unof.cv.base.charmaker.CMCategory
-import unof.cv.base.charmaker.CMLayer
-import unof.cv.base.charmaker.CMPart
-import unof.cv.base.charmaker.CMAdress
-
-object PannelLocation extends SharedPannelFunctions with LayerTypeInsensitvePannel {
+import unof.cv.base.charLib.CharacterLibrary
+import unof.cv.base.charLib.CMCategory
+import unof.cv.base.charLib.CMLayer
+import unof.cv.base.charLib.CMPart
+import unof.cv.base.charLib.CMAdress
+import SharedPannelFunctions._
+object PannelLocation extends LayerTypeInsensitvePannel {
   
   def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: CMCategory): Unit = {
     val partInDiv = jQuery(settings.partLocationInputDiv)
@@ -76,7 +76,7 @@ object PannelLocation extends SharedPannelFunctions with LayerTypeInsensitvePann
      val partSpan = jQuery(settings.currentPartSpanId)
      partSpan.click(onPartNameClicked(callbacks)_)
   }
-  private def setPartSuggestion(cm: CharMaker, cat: Int, partInput: JQuery, partData: JQuery) = {
+  private def setPartSuggestion(cm: CharacterLibrary, cat: Int, partInput: JQuery, partData: JQuery) = {
     val txt = partInput.value().toString()
     partData.empty()
     if (cat >= 0) {

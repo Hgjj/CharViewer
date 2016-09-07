@@ -8,21 +8,19 @@ import scala.scalajs.js.Dynamic
 import scala.scalajs.js.Dynamic.global
 import scala.scalajs.js.URIUtils
 
-import unof.cv.base.Algebra.Vec
-import unof.cv.base.charmaker.BoundColor
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMLayer
-import unof.cv.base.charmaker.CMPart
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.ConstantColor
-import unof.cv.base.charmaker.CurveTo
-import unof.cv.base.charmaker.DynamicColor
-import unof.cv.base.charmaker.LinkedVisibility
-import unof.cv.base.charmaker.MoveTo
-import unof.cv.base.charmaker.SelectImages
-import unof.cv.base.charmaker.VisibilityCondition
-import unof.cv.base.charmaker.SliderVisibility
-import unof.cv.base.charmaker.DeltaLink
+import unof.cv.utils.Algebra.Vec
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMLayer
+import unof.cv.base.charLib.CMPart
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.CurveTo
+import unof.cv.base.charLib.DynamicColor
+import unof.cv.base.charLib.LinkedVisibility
+import unof.cv.base.charLib.MoveTo
+import unof.cv.base.charLib.SelectImages
+import unof.cv.base.charLib.VisibilityCondition
+import unof.cv.base.charLib.SliderVisibility
+import unof.cv.base.charLib.DeltaLink
 
 object CMPrinter {
 
@@ -47,7 +45,7 @@ object CMPrinter {
   }
   def cookie(state: AppStat) = {
     val save = LWZ.compress(all(state, "cookieCMParams")
-      .filterNot { _.isWhitespace })
+      .filterNot { c=> c=='\n' || c =='\t' })
       .map(_.toChar)
       .mkString
     Dynamic.global.localStorage.setItem( "cookieCMParams",save )
@@ -97,6 +95,11 @@ object CMPrinter {
       "closed",
       "deltaLink",
       "name")
+      val colorField = Seq(
+        "boundColor",
+        "constantColor",
+        "alpha"
+      )
     def assembleStruct(parNames: Seq[String], parValues: Seq[Any]) = {
       parNames.zip(parValues)
         .map {
@@ -111,10 +114,10 @@ object CMPrinter {
       }
     }
     def oneVec(v: Vec) = "{ \"x\" : " + v._1 + ", \"y\" : " + v._2 + " }"
-    def oneDynamicColor(d: DynamicColor) = "\"" + (d match {
-      case c: ConstantColor => "C(" + c.alpha + ")_" + c.value.map(escapeEnoyingChar).mkString
-      case b: BoundColor    => "V(" + b.alpha + ")_" + b.value.map(escapeEnoyingChar).mkString
-    }) + "\""
+    def oneDynamicColor(d: DynamicColor) = {
+      val values = Seq("\""+d.boundColor+"\"","\""+d.constantColor+"\"",d.alpha)
+      assembleStruct(colorField, values)
+    }
     def oneCondition(c: VisibilityCondition) = (c match {
       case LinkedVisibility(key) =>
         val (theCat, thePart) = cm.linkKeyMap(key)

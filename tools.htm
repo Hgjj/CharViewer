@@ -505,10 +505,6 @@
                         <div class="xybox">
                             <div id="lineColorDiv">
                                 Line : <br>
-                                <label class="switch">
-                                    <input type="checkbox" id="lineIsBoundCheckbox">
-                                    <div class="slider round"></div>
-                                </label>
                                 <input type="text" name="lineBoundColorInput" id="lineBoundColorInput" list="colorsSuggestion">
                                 <input type="text" class="jscolor" name="lineColorInput" id="lineColorInput" size="8"><br>
                                 <b style="font-size:25px" >&alpha;</b> <input type="range" id="lineAlpha" min="0" max="1" step="0.00392">
@@ -517,10 +513,6 @@
                             <hr>
                             <div id="surfaceColorDiv">
                                 Surface : <br>
-                                <label class="switch">
-                                    <input type="checkbox" id="surfaceIsBoundCheckbox">
-                                    <div class="slider round"></div>
-                                </label>
                                 <input type="text" name="surfaceBoundColorInput" id="surfaceBoundColorInput" list="colorsSuggestion">
                                 <input type="text" class="jscolor" name="surfaceColorInput" id="surfaceColorInput" size="8"><br>
                                 <b style="font-size:25px" >&alpha;</b> <input type="range" id="surfaceAlpha" min="0" max="1" step="0.00392">   
@@ -688,7 +680,7 @@ document.getElementById('showZButton').addEventListener('click', switchZVisible)
 
 
 <script type="text/javascript" src="allColors.js"></script>
-<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-opt.js"></script>
+<script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-fastopt.js"></script>
 <script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-jsdeps.js"></script>
 <script type="text/javascript" src="readCookieSave.js"></script>
 <script type="text/javascript" src="./js/target/scala-2.11/charecter-viewer-launcher.js"></script>

@@ -4,7 +4,7 @@
 		module="charviewer-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20160728170830"
+		publication="20160907135319"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>
@@ -36,7 +36,7 @@
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.10.6" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.10.6" conf="scala-tool->default,optional(default);provided->default(compile)"/>
 		<dependency org="org.scala-sbt" name="sbt" rev="0.13.12" conf="provided->default(compile)"/>
-		<dependency org="org.scala-js" name="sbt-scalajs" rev="0.6.11" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
-		<dependency org="com.typesafe.sbteclipse" name="sbteclipse-plugin" rev="2.5.0" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
+		<dependency org="org.scala-js" name="sbt-scalajs" rev="0.6.12" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
+		<dependency org="com.typesafe.sbteclipse" name="sbteclipse-plugin" rev="4.0.0" conf="compile->default(compile)" e:sbtVersion="0.13" e:scalaVersion="2.10"/>
 	</dependencies>
 </ivy-module>

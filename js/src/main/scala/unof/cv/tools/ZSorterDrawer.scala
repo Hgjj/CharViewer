@@ -1,15 +1,15 @@
 package unof.cv.tools
 
-import unof.cv.base.charmaker.CharMaker
+/*import unof.cv.base.charmaker.CharacterLibrary
 import unof.cv.base.DrawingContext
 import unof.cv.base.charmaker.CMPart
 import unof.cv.base.Algebra._
 import unof.cv.base.AllKnownColors
 import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMLayer
+import unof.cv.base.charmaker.CMLayer*/
 
 object ZSorterDrawer {
-  val spaceForLayer : Int = 10
+  /*val spaceForLayer : Int = 10
   val zIconDim : Vec = (20,20)
   val selectedPartLineWidth : Int = 2
   val partLineWidth : Int =  1
@@ -23,7 +23,7 @@ object ZSorterDrawer {
   val magins : Vec = ( 10,20)
   val arrowBaseHalfWidth = zIconDim.y/2
   val arrowHeadLength = zIconDim.y
-  def draw( cm : CharMaker, on : DrawingContext, zRatio : Double) {/*
+  def draw( cm : CharacterLibrary, on : DrawingContext, zRatio : Double) {
     
     val ctx = on.ctx
     val drawingZoneStart = magins
@@ -165,6 +165,6 @@ object ZSorterDrawer {
             }
             pX0 + drawPartComponent(part, colorFromName(part.partName),width, false, z0, pX0)
         }
-    }*/
-  }
+    }
+  }*/
 }

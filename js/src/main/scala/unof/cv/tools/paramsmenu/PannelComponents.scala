@@ -1,19 +1,19 @@
 package unof.cv.tools.paramsmenu
 
-import unof.cv.base.charmaker.CMPart
+import unof.cv.base.charLib.CMPart
 import org.scalajs.jquery.jQuery
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
-import unof.cv.base.charmaker.CMAdress
-import unof.cv.base.charmaker.LayersSelector
-import unof.cv.base.charmaker.SelectImages
+import unof.cv.base.charLib.CMAdress
+import unof.cv.base.charLib.LayersSelector
+import unof.cv.base.charLib.SelectImages
 import scala.scalajs.js
 import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.Any.fromInt
 import scala.scalajs.js.Any.fromString
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-import unof.cv.base.charmaker.SelectShapes
+import unof.cv.base.charLib.SelectShapes
 import scala.scalajs.js.Dynamic
 
 object PannelComponents {

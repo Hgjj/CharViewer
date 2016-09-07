@@ -9,16 +9,15 @@ import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import org.scalajs.jquery.jQuery
 
-import unof.cv.base.AllKnownColors
-import unof.cv.base.charmaker.BoundColor
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.ConstantColor
+import unof.cv.utils.AllKnownColors
+import unof.cv.base.charLib.CMShape
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-import unof.cv.base.charmaker.SelectShapes
-import unof.cv.base.charmaker.DeltaLink
+import unof.cv.base.charLib.SelectShapes
+import unof.cv.base.charLib.DeltaLink
+import SharedPannelFunctions._
 
-object PannelDeltas extends ShapeExclusivePannel with SharedPannelFunctions {
+object PannelDeltas extends ShapeExclusivePannel  {
   def myPannel(settings: CvSetting): String = settings.deltasDiv
 
   def displayShapeParams(shape: CMShape, callbacks: CallbackCenter, settings: CvSetting): Unit = {

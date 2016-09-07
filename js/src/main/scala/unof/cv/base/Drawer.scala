@@ -1,14 +1,16 @@
 package unof.cv.base
 
-import unof.cv.base.charmaker.DrawCommand
-import Algebra._
+import unof.cv.base.charLib.DrawCommand
+import unof.cv.utils.Algebra._
 import org.scalajs.dom.raw.CanvasRenderingContext2D
 import org.scalajs.dom.raw.{ HTMLImageElement => Image }
 import org.scalajs.dom.raw.HTMLCanvasElement
 import scala.scalajs.js.Dynamic
-import unof.cv.base.charmaker.DrawCommand
-import unof.cv.base.charmaker.MoveTo
-import unof.cv.base.charmaker.CurveTo
+import unof.cv.base.charLib.DrawCommand
+import unof.cv.base.charLib.MoveTo
+import unof.cv.base.charLib.CurveTo
+import unof.cv.utils.Transforme
+import unof.cv.utils.Algebra
 
 trait Drawer {
 

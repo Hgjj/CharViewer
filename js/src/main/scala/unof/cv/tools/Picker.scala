@@ -1,7 +1,7 @@
 package unof.cv.tools
 
-import unof.cv.base.Algebra.DDVector
-import unof.cv.base.Algebra.Vec
+import unof.cv.utils.Algebra.DDVector
+import unof.cv.utils.Algebra.Vec
 import unof.cv.base.Character
 import unof.cv.base.CharacterImagePart
 import unof.cv.base.CharacterPart

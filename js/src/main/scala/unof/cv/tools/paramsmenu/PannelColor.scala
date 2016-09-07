@@ -6,18 +6,18 @@ import scala.scalajs.js.Any.fromInt
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import org.scalajs.jquery.jQuery
-import unof.cv.base.charmaker.CMImage
+import unof.cv.base.charLib.CMImage
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
 import unof.cv.tools.CvSetting
 
-object PannelColor extends SharedPannelFunctions with ImageExclusivePannel {
+object PannelColor extends ImageExclusivePannel {
 
   def displayImageParams(image: CMImage, callbacks: CallbackCenter, settings: CvSetting): Unit = {
     val imageColor =
       image.boundColor
     val colorBinder = jQuery(settings.colorBindingField)
-    syncColor(imageColor, colorBinder, callbacks.currentOptions);
+    SharedPannelFunctions.syncColor(imageColor, colorBinder, callbacks.currentOptions);
   }
   def myPannel(settings: CvSetting) = settings.colorPanel
   def bind(callbacks: CallbackCenter, settings: CvSetting) {

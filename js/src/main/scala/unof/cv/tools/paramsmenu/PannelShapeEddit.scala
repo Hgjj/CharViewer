@@ -2,12 +2,12 @@ package unof.cv.tools.paramsmenu
 
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.jQuery
-import unof.cv.base.charmaker.CMShape
+import unof.cv.base.charLib.CMShape
 import org.scalajs.jquery.JQueryEventObject
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-import unof.cv.base.charmaker.CMAdress
-import unof.cv.base.charmaker.SelectShapes
+import unof.cv.base.charLib.CMAdress
+import unof.cv.base.charLib.SelectShapes
 
 object PannelShapeEddit extends ShapeExclusivePannel{
  

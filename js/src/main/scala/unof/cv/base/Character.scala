@@ -2,7 +2,8 @@ package unof.cv.base
 
 import org.scalajs.dom.raw.{ HTMLImageElement => Image }
 
-import unof.cv.base.charmaker.DrawCommand
+import unof.cv.base.charLib.DrawCommand
+import unof.cv.utils.Transforme
 
 class Character (
   val parts : Seq[CharacterPart],

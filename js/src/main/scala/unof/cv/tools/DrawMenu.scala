@@ -1,6 +1,6 @@
 package unof.cv.tools
 
-import unof.cv.base.Algebra._
+import unof.cv.utils.Algebra._
 import org.scalajs.jquery.jQuery
 import scala.util.Random
 import org.scalajs.jquery.JQueryEventObject
@@ -8,8 +8,8 @@ import org.scalajs.jquery.JQuery
 import scala.scalajs.js.Dynamic.{global => g}
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSName
-import unof.cv.base.AllKnownColors
-import unof.cv.base.charmaker.CharMaker
+import unof.cv.utils.AllKnownColors
+import unof.cv.base.charLib.CharacterLibrary
 import scala.scalajs.js.Dynamic
 
 object DrawMenu {
@@ -36,7 +36,7 @@ object DrawMenu {
     }
   }
 
-  def updateMenu(oldCM: CharMaker, newCM: CharMaker, oldChoices : Seq[Int], newChoices : Seq[Int], callbacks: CallbackCenter, settings: CvSetting) = {
+  def updateMenu(oldCM: CharacterLibrary, newCM: CharacterLibrary, oldChoices : Seq[Int], newChoices : Seq[Int], callbacks: CallbackCenter, settings: CvSetting) = {
      
     
     val onPartInMenuClicked = callbacks.onPartInMenuClicked _

@@ -4,7 +4,7 @@ import org.scalajs.dom.raw.CanvasRenderingContext2D
 import scala.scalajs.js.Dynamic.{ global => g }
 import scala.scalajs.js.Any.fromString
 import scala.scalajs.js.Dynamic.{global => g}
-import unof.cv.base.Algebra._
+import unof.cv.utils.Algebra._
 
 class DrawingContext (
    /**

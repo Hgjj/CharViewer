@@ -5,22 +5,25 @@ import scala.scalajs.js.Date
 import scala.scalajs.js.annotation.JSExport
 import scala.scalajs.js.Any.wrapArray
 import scala.scalajs.js.Any.wrapDictionary
-import unof.cv.base.charmaker.CharMaker
+import unof.cv.base.charLib.CharacterLibrary
+import unof.cv.utils.Transforme
+import unof.cv.utils.AllKnownColors
+import unof.cv.base.charLib.CharacterLibrary
 
 
 
 @JSExport
 class CharViewer(bodyParts : js.Array[JsBodyPart], val targetCanvas : String, val imageHome : String){
-   val charMaker = CharMaker(bodyParts,false)
+   val lib = CharLibBuilder(bodyParts,false)
    
-   var choices : Seq[Int] = Seq.fill(charMaker.categories.size)(0)
-   var colorMask : Seq[String] = Seq.fill(charMaker.colors.size)("white")
-   var slidersValues : Seq[Int] = Seq.fill(charMaker.sliders.size)(0)
+   var choices : Seq[Int] = Seq.fill(lib.categories.size)(0)
+   var colorMask : Seq[String] = Seq.fill(lib.colors.size)("white")
+   var slidersValues : Seq[Int] = Seq.fill(lib.sliders.size)(0)
   
    @JSExport
    def drawChar() ={
      println("CharViewer drawChar "+choices.mkString(", "))
-     charMaker.makeChar(choices, colorMask,slidersValues,Seq(Transforme()),imageHome){
+     CharacterMaker(lib,choices, colorMask,slidersValues,Seq(Transforme()),imageHome){
        c => 
        val drawOn = new DrawingContext(targetCanvas)
        DrawChar(c,drawOn)
@@ -30,7 +33,7 @@ class CharViewer(bodyParts : js.Array[JsBodyPart], val targetCanvas : String, va
      
   @JSExport
   def choose(category : String, part : String): Unit = {
-    val (catIndex,partIndex)  = charMaker.getLocation(category, part)
+    val (catIndex,partIndex)  = lib.getLocation(category, part)
     if(partIndex >=0){
       choices = choices.updated(catIndex, partIndex)
     }else {
@@ -68,7 +71,7 @@ class CharViewer(bodyParts : js.Array[JsBodyPart], val targetCanvas : String, va
           choosenByMe.code
       }
       
-    val targetIndex = charMaker.colors.indexOf(variableName)
+    val targetIndex = lib.colors.indexOf(variableName)
     if(targetIndex >= 0){
       colorMask = colorMask.updated(targetIndex, colorValue)
     }else{

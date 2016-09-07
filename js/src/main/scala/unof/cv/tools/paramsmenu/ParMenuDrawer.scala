@@ -2,15 +2,15 @@ package unof.cv.tools.paramsmenu
 
 import scala.scalajs.js
 import org.scalajs.jquery.jQuery
-import unof.cv.base.charmaker.AlwayVisible
-import unof.cv.base.charmaker.LinkedVisibility
-import unof.cv.base.charmaker.VisibilityCondition
-import unof.cv.base.charmaker.VisibleIfNoLink
+import unof.cv.base.charLib.AlwayVisible
+import unof.cv.base.charLib.LinkedVisibility
+import unof.cv.base.charLib.VisibilityCondition
+import unof.cv.base.charLib.VisibleIfNoLink
 import unof.cv.tools.CvSetting
 import unof.cv.tools.CallbackCenter
 import org.scalajs.jquery.JQueryEventObject
-
-object ParMenuDrawer extends SharedPannelFunctions {
+import SharedPannelFunctions._
+object ParMenuDrawer {
 
   def update(settings: CvSetting, callbacks: CallbackCenter): Unit = {
    

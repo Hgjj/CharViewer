@@ -1,19 +1,19 @@
 package unof.cv.tools
 
-import unof.cv.base.charmaker.CharMaker
-import unof.cv.base.Transforme
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.LayersSelector
-import unof.cv.base.charmaker.LayersSelector
-import unof.cv.base.charmaker.LayersSelector
-import unof.cv.base.charmaker.CMAdress
+import unof.cv.base.charLib.CharacterLibrary
+import unof.cv.utils.Transforme
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.LayersSelector
+import unof.cv.base.charLib.LayersSelector
+import unof.cv.base.charLib.LayersSelector
+import unof.cv.base.charLib.CMAdress
 
 class AppStat(
     private var myChoices: Seq[Int],
     private var myColorMask: Seq[String],
     private var mySlidersValues : Seq[Int],
     private var mySelection: CMAdress,
-    private var myCharMaker: CharMaker,
+    private var myCharMaker: CharacterLibrary,
     private var myGlobalTransform: Transforme,
     private var mySelectedShape: Option[(Int, Int, Int)]) {
 
@@ -23,7 +23,7 @@ class AppStat(
 
   updatInvTransform
 
-  private val undoRedo = new UndoRedo(200, 200, 10)
+  private val undoRedo = new UndoRedo(200, 200, 100)
 
   def lastEddition = undoRedo.topDiffDate
 
@@ -45,7 +45,7 @@ class AppStat(
     updatInvTransform
   }
   def charMaker = myCharMaker
-  def charMaker_=(c: CharMaker) = {
+  def charMaker_=(c: CharacterLibrary) = {
     undoRedo.makeDif(myCharMaker, c)
     myCharMaker = c
   }
@@ -81,20 +81,23 @@ class AppStat(
       case selection: CMAdress =>
         mySelection = selection
         updatInvTransform
-      case cm: CharMaker =>
+      case cm: CharacterLibrary =>
         myCharMaker = cm
       case tr: Transforme =>
         myGlobalTransform = tr
         globInvTr = myGlobalTransform.invert
         updatInvTransform
-      case o: Option[(Int, Int, Int)] =>
-        mySelectedShape = o
+      case  Some((c:Int, p:Int, s:Int)) =>
+        mySelectedShape = Some((c,p,s))
+      case None =>
+        mySelectedShape = None
       case SliderDiff(sliders)=>
         mySlidersValues = sliders
       case BunchedDiffs(difs) =>
         difs foreach apllyEffectiveDif
 
     }
+    println("App stat apply dif : "+diff)
     diff match {
       case None    =>
       case Some(a) => apllyEffectiveDif(a)

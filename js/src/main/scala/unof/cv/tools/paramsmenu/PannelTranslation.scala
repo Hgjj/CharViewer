@@ -6,11 +6,11 @@ import scala.scalajs.js.Any.fromFunction1
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.jQuery
 
-import unof.cv.base.Transforme
+import unof.cv.utils.Transforme
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-
-object PannelTranslation extends SharedPannelFunctions {
+import SharedPannelFunctions._
+object PannelTranslation  {
 
   def refresh(callbacks: CallbackCenter, settings: CvSetting) {
     val dx = getTrParamInCPI(callbacks, _.dx)
@@ -27,9 +27,9 @@ object PannelTranslation extends SharedPannelFunctions {
     dyField.on("input", onTransformChange(callbacks, dyChange(dyField) _)_)
   }
   private def dxChange(jq: JQuery)(t: Transforme, z: Float) = {
-    (Transforme(t.sx, t.sy, t.rotation, jq, t.dy), z)
+    (Transforme(t.sx, t.sy, t.rotation, jq.value().toString().toFloat, t.dy), z)
   }
   private def dyChange(jq: JQuery)(t: Transforme, z: Float) = {
-    (Transforme(t.sx, t.sy, t.rotation, t.dx, jq), z)
+    (Transforme(t.sx, t.sy, t.rotation, t.dx, jq.value().toString().toFloat), z)
   }
 }

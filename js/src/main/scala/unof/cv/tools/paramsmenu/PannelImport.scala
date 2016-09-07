@@ -12,21 +12,21 @@ import org.scalajs.jquery.jQuery
 
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-
-object PannelImport extends SharedPannelFunctions with LayerTypeInsensitvePannel with BasicPannel {
+import SharedPannelFunctions._
+object PannelImport extends LayerTypeInsensitvePannel with BasicPannel {
 
   def myPannel(settings: CvSetting): String = settings.imagesImportDiv
 
-  def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: unof.cv.base.charmaker.CMCategory): Unit = {
+  def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: unof.cv.base.charLib.CMCategory): Unit = {
     show(settings)
     val importLayerButton = jQuery(settings.importLayersButton)
     importLayerButton.empty()
     importLayerButton.append("Import as parts")
   }
-  def ifLayerSelected(callbacks: CallbackCenter, settings: CvSetting, image: unof.cv.base.charmaker.CMLayer): Unit = {
+  def ifLayerSelected(callbacks: CallbackCenter, settings: CvSetting, image: unof.cv.base.charLib.CMLayer): Unit = {
     hide(settings)
   }
-  def ifPartSelected(callbacks: CallbackCenter, settings: CvSetting, part: unof.cv.base.charmaker.CMPart): Unit = {
+  def ifPartSelected(callbacks: CallbackCenter, settings: CvSetting, part: unof.cv.base.charLib.CMPart): Unit = {
     show(settings)
     val importLayerButton = jQuery(settings.importLayersButton)
     importLayerButton.empty()

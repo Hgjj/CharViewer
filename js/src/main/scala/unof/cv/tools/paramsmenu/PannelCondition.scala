@@ -6,22 +6,23 @@ import scala.scalajs.js.Any.fromInt
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import org.scalajs.jquery.jQuery
-import unof.cv.base.charmaker.AlwayVisible
-import unof.cv.base.charmaker.CMAdress.toT4
-import unof.cv.base.charmaker.LinkedVisibility
-import unof.cv.base.charmaker.VisibilityCondition
-import unof.cv.base.charmaker.VisibleIfNoLink
+import unof.cv.base.charLib.AlwayVisible
+import unof.cv.base.charLib.CMAdress.toT4
+import unof.cv.base.charLib.LinkedVisibility
+import unof.cv.base.charLib.VisibilityCondition
+import unof.cv.base.charLib.VisibleIfNoLink
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
 import unof.cv.tools.CvSetting
-import unof.cv.base.charmaker.SliderVisibility
+import unof.cv.base.charLib.SliderVisibility
+import SharedPannelFunctions._
 
-object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePannel with BasicPannel {
+object PannelCondition extends  LayerTypeInsensitvePannel with BasicPannel {
 
-  def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: unof.cv.base.charmaker.CMCategory): Unit = {
+  def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: unof.cv.base.charLib.CMCategory): Unit = {
     hide(settings)
   }
-  def ifLayerSelected(callbacks: CallbackCenter, settings: CvSetting, image: unof.cv.base.charmaker.CMLayer): Unit = {
+  def ifLayerSelected(callbacks: CallbackCenter, settings: CvSetting, image: unof.cv.base.charLib.CMLayer): Unit = {
     show(settings)
     val typeInput = jQuery(settings.conditionTypeSelect)
     val condition = image.displayCondition
@@ -67,7 +68,7 @@ object PannelCondition extends SharedPannelFunctions with LayerTypeInsensitvePan
     }
 
   }
-  def ifPartSelected(callbacks: CallbackCenter, settings: CvSetting, part: unof.cv.base.charmaker.CMPart): Unit = {
+  def ifPartSelected(callbacks: CallbackCenter, settings: CvSetting, part: unof.cv.base.charLib.CMPart): Unit = {
     hide(settings)
   }
   def myPannel(s: CvSetting) = s.conditionsDiv

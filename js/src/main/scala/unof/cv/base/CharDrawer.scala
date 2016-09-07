@@ -1,6 +1,7 @@
 package unof.cv.base
 
-import Algebra.DDVector
+
+import unof.cv.utils.Algebra._
 
 object DrawChar extends Drawer {
   def apply(char: Character, context: DrawingContext) {

@@ -2,10 +2,10 @@ package unof.cv.tools.paramsmenu
 
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.CMPart
-import unof.cv.base.charmaker.CMCategory
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.CMPart
+import unof.cv.base.charLib.CMCategory
 
 trait LayerTypeSensitivePannel {
   final def refresh(callbacks: CallbackCenter, settings: CvSetting) = {

@@ -57,9 +57,7 @@ trait CvSetting extends js.Object{
 	def colorPanel : String
   def shapeColorPanel : String
   def lineColorDiv : String
-  def lineIsBoundCheckbox : String
   def surfaceColorDiv : String
-  def surfaceIsBoundCheckbox : String
   def shapeColorsButton : String
   def lineBoundColorInput : String
   def surfaceBoundColorInput : String

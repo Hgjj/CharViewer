@@ -6,6 +6,7 @@ name := "charecter viewer root project"
 lazy val root = project.in(file(".")).
   aggregate(cVJS, cVJVM).
   settings(
+  scalaVersion := "2.11.7",
     publish := {},
     publishLocal := {}
   )
@@ -26,9 +27,7 @@ lazy val cV = crossProject.in(file(".")).
 	skip in packageJSDependencies := false,
 	persistLauncher in Compile := true,
 	persistLauncher in Test := true,
-  
-	scalaJSSemantics ~= { _.withAsInstanceOfs(
-  org.scalajs.core.tools.sem.CheckedBehavior.Compliant) }
+  scalaJSUseRhino in Global := false
   )
  persistLauncher in Compile := true
  persistLauncher in Test := true

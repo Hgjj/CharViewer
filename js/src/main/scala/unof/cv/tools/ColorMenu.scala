@@ -2,7 +2,7 @@ package unof.cv.tools
 
 import org.scalajs.jquery.jQuery
 import org.scalajs.jquery.JQueryEventObject
-import unof.cv.base.AllKnownColors
+import unof.cv.utils.AllKnownColors
 import scala.scalajs.js.Dynamic
 
 object ColorMenu {

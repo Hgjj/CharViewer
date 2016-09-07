@@ -3,8 +3,8 @@ package unof.cv.tools
 import org.scalajs.jquery.jQuery
 import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.DeltaLink
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.DeltaLink
 
 object SlidersMenu {
   def create(callbacks: CallbackCenter, settings: CvSetting) = {

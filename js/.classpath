@@ -1,20 +1,20 @@
 <classpath>
-  <classpathentry output="target\scala-2.11\classes" kind="src" path="src\main\scala-2.11"/>
-  <classpathentry output="target\scala-2.11\classes" kind="src" path="src\main\scala"/>
-  <classpathentry output="target\scala-2.11\classes" kind="src" path="src\main\java"/>
-  <classpathentry output="target\scala-2.11\test-classes" kind="src" path="src\test\scala-2.11"/>
-  <classpathentry output="target\scala-2.11\test-classes" kind="src" path="src\test\scala"/>
-  <classpathentry output="target\scala-2.11\test-classes" kind="src" path="src\test\java"/>
-  <classpathentry output="target\scala-2.11\classes" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-main-scala-2.11"/>
-  <classpathentry output="target\scala-2.11\classes" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-main-scala"/>
-  <classpathentry output="target\scala-2.11\test-classes" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-test-scala-2.11"/>
-  <classpathentry output="target\scala-2.11\test-classes" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-test-scala"/>
-  <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\org.scala-js\scalajs-library_2.11\jars\scalajs-library_2.11-0.6.11.jar"/>
+  <classpathentry kind="src" path="src\main\scala-2.11"/>
+  <classpathentry kind="src" path="src\main\scala"/>
+  <classpathentry kind="src" path="src\main\java"/>
+  <classpathentry kind="src" path="src\test\scala-2.11"/>
+  <classpathentry kind="src" path="src\test\scala"/>
+  <classpathentry kind="src" path="src\test\java"/>
+  <classpathentry output="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-main-scala-2.11" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-main-scala-2.11"/>
+  <classpathentry output="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-main-scala" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-main-scala"/>
+  <classpathentry output="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-test-scala-2.11" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-test-scala-2.11"/>
+  <classpathentry output="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-test-scala" kind="src" path="C:-Users-Moi-Desktop-Diver-mods-coc-charViewer-shared-src-test-scala"/>
   <classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
+  <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\org.scala-js\scalajs-library_2.11\jars\scalajs-library_2.11-0.6.12.jar"/>
   <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\org.scala-js\scalajs-dom_sjs0.6_2.11\jars\scalajs-dom_sjs0.6_2.11-0.8.2.jar"/>
   <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\be.doeraene\scalajs-jquery_sjs0.6_2.11\jars\scalajs-jquery_sjs0.6_2.11-0.8.0.jar"/>
   <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\org.webjars\jquery\jars\jquery-2.1.3.jar"/>
-  <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\org.scala-js\scalajs-test-interface_2.11\jars\scalajs-test-interface_2.11-0.6.11.jar"/>
+  <classpathentry kind="lib" path="C:\Users\Moi\.ivy2\cache\org.scala-js\scalajs-test-interface_2.11\jars\scalajs-test-interface_2.11-0.6.12.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
   <classpathentry kind="output" path="bin"/>
 </classpath>

@@ -4,7 +4,7 @@
 		module="charecter-viewer_sjs0.6_2.11"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20160728163327"
+		publication="20160907143045"
 	>
 		<description>
 		charecter viewer
@@ -37,9 +37,9 @@
 		<dependency org="org.scala-lang" name="scala-library" rev="2.11.7" conf="scala-tool->default,optional(default);compile->default(compile)"/>
 		<dependency org="org.eclipse.jetty" name="jetty-websocket" rev="8.1.16.v20140903" conf="phantom-js-jetty->default(compile)"/>
 		<dependency org="org.eclipse.jetty" name="jetty-server" rev="8.1.16.v20140903" conf="phantom-js-jetty->default(compile)"/>
-		<dependency org="org.scala-js" name="scalajs-compiler_2.11.7" rev="0.6.11" conf="plugin->default(compile)"/>
-		<dependency org="org.scala-js" name="scalajs-library_2.11" rev="0.6.11" conf="compile->default(compile)"/>
-		<dependency org="org.scala-js" name="scalajs-test-interface_2.11" rev="0.6.11" conf="test->default(compile)"/>
+		<dependency org="org.scala-js" name="scalajs-compiler_2.11.7" rev="0.6.12" conf="plugin->default(compile)"/>
+		<dependency org="org.scala-js" name="scalajs-library_2.11" rev="0.6.12" conf="compile->default(compile)"/>
+		<dependency org="org.scala-js" name="scalajs-test-interface_2.11" rev="0.6.12" conf="test->default(compile)"/>
 		<dependency org="org.scala-js" name="scalajs-dom_sjs0.6_2.11" rev="0.8.2" conf="compile->default(compile)"/>
 		<dependency org="be.doeraene" name="scalajs-jquery_sjs0.6_2.11" rev="0.8.0" conf="compile->default(compile)"/>
 	</dependencies>

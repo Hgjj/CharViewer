@@ -1,7 +1,6 @@
 package unof.cv.tools.paramsmenu
 
 import scala.scalajs.js
-import scala.scalajs.js.Any.fromBoolean
 import scala.scalajs.js.Any.fromFunction1
 import scala.scalajs.js.Any.fromInt
 
@@ -9,15 +8,14 @@ import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import org.scalajs.jquery.jQuery
 
-import unof.cv.base.AllKnownColors
-import unof.cv.base.charmaker.BoundColor
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.ConstantColor
+import unof.cv.utils.AllKnownColors
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.DynamicColor
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
+import SharedPannelFunctions._
+object PannelShapeColor extends ShapeExclusivePannel {
 
-object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel {
-  
   def displayShapeParams(shape: CMShape, callbacks: CallbackCenter, settings: CvSetting) = {
     val options = callbacks.charMaker
     def setForOneColor(
@@ -26,27 +24,16 @@ object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel 
       bindingField: JQuery,
       pickingField: JQuery,
       alphaRange: JQuery,
-      switch: JQuery,
       colorIndex: Int) {
       if (show) {
         subPannel.show(500)
         bindingField.value("None");
         pickingField.value("FFFFFF");
         val col = shape.colors(colorIndex)
-        col match {
-          case ConstantColor(v) =>
-            bindingField.hide(500);
-            pickingField.show(500)
-            val goodV = AllKnownColors.colorThis(v).drop(1)
-            pickingField.value(goodV);
-            switch.prop("checked", false)
-          case BoundColor(b) =>
-            bindingField.show(500);
-            pickingField.hide(500)
-            switch.prop("checked", true)
-            syncColor(b, bindingField, options);
+        val goodV = AllKnownColors.colorThis(col.constantColor).drop(1)
+        pickingField.value(goodV);
+        syncColor(col.boundColor, bindingField, options);
 
-        }
         alphaRange.value(col.alpha.toString())
       } else {
         subPannel.hide(500)
@@ -61,7 +48,6 @@ object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel 
       jQuery(settings.surfaceBoundColorInput),
       jQuery(settings.surfaceColorInput),
       jQuery(settings.surfaceAlpha),
-      jQuery(settings.surfaceIsBoundCheckbox),
       1)
     setForOneColor(
       shape.lineWidth > 0,
@@ -69,106 +55,82 @@ object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel 
       jQuery(settings.lineBoundColorInput),
       jQuery(settings.lineColorInput),
       jQuery(settings.lineAlpha),
-      jQuery(settings.lineIsBoundCheckbox),
       0)
   }
   def myPannel(settings: CvSetting) = settings.shapeColorPanel
   def bind(callbacks: CallbackCenter, settings: CvSetting) {
     val lineBoundColorInput = jQuery(settings.lineBoundColorInput)
     val lineColorInput = jQuery(settings.lineColorInput)
-    val lineIsBoundCheckbox = jQuery(settings.lineIsBoundCheckbox)
+    val lineAlpha = jQuery(settings.lineAlpha)
+    val surfaceAlpha = jQuery(settings.surfaceAlpha)
     val surfaceBoundColorInput = jQuery(settings.surfaceBoundColorInput)
     val surfaceColorInput = jQuery(settings.surfaceColorInput)
-    val surfaceIsBoundCheckbox = jQuery(settings.surfaceIsBoundCheckbox)
-
-    lineIsBoundCheckbox.click(colorDynamicTypeSwitched(callbacks, lineIsBoundCheckbox, lineBoundColorInput, lineColorInput, 0)_)
-    surfaceIsBoundCheckbox.click(colorDynamicTypeSwitched(callbacks, surfaceIsBoundCheckbox, surfaceBoundColorInput, surfaceColorInput, 1)_)
 
     val applyShapeColorButton = jQuery(settings.shapeColorsButton)
     applyShapeColorButton.click(shapeColorSytemChanged(
       callbacks,
       lineBoundColorInput,
       lineColorInput,
-      lineIsBoundCheckbox,
+      lineAlpha,
       surfaceBoundColorInput,
       surfaceColorInput,
-      surfaceIsBoundCheckbox)_)
+      surfaceAlpha)_)
+
     surfaceBoundColorInput.on("keyup", inputInBindingField(
       1,
       callbacks,
-      surfaceBoundColorInput,
-      surfaceIsBoundCheckbox)_)
+      surfaceBoundColorInput)_)
     lineBoundColorInput.on("keyup", inputInBindingField(
       0,
       callbacks,
-      lineBoundColorInput,
-      lineIsBoundCheckbox)_)
-    lineColorInput.change(shapeConstColorCharge(callbacks, lineIsBoundCheckbox, lineColorInput, 0)_)
-    surfaceColorInput.change(shapeConstColorCharge(callbacks, surfaceIsBoundCheckbox, surfaceColorInput, 1)_)
+      lineBoundColorInput)_)
+    lineColorInput.change(shapeConstColorCharge(callbacks, lineColorInput, 0)_)
+    surfaceColorInput.change(shapeConstColorCharge(callbacks, surfaceColorInput, 1)_)
 
-    val lineAlpha = jQuery(settings.lineAlpha)
-    lineAlpha.on("input",shapeAlphaColorCharge(callbacks, lineAlpha, 0)_)
-    val surfaceAlpha = jQuery(settings.surfaceAlpha)
-    surfaceAlpha.on("input",shapeAlphaColorCharge(callbacks, surfaceAlpha, 1)_)
+    lineAlpha.on("input", shapeAlphaColorCharge(callbacks, lineAlpha, 0)_)
+    surfaceAlpha.on("input", shapeAlphaColorCharge(callbacks, surfaceAlpha, 1)_)
   }
 
-  private def colorDynamicTypeSwitched(callbacks: CallbackCenter, switch: JQuery, bondInput: JQuery, constInput: JQuery, colorIndex: Int)(evt: JQueryEventObject) {
-    val isNowBound = switch.prop("checked").toString.toBoolean
-    println("Panshape switch bound " +isNowBound)
-    if (isNowBound) {
-      bondInput.show(500)
-      constInput.hide(500)
-      syncColor(bondInput.value().toString(), bondInput, callbacks.charMaker)
-      val boundColor = bondInput.value().toString()
-      if (callbacks.currentOptions.colors.contains(boundColor)) {
-        callbacks.onImageBoundColorChange("V_" + boundColor, colorIndex)
-      }
-    } else {
-      bondInput.hide(500)
-      constInput.show(500)
-      syncColor("None", bondInput, callbacks.charMaker)
-      val in = "C_" + AllKnownColors.colorThis(constInput.value().toString());
-      callbacks.onImageBoundColorChange(in, colorIndex)
-    }
+  private def newColor(bondInput: JQuery, constInput: JQuery, alphaInput: JQuery) = {
+    val c = AllKnownColors.colorThis(constInput.value().toString())
+    val b = bondInput.value().toString()
+    val a = alphaInput.value().toString().toFloat
+    new DynamicColor(b, c, a)
+
   }
   private def inputInBindingField(
     colorIndex: Int,
     callbacks: CallbackCenter,
-    bindingField: JQuery,
-    switch: JQuery)(evt: JQueryEventObject) = {
-    val isNowBound = switch.prop("checked").toString.toBoolean
-    if (isNowBound) {
-      val boundColor = bindingField.value().toString()
-      if(boundColor == "None")
-        callbacks.onImageBoundColorChange("C_white", colorIndex)
-      else if (callbacks.currentOptions.colors.contains(boundColor)) {
-        callbacks.onImageBoundColorChange("V_" + boundColor, colorIndex)
-      }
+    bindingField: JQuery)(evt: JQueryEventObject) = {
+    val boundColor = bindingField.value().toString()
+    if (callbacks.currentOptions.colors.contains(boundColor)) {
+      callbacks.onImageBoundColorChange(boundColor, colorIndex)
     }
-
   }
   private def shapeColorSytemChanged(
     callbacks: CallbackCenter,
     lineBindingField: JQuery,
     lineCstColorField: JQuery,
-    lineSwitch: JQuery,
+    lineAlpha: JQuery,
     surfBindingField: JQuery,
     surfCstColorField: JQuery,
-    surfSwitch: JQuery)(evt: JQueryEventObject) = {
+    surfAlpha: JQuery)(evt: JQueryEventObject) = {
 
-    val (lineCode, lineValue) = newShapeColorSytem(lineBindingField, lineCstColorField, lineSwitch)
-    val (surfCode, surfValue) = newShapeColorSytem(surfBindingField, surfCstColorField, surfSwitch)
-    if (lineCode != "???") {
+    val lineDynamic = newColor(lineBindingField, lineCstColorField, lineAlpha)
+    val surfDynamic = newColor(surfBindingField, surfCstColorField, surfAlpha)
+    if (lineDynamic.boundColor != "" && lineDynamic.boundColor != "???") {
 
-      callbacks.onImageBoundColorChange(lineCode + lineValue, 0)
-    }
+      callbacks.onShapeColorChanged(lineDynamic, 0)
+    } else
+      lineBindingField.value("???")
 
-    if (surfCode != "???") {
-      callbacks.onImageBoundColorChange(surfCode + surfValue, 1)
-    }
+    if (surfDynamic.boundColor != "" && surfDynamic.boundColor != "???") {
+      callbacks.onShapeColorChanged(surfDynamic, 1)
+    } else
+      surfBindingField.value("???")
   }
 
-  private def newShapeColorSytem(bindingField: JQuery, cstColorField: JQuery, switch: JQuery) = {
+  /*private def newShapeColorSytem(bindingField: JQuery, cstColorField: JQuery) = {
     def wtf(j: JQuery) = {
       j.value("???")
       ("???", "???")
@@ -196,7 +158,7 @@ object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel 
       } else
         ("C_", cstColor)
     }
-  }
+  }*/
   private def shapeAlphaColorCharge(
     callbacks: CallbackCenter,
     alphaField: JQuery,
@@ -208,14 +170,11 @@ object PannelShapeColor extends SharedPannelFunctions with ShapeExclusivePannel 
   }
   private def shapeConstColorCharge(
     callbacks: CallbackCenter,
-    switch: JQuery,
     colorField: JQuery,
     colorIndex: Int)(evt: JQueryEventObject) = {
-    if (!switch.is(":checked")) {
 
-      val newColor = "#" + colorField.`val`().toString()
-      callbacks.onShapeCstColorChange(newColor, colorIndex)
-    }
+    val newColor = "#" + colorField.`val`().toString()
+    callbacks.onShapeCstColorChange(newColor, colorIndex)
 
   }
 }

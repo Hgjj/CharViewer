@@ -5,50 +5,50 @@ import scala.scalajs.js.Dynamic
 import org.scalajs.jquery.jQuery
 import scala.annotation.tailrec
 import org.scalajs.dom.raw.HTMLElement
-import unof.cv.base.Algebra._
+import unof.cv.utils.Algebra._
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.MouseEvent
 import org.scalajs.dom.raw.Event
 import unof.cv.base.DrawChar
 import unof.cv.base.Character
-import unof.cv.base.Transforme
+import unof.cv.utils.Transforme
 import unof.cv.base.DrawingContext
-import unof.cv.base.charmaker.CharMaker
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMPart
-import unof.cv.base.charmaker.CMCategory
+import unof.cv.base.charLib.CharacterLibrary
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMPart
+import unof.cv.base.charLib.CMCategory
 import org.scalajs.dom.raw.KeyboardEvent
-import unof.cv.base.charmaker.AlwayVisible
-import unof.cv.base.charmaker.VisibilityCondition
-import unof.cv.base.charmaker.CMLayer
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.DynamicColor
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.ConstantColor
-import unof.cv.base.charmaker.ConstantColor
+import unof.cv.base.charLib.AlwayVisible
+import unof.cv.base.charLib.VisibilityCondition
+import unof.cv.base.charLib.CMLayer
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.DynamicColor
+import unof.cv.base.charLib.CMShape
 import org.scalajs.dom.raw.WheelEvent
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.SelectImages
-import unof.cv.base.charmaker.SelectShapes
-import unof.cv.base.charmaker.LayersSelector
-import unof.cv.base.charmaker.CMAdress
-import unof.cv.base.charmaker.SelectNone
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.CMImage
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.LayersSelector
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.SelectImages
+import unof.cv.base.charLib.SelectShapes
+import unof.cv.base.charLib.LayersSelector
+import unof.cv.base.charLib.CMAdress
+import unof.cv.base.charLib.SelectNone
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.LayersSelector
 import unof.cv.tools.paramsmenu.ParMenuDrawer
-import unof.cv.base.charmaker.DrawCommand
-import unof.cv.base.charmaker.CurveTo
-import unof.cv.base.charmaker.CurveTo
-import unof.cv.base.charmaker.MoveTo
-import unof.cv.base.charmaker.CurveTo
-import unof.cv.base.charmaker.CMShape
-import unof.cv.base.charmaker.DeltaLink
-import unof.cv.base.charmaker.LinkedVisibility
+import unof.cv.base.charLib.DrawCommand
+import unof.cv.base.charLib.CurveTo
+import unof.cv.base.charLib.CurveTo
+import unof.cv.base.charLib.MoveTo
+import unof.cv.base.charLib.CurveTo
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.DeltaLink
+import unof.cv.base.charLib.LinkedVisibility
+import unof.cv.base.CharacterMaker
+import unof.cv.base.charLib.CMShape
 
 class CallbackCenter(
     startingChoices: Seq[Int],
@@ -56,7 +56,7 @@ class CallbackCenter(
     startingSliderValues: Seq[Int],
     startingSelection: Seq[Int],
     val charContext: DrawingContext,
-    startingCharMaker: CharMaker,
+    startingCharMaker: CharacterLibrary,
     setting: CvSetting) {
   val devMod = setting.devMod
   private var partHeld = false
@@ -90,7 +90,7 @@ class CallbackCenter(
     startingColorMask,
     startingSliderValues,
     startingAdress,
-    startingCharMaker: CharMaker,
+    startingCharMaker: CharacterLibrary,
     Transforme(),
     None)
   CMPrinter.makePeriodicalCookieSaves(setting.cookiSavePeriode.intValue(), stat)
@@ -116,7 +116,8 @@ class CallbackCenter(
   }
 
   def charMaker = stat.charMaker
-  private def charMaker_=(cm: CharMaker) {
+  private def charMaker_=(cm: CharacterLibrary) {
+    
     resetSliders
     validateChoices(stat.charMaker, cm)
     validateSelection(cm)
@@ -200,7 +201,7 @@ class CallbackCenter(
           slidersValues = slidersValues.updated(i, deltaLink.position)
         }
     }
-    charMaker.makeChar(choices, colorMask, slidersValues, Seq(globalTransform))(onload)
+    CharacterMaker(charMaker,choices, colorMask, slidersValues, Seq(globalTransform))(onload)
   }
 
   private def updateChar = curentCharacter { drawChar }
@@ -228,7 +229,7 @@ class CallbackCenter(
           selectedCurveComand)
     }
   }
-  private def updateAll(oldCM: CharMaker, oldChoices: Seq[Int]) {
+  private def updateAll(oldCM: CharacterLibrary, oldChoices: Seq[Int]) {
 
     ColorMenu.updateColorColors(colorMask)
     DrawMenu.updateMenu(oldCM, charMaker, oldChoices, choices, this, setting)
@@ -242,7 +243,7 @@ class CallbackCenter(
     updateChar
   }
 
-  private def validateSelection(newCm: CharMaker) = {
+  private def validateSelection(newCm: CharacterLibrary) = {
     if (selection.category >= 0) {
       if (selection.category >= newCm.categories.size) {
         selection = CMAdress()
@@ -265,29 +266,31 @@ class CallbackCenter(
     }
 
   }
-  private def validateColors(oldCm: CharMaker, newCm: CharMaker) =
+  private def validateColors(oldCm: CharacterLibrary, newCm: CharacterLibrary) =
     validateStuff(oldCm, newCm, _.colors, "white", colorMask, colorMask_=)
-  private def validateSlider(oldCm: CharMaker, newCm: CharMaker) =
+  private def validateSlider(oldCm: CharacterLibrary, newCm: CharacterLibrary) =
     validateStuff(oldCm, newCm, _.sliders, 0, slidersValues, slidersValues_=)
   private def validateStuff[A](
-    oldCm: CharMaker,
-    newCm: CharMaker,
-    getList: (CharMaker) => Seq[Any],
+    oldCm: CharacterLibrary,
+    newCm: CharacterLibrary,
+    getList: (CharacterLibrary) => Seq[Any],
     default: A,
     managedList: Seq[A],
     updateList: (Seq[A]) => Unit): Unit = {
 
     val oldList = getList(oldCm)
     val newList = getList(newCm)
+    val newS = newList.size
+    val oldS = oldList.size
     if (newList.isEmpty) {
       updateList(Nil)
     } else if (oldList.isEmpty) {
-      updateList(Seq.fill(newList.size)(default))
+      updateList(Seq.fill(newS)(default))
     } else if (managedList.isEmpty) {
-      updateList(Seq.fill(newList.size)(default))
+      updateList(Seq.fill(newS)(default))
+    } else if (managedList.size > newS && managedList.size > oldS) {
+      updateList(managedList.take(newS))
     } else {
-      val newS = newList.size
-      val oldS = oldList.size
       updateList(if (oldS != newS) {
         val dif = oldList.zip(newList).indexWhere(t => t._1 != t._2)
         if (oldS > newS) {
@@ -305,13 +308,12 @@ class CallbackCenter(
 
       } else managedList.reverse.padTo(newS, default).reverse)
     }
-
   }
-  private def validateChoices(oldCm: CharMaker, newCm: CharMaker) = {
+  private def validateChoices(oldCm: CharacterLibrary, newCm: CharacterLibrary) = {
     validateStuff(oldCm, newCm, _.categories.map(_.categoryName), 0, choices, choices_= _)
     choices = choices.zipWithIndex.map {
-      case (choice,cat) =>
-        if(choice < newCm.categories(cat).possibleParts.size)
+      case (choice, cat) =>
+        if (choice < newCm.categories(cat).possibleParts.size)
           choice
         else
           0
@@ -542,15 +544,20 @@ class CallbackCenter(
   }
   def onShapeCstColorChange(newVal: String, colorIndex: Int) = {
     def f(shape: CMShape) = {
-      shape.colors(colorIndex) match {
-        case cst: ConstantColor =>
-          shape.setColors(shape.colors.updated(colorIndex, cst.setConstantColor(newVal)))
-        case other =>
-          throw new UnsupportedOperationException("Can't set const color on" + other)
-      }
+      val c = shape.colors(colorIndex)
+      shape.setColors(shape.colors.updated(colorIndex, c.setConstantColor(newVal)))
     }
-    if (selection._3 < 0)
-      throw new Exception("Part nor condition have constant colors")
+    
+    val CMAdress(cat, opt, ref, _) = selection
+    charMaker = charMaker.updateShape(cat, opt, ref, f _)
+    updateChar
+  }
+
+  def onShapeColorChanged(newColor: DynamicColor, colorIndex  :Int) = {
+    def f(shape: CMShape) = {
+      shape.setColors(shape.colors.updated(colorIndex, newColor))
+    }
+    
     val CMAdress(cat, opt, ref, _) = selection
     charMaker = charMaker.updateShape(cat, opt, ref, f _)
     updateChar
@@ -759,7 +766,7 @@ class CallbackCenter(
       selection = CMAdress(category, charMaker.categories(category).possibleParts.indexOf(newPart))
       choices = choices.updated(category, part)
     }
-    def copyImage(img : CMImage) = {
+    def copyImage(img: CMImage) = {
       val newLayer = img.changeId
       charMaker = charMaker.add(category, part, newLayer)
       choices = choices.updated(category, part)
@@ -767,17 +774,16 @@ class CallbackCenter(
     }
     def copyShape(shape: CMShape) = {
       val d = shape.deltaLink
-      val newLayer = if(d.isSource){
+      val newLayer = if (d.isSource) {
         shape.setDeltaLink(DeltaLink())
-      }else{
+      } else {
         shape
       }.changeId
       charMaker = charMaker.add(category, part, newLayer)
-      println("Callbacks : after copy : "+charMaker.sliders.mkString(","))
       choices = choices.updated(category, part)
       selection = charMaker.locationMap(newLayer.id)
     }
-    selection.forSelected(charMaker, copyImage(_),copyShape _, copyPart(_), copyCat(_))
+    selection.forSelected(charMaker, copyImage(_), copyShape _, copyPart(_), copyCat(_))
     updateAll(oldCm, oldChoices)
   }
   def onPartCreated(partName: String) = {
@@ -817,7 +823,7 @@ class CallbackCenter(
         new CurveTo((50, 100), (100, 100), (100, 100)),
         new CurveTo((100, 100), (100, 50), (100, 50))),
       Transforme(),
-      Seq(ConstantColor("black", 1), ConstantColor("white", 0.5f)),
+      Seq(DynamicColor(), DynamicColor()),
       0,
       AlwayVisible,
       5,
@@ -882,7 +888,7 @@ class CallbackCenter(
     if (charMaker != oldCM)
       updateAll(oldCM, choices)
   }
-  def onImageTransformed(movement: (Transforme, Float) => (Transforme, Float)) = {
+  def onImageTransformed(movement: (Transforme, Float) => (Transforme, Float)):Unit = {
     val CMAdress(category, part, image, _) = selection
     def f(p: CMLayer) = {
 
@@ -910,22 +916,13 @@ class CallbackCenter(
   }
   def onImageBoundColorChange(newBoundColor: String, colorIndex: Int) = {
     val CMAdress(category, part, image, _) = selection
-    def f(cmi: CMLayer) = {
-      cmi match {
-        case img: CMImage =>
-          img.setColorBond(newBoundColor)
-        case shape: CMShape =>
-          val col = shape.colors(colorIndex)
-          shape.setColors(shape.colors.updated(colorIndex, DynamicColor(newBoundColor).setAlpha(col.alpha)))
-      }
-
-    }
+   
     def setImageColor(cmi: CMImage) = {
       cmi.setColorBond(newBoundColor)
     }
     def setShapeColor(shape: CMShape) = {
       val col = shape.colors(colorIndex)
-      shape.setColors(shape.colors.updated(colorIndex, DynamicColor(newBoundColor).setAlpha(col.alpha)))
+      shape.setColors(shape.colors.updated(colorIndex, col.bindTo(newBoundColor)))
 
     }
     def setPartColor(p: CMPart) = {
@@ -946,6 +943,13 @@ class CallbackCenter(
   def onLayerChanged(change: (CMLayer) => CMLayer) {
     val oldCM = charMaker
     charMaker = charMaker.updated(selection, change)
+    updateAll(oldCM, choices)
+  }
+   def onShapeChanged(change: (CMShape) => CMShape) {
+    val oldCM = charMaker
+    
+    charMaker = 
+      charMaker.updateShape(selection.category,selection.part,selection.layer, change)
     updateAll(oldCM, choices)
   }
   def onImageRefChanged(newImageRef: String) = {
@@ -979,7 +983,7 @@ class CallbackCenter(
               val unchangedChoices = choices.take(selection.category) ++ choices.drop(selection.category + 1)
               choices = (choices.take(i) :+ selection.part) ++ choices.drop(i)
               selection = CMAdress(i, selection.part, selection.layer, selection.layerSelect)
-              charMaker = new CharMaker(newCats, charMaker.colors, charMaker.sliders, charMaker.imageMap)
+              charMaker = new CharacterLibrary(newCats, charMaker.colors, charMaker.sliders, charMaker.imageMap)
               updateAll(oldCM, oldChoices)
               ""
             }
@@ -1178,7 +1182,7 @@ class CallbackCenter(
         }
     }
   }
-  def onMenuChanged(oldCm: CharMaker, newCM: CharMaker, oldChoices: Seq[Int], newChoices: Seq[Int]) = {
+  def onMenuChanged(oldCm: CharacterLibrary, newCM: CharacterLibrary, oldChoices: Seq[Int], newChoices: Seq[Int]) = {
     DrawMenu.updateMenu(oldCm, newCM, oldChoices, newChoices, this, setting)
   }
   def componentCoord(v: Vec, local: HTMLElement) = {

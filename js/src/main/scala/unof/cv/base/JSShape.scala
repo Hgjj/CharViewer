@@ -5,7 +5,7 @@ import scala.scalajs.js
 trait JSShape extends js.Object {
   def points : js.Array[js.Array[JSVec]]
   def transform : js.Array[Number]
-  def colorVariables : js.Array[String]
+  def colorVariables : js.Array[JSDynamColor]
   def name : String
   
   def z_layer : Number

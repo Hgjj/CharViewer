@@ -38,6 +38,7 @@ class UndoRedo(val minimalDifCooldown : Double, val maxUndoLength : Int, val bun
         seq.takeWhile { x => seq.head.date - x.date <= bunchingTime }
           
       }
+      println("undoredo undo pile : "+undoPile)
       undoPile = undoPile.drop(bunch.length);
       redoPile = bunch.reverse ++ redoPile
       
@@ -76,4 +77,6 @@ class UndoRedo(val minimalDifCooldown : Double, val maxUndoLength : Int, val bun
   def canRedo = !redoPile.isEmpty
 }
 case class BunchedDiffs(difs : Seq[Any])
-class Diff (val oldStat : Any, val newStat : Any, val date : Double)
+class Diff (val oldStat : Any, val newStat : Any, val date : Double){
+  override def toString = (oldStat,newStat,date).toString()
+}

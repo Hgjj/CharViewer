@@ -1,13 +1,13 @@
 package unof.cv.tools.paramsmenu
 import org.scalajs.jquery.jQuery
 import org.scalajs.jquery.JQuery
-import unof.cv.base.Transforme
+import unof.cv.utils.Transforme
 import scala.scalajs.js
 import scala.scalajs.js.Any.fromFunction1
 import unof.cv.tools.CallbackCenter
 import unof.cv.tools.CvSetting
-
-object PannelScale extends SharedPannelFunctions {
+import SharedPannelFunctions._
+object PannelScale {
   def refresh(callbacks: CallbackCenter, settings: CvSetting) {
 
     val sx = getTrParamInCPI(callbacks, _.sx).toString()
@@ -26,9 +26,9 @@ object PannelScale extends SharedPannelFunctions {
     syField.on("input", onTransformChange(callbacks, syChange(syField) _)_)
   }
   private def sxChange(jq: JQuery)(t: Transforme, z: Float) = {
-    (Transforme(jq, t.sy, t.rotation, t.dx, t.dy), z)
+    (Transforme(jq.value().toString().toFloat, t.sy, t.rotation, t.dx, t.dy), z)
   }
   private def syChange(jq: JQuery)(t: Transforme, z: Float) = {
-    (Transforme(t.sx, jq, t.rotation, t.dx, t.dy), z)
+    (Transforme(t.sx, jq.value().toString().toFloat, t.rotation, t.dx, t.dy), z)
   }
 }

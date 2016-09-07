@@ -1,9 +1,12 @@
 package unof.cv.tools
 
 import scala.scalajs.js
-import scala.scalajs.js.JSApp
+import scala.scalajs.js.Any.jsArrayOps
+import scala.scalajs.js.Any.wrapArray
 import scala.scalajs.js.Dynamic
-import unof.cv.base.charmaker.CharMaker
+import scala.scalajs.js.JSApp
+
+import unof.cv.base.CharLibBuilder
 import unof.cv.base.DrawingContext
 import unof.cv.base.JsBodyPart
 
@@ -20,7 +23,7 @@ object StartUp extends JSApp {
           orElse
         else{
           val a = 0
-          //Good practice!!! Force it to throw if v is actually undefined
+          //Good practice!!! Force it to throw if v is actually undefined.
           val b = if(v.toString().isEmpty()) a/0 
            v
         }
@@ -105,7 +108,7 @@ object StartUp extends JSApp {
   ) = {
    
     val charContext = new DrawingContext(settings.characterCanvas)
-    val charMaker = CharMaker(bodyParts,settings.verbose)
+    val charMaker = CharLibBuilder(bodyParts,settings.verbose)
     
     
     new CallbackCenter(choices,colors,sliders,selected,charContext,charMaker,settings)
