@@ -265,3 +265,5 @@ reload
 eclipse
 cVJS/fastOptJS
 exit
+cVJS/fullOptJS
+exit

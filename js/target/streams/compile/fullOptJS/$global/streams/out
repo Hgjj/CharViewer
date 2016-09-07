@@ -1,0 +1,19 @@
+[0m[[0minfo[0m] [0mFull optimizing C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\scala-2.11\charecter-viewer-opt.js[0m
+[0m[[0mdebug[0m] [0mLinker: Compute reachability: 333620 us[0m
+[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 305557 us[0m
+[0m[[0mdebug[0m] [0mBasic Linking: 659024 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: true[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 712807 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 6352 methods.[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 1969178 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: 2700030 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 96204 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 20600 us[0m
+[0m[[0mdebug[0m] [0mRefiner: 119755 us[0m
+[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 0 -- invalidated: 552[0m
+[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 0 -- invalidated: 3763[0m
+[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 1354690 us[0m
+[0m[[0minfo[0m] [0mClosure: 0 error(s), 0 warning(s)[0m
+[0m[[0mdebug[0m] [0mClosure: Compiler pass: 14929200 us[0m
+[0m[[0mdebug[0m] [0mClosure: Write result: 1966448 us[0m
+[0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 0 -- invalidated: 198 -- trees read: 690[0m
