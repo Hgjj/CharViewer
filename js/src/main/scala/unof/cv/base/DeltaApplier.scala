@@ -1,37 +1,46 @@
 package unof.cv.base
 
-import unof.cv.base.charLib.CMImage
-import unof.cv.base.charLib.CMImage
-import unof.cv.base.charLib.DrawCommand
-import unof.cv.base.charLib.MoveTo
-import unof.cv.base.charLib.CurveTo
-import unof.cv.utils.Algebra._
 import org.scalajs.dom.raw.HTMLImageElement
+
 import unof.cv.base.charLib.CMImage
-import unof.cv.base.charLib.CMImage
-import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.CurveTo
+import unof.cv.base.charLib.DrawCommand
 import unof.cv.base.charLib.DynamicColor
-import unof.cv.base.charLib.DrawCommand
-import unof.cv.base.charLib.DrawCommand
-import unof.cv.base.charLib.CMImage
-import unof.cv.base.charLib.CMImage
+import unof.cv.base.charLib.MoveTo
+import unof.cv.utils.Algebra.DDVector
 import unof.cv.utils.AllKnownColors
-import unof.cv.base.charLib.ImageRef
 import unof.cv.utils.Transforme
-import unof.cv.base.charLib.CMShape
-import unof.cv.base.charLib.CMShape
-import unof.cv.base.charLib.CMShape
-import unof.cv.base.charLib.CMShape
-import unof.cv.base.charLib.CMShape
-import unof.cv.base.charLib.CMShape
+import unof.cv.utils.Algebra._
+import unof.cv.base.charLib.ImageRef
 
 object DeltaApplier extends Drawer {
 
-  def makeImageDif(original: CMImage, delta: CMImage, colorMap: Map[String, String]) = {
+  def makeDiffImage(imageMap: Map[String, ImageRef])(original: CMImage, delta: CMImage, colorMap: Map[String, String]) = {
 
-    ???
+    
+    val dColor = makeColorDif(colorMap(original.boundColor), colorMap(delta.boundColor))
+    val oSrc = original.ref
+    val dSrc = delta.ref
+    val (r, a) = if (oSrc == dSrc)
+      (None, 0)
+    else if (oSrc == "None")
+      (imageMap(dSrc).htmlImage, 1)
+    else if (dSrc == "None")
+      (imageMap(oSrc).htmlImage, -1)
+    else
+      (imageMap(dSrc).htmlImage, 0)
+
+    new DiffImage(
+      r,
+      makeTransfromDiff(original.transform, delta.transform),
+      dColor,
+      delta.z - original.z,
+      delta.id,
+      a)
 
   }
+
   def makeDiffShape(original: CMShape, delta: CMShape, colorMap: Map[String, String]) = {
     val lci = original.lineColorIndex
     val sci = original.surfaceColorIndex
@@ -94,7 +103,30 @@ object DeltaApplier extends Drawer {
       diff.locationId,
       to.closed)
   }
-  def interPolateDiffShape(r1: Float, d1: DiffShape, d2: DiffShape) = {
+  def applyDiffImage(imageMap: Map[String, ImageRef])(to: CMImage, diff: DiffImage, colorMap: Map[String, String], additionalTransforms: Seq[Transforme]) = {
+    /*
+     * Img(a) => Img(b) = Img(b)
+     * Img(a) => Img(None) = Img(a)
+     * */
+    val oColor = AllKnownColors.toFloat3(AllKnownColors.colorThis(colorMap(to.boundColor)))
+    val diffColor = diff.color
+    val f3ResColor = (
+      oColor._1 + diffColor._1,
+      oColor._2 + diffColor._2,
+      oColor._3 + diffColor._3)
+
+    val img = diff.image match {
+      case None    => imageMap(to.ref).htmlImage.get
+      case Some(i) => i
+    }
+    new CharacterImagePart(
+      img,
+      "#" + AllKnownColors.toHexaString(f3ResColor),
+      additionalTransforms :+ sumTransfromDiff(to.transform, diff.transform),
+      diff.locationId,
+      1 + diff.dAlpha)
+  }
+  def interpolateDiffShape(r1: Float, d1: DiffShape, d2: DiffShape) = {
     if (r1 < 0 || r1 > 1)
       throw new IllegalArgumentException("interpolationratio must be in [0,1]." + r1 + " isn't.")
     val r2 = 1 - r1
@@ -121,6 +153,37 @@ object DeltaApplier extends Drawer {
       d1.closed,
       idOfClosest)
   }
+  def interpolateDiffImage(src : HTMLImageElement)(r1: Float, d1: DiffImage, d2: DiffImage) = {
+    if (r1 < 0 || r1 > 1)
+      throw new IllegalArgumentException("interpolationratio must be in [0,1]." + r1 + " isn't.")
+    val r2 = 1 - r1
+    def t3Inter(a: (Float, Float, Float), b: (Float, Float, Float)) =
+      (
+        a._1 * r1 + b._1 * r2,
+        a._2 * r1 + b._2 * r2,
+        a._3 * r1 + b._3 * r2)
+
+    val idOfClosest = if (r1 < 0.5)
+      d1.locationId
+    else
+      d2.locationId
+
+    val interpolatedImage = (d1.image,d2.image) match {
+      case (None,None) => None
+      case (Some(img),None)=> Some(interpolateImages(r1, img, src))
+      case (None,Some(img))=> Some(interpolateImages(r1, src,img))
+      case (Some(img1),Some(img2))=> Some(interpolateImages(r1, img1,img2))
+    }
+
+    new DiffImage(
+      interpolatedImage,
+      interpolateTransforms(r1, d1.transform, d2.transform),
+      t3Inter(d1.color, d2.color),
+      d1.z * r1 + d2.z * r2,
+      idOfClosest,
+      d1.dAlpha * r1 + d2.dAlpha * r2)
+
+  }
   def sumDiffShape(d1: DiffShape, d2: DiffShape) = {
     def t3Sum(a: (Float, Float, Float), b: (Float, Float, Float)) =
       (
@@ -140,8 +203,34 @@ object DeltaApplier extends Drawer {
       d1.closed,
       d1.locationId)
   }
-  def sumAllImagesDifs(difs: Seq[CharacterImagePart]) = {
-    ???
+  def sumDiffImage(d1: DiffImage, d2: DiffImage) = {
+  
+    def t3Sum(a: (Float, Float, Float), b: (Float, Float, Float)) =
+      (
+        a._1 + b._1,
+        a._2 + b._2,
+        a._3 + b._3)
+    val summedImage = d1.image match {
+      case None => d2.image
+      case Some(img1) =>
+        d2.image match {
+          case None =>
+            Some(img1)
+          case Some(img2) =>
+            if (img1.src == img2.src)
+              Some(img1)
+            else
+              Some(interpolateImages(0.5f, img1, img2))
+        }
+    }
+     new DiffImage(
+      summedImage,
+      sumTransfromDiff( d1.transform, d2.transform),
+      t3Sum(d1.color, d2.color),
+      d1.z + d2.z ,
+      d1.locationId,
+      d1.dAlpha + d2.dAlpha)
+    
   }
   private def makeTransfromDiff(originalTr: Transforme, deltaTr: Transforme) = {
     if (!(originalTr.isInteroplatable && deltaTr.isInteroplatable))
@@ -180,7 +269,7 @@ object DeltaApplier extends Drawer {
         t1._3 - t2._3)
     val dValue = originalColor.toFloat3(colorMap)
     val oValue = deltaColor.toFloat3(colorMap)
-    (minus(dValue,oValue), deltaColor.alpha - originalColor.alpha)
+    (minus(dValue, oValue), deltaColor.alpha - originalColor.alpha)
   }
   private def makeColorDif(
     originalColor: String,
@@ -283,8 +372,8 @@ object DeltaApplier extends Drawer {
   }
   private def interpolateImages(
     ratio: Float,
-    img1: ImageRef,
-    img2: ImageRef) = {
+    img1: HTMLImageElement,
+    img2: HTMLImageElement) = {
     val r2 = 1 - ratio
     sumImages(ratio, r2, img1, img2)
 
@@ -292,17 +381,16 @@ object DeltaApplier extends Drawer {
   private def sumImages(
     ratio1: Float,
     ratio2: Float,
-    img1: ImageRef,
-    img2: ImageRef): ImageRef = {
-    val dim = img1.dimensions max img2.dimensions
+    img1: HTMLImageElement,
+    img2: HTMLImageElement): HTMLImageElement = {
+    val dim = (img1.width, img1.height) max (img2.width, img2.height)
     val myContext = new DrawingContext("", dim)
     myContext.ctx.globalAlpha = ratio1
-    drawImage(img1.htmlImage.get, "white", Nil, myContext)
+    drawImage(img1, "white", Nil, myContext)
     myContext.ctx.globalAlpha = ratio2
-    drawImage(img2.htmlImage.get, "white", Nil, myContext)
-    val r = new ImageRef("interpolated")
-    r.htmlImage = Some(myContext.canvasOrig.asInstanceOf[HTMLImageElement])
-    r
+    drawImage(img2, "white", Nil, myContext)
+    myContext.canvasOrig.asInstanceOf[HTMLImageElement]
+
   }
 
   private def interpolateNumber(

@@ -8,6 +8,7 @@ class CMImage(
     val boundColor: String,
     val z: Float,
     val displayCondition: VisibilityCondition,
+    val deltaLink  :DeltaLink,
     val name  :String) extends CMLayer {
  
   def boundColors = Seq(boundColor)
@@ -18,6 +19,7 @@ class CMImage(
       boundColor,
       z,
       displayCondition,
+      deltaLink,
       name)
   def setTransform(newTransform: Transforme) =
     new CMImage(
@@ -26,6 +28,7 @@ class CMImage(
       boundColor,
       z,
       displayCondition,
+      deltaLink,
       name)
   def setColorBond(newColor: String) =
     new CMImage(
@@ -34,6 +37,7 @@ class CMImage(
       newColor,
       z,
       displayCondition,
+      deltaLink,
       name)
   def setColorBonds(newColors: Seq[String]) =
     new CMImage(
@@ -42,6 +46,7 @@ class CMImage(
       if (newColors.isEmpty) "None" else newColors(0),
       z,
       displayCondition,
+      deltaLink,
       name)
   def setZ(newZ: Float) =
     new CMImage(
@@ -50,6 +55,7 @@ class CMImage(
       boundColor,
       newZ,
       displayCondition,
+      deltaLink,
       name)
   def setCondition(newCondition: VisibilityCondition) =
     new CMImage(
@@ -58,6 +64,7 @@ class CMImage(
       boundColor,
       z,
       newCondition,
+      deltaLink,
       name)
   def setName(newName: String) =
     new CMImage(
@@ -66,7 +73,18 @@ class CMImage(
       boundColor,
       z,
       displayCondition,
+      deltaLink,
       newName)
+  
+  def setDeltaLink(newDelta : DeltaLink) = 
+    new CMImage(
+      ref,
+      transform,
+      boundColor,
+      z,
+      displayCondition,
+      newDelta,
+      name)
   def changeId =
     new CMImage(
       ref,
@@ -74,6 +92,7 @@ class CMImage(
       boundColor,
       z,
       displayCondition,
+      deltaLink,
       name)
 
   override def toString = ref

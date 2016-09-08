@@ -236,6 +236,7 @@ object DeltaLink {
 class DeltaLink(val key: Int, val slider: String, val position: Int) {
   def isSource = slider == "None"
   def setPosition(newPos: Int) = new DeltaLink(key, slider, newPos)
+  override def toString = (key,slider,position).toString()
 }
 object DynamicColor {
   def apply() = {

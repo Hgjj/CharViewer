@@ -21,6 +21,7 @@ trait CMLayer {
   def boundColors: Seq[String]
   def z: Float
   def displayCondition: VisibilityCondition
+  def deltaLink: DeltaLink
   
   val id = CMLayer.newId
   
@@ -29,6 +30,7 @@ trait CMLayer {
   def setZ(newZ: Float): CMLayer
   def setCondition(newCondition: VisibilityCondition): CMLayer
   def setName (newName : String):CMLayer
+  def setDeltaLink(newLink: DeltaLink):CMLayer
   def changeId : CMLayer
   
 }

@@ -16,25 +16,38 @@ import unof.cv.tools.CvSetting
 import unof.cv.base.charLib.SelectShapes
 import unof.cv.base.charLib.DeltaLink
 import SharedPannelFunctions._
+import unof.cv.base.charLib.CMCategory
+import unof.cv.base.charLib.CMPart
+import unof.cv.base.charLib.CMLayer
+import unof.cv.tools.CallbackCenter
+import unof.cv.tools.CvSetting
 
-object PannelDeltas extends ShapeExclusivePannel  {
+object PannelDeltas extends LayerTypeInsensitvePannel with BasicPannel {
   def myPannel(settings: CvSetting): String = settings.deltasDiv
 
-  def displayShapeParams(shape: CMShape, callbacks: CallbackCenter, settings: CvSetting): Unit = {
+  def ifLayerSelected(callbacks: CallbackCenter, settings: CvSetting, layer: CMLayer) = {
+    show(settings)
+    
     val charmaker = callbacks.charMaker
     val deltaList = jQuery(settings.tranformationList)
     val sliderBinding = jQuery(settings.tranformationSliderSelect)
     val position = jQuery(settings.tranformationPosition)
     val sliderSuggestion = jQuery(settings.sliderList)
-    val pos = charmaker.locationMap(shape.id)
+    val pos = callbacks.selection
     val p = charmaker.getPart(pos.category, pos.part)
-    val deltaListElemts = p.shapes.zipWithIndex.filter { t => t._1.deltaLink.key == shape.deltaLink.key }
+    val deltaListElemts : Seq[(CMLayer,Int)] = 
+      pos.layerSelect.mapSelectedLayers(p){
+       _.zipWithIndex.filter { t => t._1.deltaLink.key == layer.deltaLink.key }
+    }
+     
     val tranformationSourceList = jQuery(settings.tranformationSourceList)
 
-    val deltaLink = shape.deltaLink
+    val deltaLink = layer.deltaLink
     val isShapeSource = deltaLink.isSource
 
-    val possibleSource = p.shapes.filter { _.deltaLink.isSource }
+    val possibleSource = pos.layerSelect.mapSelectedLayers(p){
+      _.filter { l=> l.deltaLink.isSource &&  l.deltaLink != deltaLink}
+    }
     val sourceList = ("-1", "No Source") +: possibleSource.map(s => (s.deltaLink.key + "", s.name))
     setNamedOptionsInList(sourceList, tranformationSourceList)
 
@@ -48,12 +61,12 @@ object PannelDeltas extends ShapeExclusivePannel  {
       deltaList.hide(500)
     } else {
       val source = if (isShapeSource)
-        (shape, pos.layer)
+        (layer, pos.layer)
       else deltaListElemts.find(_._1.deltaLink.slider == "None") match {
-        case Some(s) =>
-          tranformationSourceList.value("" + s._1.deltaLink.key)
-          s
-        case None => throw new Exception("PannelDelta : the delta group of " + shape.name + "have no source")
+        case Some(l) =>
+          tranformationSourceList.value("" + l._1.deltaLink.key)
+          l
+        case None => throw new Exception("PannelDelta : the delta group of " + layer.name + "have no source")
       }
 
       val src = ("" + source._2, source._1.name + "  (Source)")
@@ -69,6 +82,9 @@ object PannelDeltas extends ShapeExclusivePannel  {
     setOptionsInList("None" +: charmaker.sliders, sliderSuggestion)
 
   }
+  def ifPartSelected(callbacks: CallbackCenter, settings: CvSetting, part: CMPart) = hide(settings)
+  def ifCategorySelected(callbacks: CallbackCenter, settings: CvSetting, cat: CMCategory) = hide(settings)
+  
 
   def bind(callbacks: CallbackCenter, settings: CvSetting) {
 
@@ -87,7 +103,7 @@ object PannelDeltas extends ShapeExclusivePannel  {
 
   private def deltaListChange(callbacks: CallbackCenter, list: JQuery)(evt: JQueryEventObject) = {
     val selected = list.value().toString().toInt
-    callbacks.onLayerSelected(selected, SelectShapes)
+    callbacks.onLayerSelected(selected, callbacks.selection.layerSelect)
   }
   private def changePosition(callbacks: CallbackCenter, input: JQuery)(evt: JQueryEventObject) = {
     val newPos = input.value().toString().toInt
@@ -109,7 +125,7 @@ object PannelDeltas extends ShapeExclusivePannel  {
       } else {
         new DeltaLink(sourceKey,sliderName,pos)
       }
-      callbacks.onShapeDeltaLinkChanged(link)
+      callbacks.onDeltaLinkChanged(link)
     }
 
   }

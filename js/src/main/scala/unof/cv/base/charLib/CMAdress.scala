@@ -46,14 +46,14 @@ sealed class CMAdress(
     val layerSelect: LayersSelector) {
 
   def getCategory(cm: CharacterLibrary) = {
-    if(category<0)
+    if (category < 0)
       None
     else
       Some(cm.categories(category))
   }
   def getLayer(cm: CharacterLibrary) = {
     getPart(cm) match {
-      case None =>
+      case None => None
       case Some(sPart) =>
         layerSelect match {
           case SelectShapes =>
@@ -155,8 +155,8 @@ sealed class CMAdress(
     else
       throw new NoSuchElementException("Empty selection mapping")
   }
-  
-  def nameSelected(cm : CharacterLibrary) = {
+
+  def nameSelected(cm: CharacterLibrary) = {
     mapSelected(cm, _.name, _.partName, _.categoryName)
   }
 }
@@ -174,6 +174,10 @@ sealed trait LayersSelector {
   def forShapes(part: CMPart)(f: (Seq[CMShape]) => Unit)
   def forAnyLayers(part: CMPart)(f: (Seq[CMLayer]) => Unit)
 
+  def mapSelectedImages[A](part: CMPart)(f: (Seq[CMImage]) => Seq[A]): Seq[A]
+  def mapSelectedShapes[A](part: CMPart)(f: (Seq[CMShape]) => Seq[A]): Seq[A]
+  def mapSelectedLayers[A](part: CMPart)(f: (Seq[CMLayer]) => Seq[A]): Seq[A]
+
   def updateImages(part: CMPart)(f: (Seq[CMImage]) => Seq[CMLayer]): Seq[CMLayer]
   def updateShapes(part: CMPart)(f: (Seq[CMShape]) => Seq[CMLayer]): Seq[CMLayer]
   def updateAnyLayers(part: CMPart)(f: (Seq[CMLayer]) => Seq[CMLayer]): (Seq[CMLayer], Seq[CMLayer])
@@ -183,6 +187,10 @@ object SelectImages extends LayersSelector {
   def forImages(part: CMPart)(f: (Seq[CMImage]) => Unit) = f(part.images)
   def forShapes(part: CMPart)(f: (Seq[CMShape]) => Unit) = {}
   def forAnyLayers(part: CMPart)(f: (Seq[CMLayer]) => Unit) = f(part.images)
+
+  def mapSelectedImages[A](part: CMPart)(f: (Seq[CMImage]) => Seq[A]): Seq[A] = f(part.images)
+  def mapSelectedShapes[A](part: CMPart)(f: (Seq[CMShape]) => Seq[A]): Seq[A] = Nil
+  def mapSelectedLayers[A](part: CMPart)(f: (Seq[CMLayer]) => Seq[A]): Seq[A] = f(part.images)
 
   def updateImages(part: CMPart)(f: (Seq[CMImage]) => Seq[CMLayer]): Seq[CMLayer] =
     f(part.images)
@@ -196,6 +204,10 @@ object SelectShapes extends LayersSelector {
   def forShapes(part: CMPart)(f: (Seq[CMShape]) => Unit) = f(part.shapes)
   def forAnyLayers(part: CMPart)(f: (Seq[CMLayer]) => Unit) = f(part.shapes)
 
+  def mapSelectedImages[A](part: CMPart)(f: (Seq[CMImage]) => Seq[A]): Seq[A] = Nil
+  def mapSelectedShapes[A](part: CMPart)(f: (Seq[CMShape]) => Seq[A]): Seq[A] = f(part.shapes)
+  def mapSelectedLayers[A](part: CMPart)(f: (Seq[CMLayer]) => Seq[A]): Seq[A] = f(part.shapes)
+
   def updateImages(part: CMPart)(f: (Seq[CMImage]) => Seq[CMLayer]): Seq[CMLayer] =
     part.images
   def updateShapes(part: CMPart)(f: (Seq[CMShape]) => Seq[CMLayer]): Seq[CMLayer] =
@@ -207,6 +219,10 @@ object SelectNone extends LayersSelector {
   def forImages(part: CMPart)(f: (Seq[CMImage]) => Unit) = {}
   def forShapes(part: CMPart)(f: (Seq[CMShape]) => Unit) = {}
   def forAnyLayers(part: CMPart)(f: (Seq[CMLayer]) => Unit) = {}
+
+  def mapSelectedImages[A](part: CMPart)(f: (Seq[CMImage]) => Seq[A]): Seq[A] = Nil
+  def mapSelectedShapes[A](part: CMPart)(f: (Seq[CMShape]) => Seq[A]): Seq[A] = Nil
+  def mapSelectedLayers[A](part: CMPart)(f: (Seq[CMLayer]) => Seq[A]): Seq[A] = Nil
 
   def updateImages(part: CMPart)(f: (Seq[CMImage]) => Seq[CMLayer]): Seq[CMLayer] =
     part.images

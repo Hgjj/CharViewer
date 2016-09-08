@@ -267,3 +267,9 @@ cVJS/fastOptJS
 exit
 cVJS/fullOptJS
 exit
+cVJS/fastOptJS
+cVJS/fullOptJS
+cVJS/fastOptJS
+cVJS/fullOptJS
+git status
+exit

@@ -9,4 +9,5 @@ trait JSImage extends js.Object {
   def z_layer : Number
   def condition : js.Array[String]
   def name : String
+  def deltaLink : JSDelta
 }

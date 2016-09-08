@@ -117,8 +117,7 @@ class CallbackCenter(
 
   def charMaker = stat.charMaker
   private def charMaker_=(cm: CharacterLibrary) {
-    
-    resetSliders
+
     validateChoices(stat.charMaker, cm)
     validateSelection(cm)
     validateColors(stat.charMaker, cm)
@@ -193,15 +192,15 @@ class CallbackCenter(
   }
 
   private def curentCharacter(onload: (Character) => Unit) = {
-    selection.forSelectedShape(charMaker) {
-      s =>
-        val deltaLink = s.deltaLink
+    selection.forWhateverSelected(charMaker) {
+      l =>
+        val deltaLink = l.deltaLink
         if (!deltaLink.isSource) {
           val i = charMaker.sliders.indexOf(deltaLink.slider)
           slidersValues = slidersValues.updated(i, deltaLink.position)
         }
     }
-    CharacterMaker(charMaker,choices, colorMask, slidersValues, Seq(globalTransform))(onload)
+    CharacterMaker(charMaker, choices, colorMask, slidersValues, Seq(globalTransform))(onload)
   }
 
   private def updateChar = curentCharacter { drawChar }
@@ -444,8 +443,8 @@ class CallbackCenter(
                     s == selection.layer &&
                     selection.layerSelect == SelectShapes) {
                     selectedCurveComand = -1
-                    drawChar(c)
-                    selection.forSelectedShape(charMaker) { s => resetSliders; updateChar }
+                    resetSliders
+                    updateChar
                     SlidersMenu.update(this, setting)
                   }
                 case _ =>
@@ -457,6 +456,9 @@ class CallbackCenter(
           val tr = p.partTransform
           distHeldMouse = stat.globalInvertTransform * local - (tr.dx, tr.dy)
           partHeld = true
+          resetSliders;
+          updateChar
+          SlidersMenu.update(this, setting)
         }
         selection.forSelected(charMaker, ifLayer _, ifPart _, (c) => Unit)
         ParMenuDrawer.update(setting, this)
@@ -547,17 +549,17 @@ class CallbackCenter(
       val c = shape.colors(colorIndex)
       shape.setColors(shape.colors.updated(colorIndex, c.setConstantColor(newVal)))
     }
-    
+
     val CMAdress(cat, opt, ref, _) = selection
     charMaker = charMaker.updateShape(cat, opt, ref, f _)
     updateChar
   }
 
-  def onShapeColorChanged(newColor: DynamicColor, colorIndex  :Int) = {
+  def onShapeColorChanged(newColor: DynamicColor, colorIndex: Int) = {
     def f(shape: CMShape) = {
       shape.setColors(shape.colors.updated(colorIndex, newColor))
     }
-    
+
     val CMAdress(cat, opt, ref, _) = selection
     charMaker = charMaker.updateShape(cat, opt, ref, f _)
     updateChar
@@ -615,7 +617,7 @@ class CallbackCenter(
         reqNameCat()
       }
     }
-    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible, "Nothing")
+    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible, DeltaLink(), "Nothing")
     val emptyPart = new CMPart("Empty", Seq(noImage), Nil, Transforme(), 0, CMPart.newLinkKey)
 
     val oldCm = charMaker
@@ -630,14 +632,14 @@ class CallbackCenter(
     val CMAdress(c, p, _, _) = selection
     def f(part: CMPart) = {
       def newComp(s: String) =
-        new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, simpleRef(s))
+        new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, DeltaLink(), simpleRef(s))
       val newPart = part.setImages((part.images ++ refs.map(newComp)).sortBy { _.ref })
       charMaker = charMaker.updated(c, p, newPart)
     }
     def g(cat: CMCategory) = {
 
       val newParts = refs
-        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, simpleRef(s)))
+        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, DeltaLink(), simpleRef(s)))
         .map(i => new CMPart(i.ref, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)) ++
         cat.possibleParts
       val newCat = new CMCategory(cat.categoryName, newParts.sortBy(_.partName))
@@ -766,24 +768,18 @@ class CallbackCenter(
       selection = CMAdress(category, charMaker.categories(category).possibleParts.indexOf(newPart))
       choices = choices.updated(category, part)
     }
-    def copyImage(img: CMImage) = {
-      val newLayer = img.changeId
-      charMaker = charMaker.add(category, part, newLayer)
-      choices = choices.updated(category, part)
-      selection = charMaker.locationMap(newLayer.id)
-    }
-    def copyShape(shape: CMShape) = {
-      val d = shape.deltaLink
+    def copyLayer(layer: CMLayer) = {
+      val d = layer.deltaLink
       val newLayer = if (d.isSource) {
-        shape.setDeltaLink(DeltaLink())
+        layer.setDeltaLink(DeltaLink())
       } else {
-        shape
+        layer
       }.changeId
       charMaker = charMaker.add(category, part, newLayer)
       choices = choices.updated(category, part)
       selection = charMaker.locationMap(newLayer.id)
     }
-    selection.forSelected(charMaker, copyImage(_), copyShape _, copyPart(_), copyCat(_))
+    selection.forSelected(charMaker, copyLayer _, copyPart(_), copyCat(_))
     updateAll(oldCm, oldChoices)
   }
   def onPartCreated(partName: String) = {
@@ -810,7 +806,7 @@ class CallbackCenter(
       }
     }
 
-    val i = new CMImage("None", Transforme(), "None", 0, AlwayVisible, "Nothing")
+    val i = new CMImage("None", Transforme(), "None", 0, AlwayVisible, DeltaLink(), "Nothing")
     val p = new CMPart(okPartName, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)
     val oldCM = charMaker
     charMaker = charMaker.add(selection.category, p)
@@ -837,7 +833,7 @@ class CallbackCenter(
     updateAll(oldCM, choices)
   }
   def onImageCreated = {
-    val image = new CMImage("None", Transforme(), "None", 0, AlwayVisible, "Nothing")
+    val image = new CMImage("None", Transforme(), "None", 0, AlwayVisible, DeltaLink(), "Nothing")
     val oldCM = charMaker
     charMaker = charMaker.add(selection.category, selection.part, image)
     updateAll(oldCM, choices)
@@ -865,30 +861,42 @@ class CallbackCenter(
     def deletPart(p: CMPart) {
       charMaker = charMaker.remove(category, part).enforceLinkConsitancy
     }
-    def deletShape(s: CMShape) {
+    def deletLayer(l: CMLayer) {
       val newCm = charMaker.remove(selection)
       val hostCat = newCm.getPart(category, part)
-      if (s.deltaLink.isSource) {
-        val newShapes = hostCat.shapes.map {
-          shape =>
-            if (s.deltaLink.key == shape.deltaLink.key)
-              shape.setDeltaLink(DeltaLink())
-            else
-              shape
+      if (l.deltaLink.isSource) {
+        selection.forSelectedShape(charMaker) {
+          s =>
+            val newShapes = hostCat.shapes.map {
+              shape =>
+                if (s.deltaLink.key == shape.deltaLink.key)
+                  shape.setDeltaLink(DeltaLink())
+                else
+                  shape
+            }
+            charMaker = newCm.updated(category, part, hostCat.setShapes(newShapes))
         }
-        charMaker = newCm.updated(category, part, hostCat.setShapes(newShapes))
+        selection.forSelectedImage(charMaker) {
+          i =>
+            val newImages = hostCat.images.map {
+              image =>
+                if (image.deltaLink.key == i.deltaLink.key)
+                  image.setDeltaLink(DeltaLink())
+                else
+                  image
+            }
+            charMaker = newCm.updated(category, part, hostCat.setImages(newImages))
+        }
       } else
         charMaker = newCm
 
     }
-    def deletImage(i: CMImage) {
-      charMaker = charMaker.remove(selection)
-    }
-    selection.forSelected(charMaker, deletImage, deletShape, deletPart, deletCat)
+
+    selection.forSelected(charMaker, deletLayer, deletPart, deletCat)
     if (charMaker != oldCM)
       updateAll(oldCM, choices)
   }
-  def onImageTransformed(movement: (Transforme, Float) => (Transforme, Float)):Unit = {
+  def onImageTransformed(movement: (Transforme, Float) => (Transforme, Float)): Unit = {
     val CMAdress(category, part, image, _) = selection
     def f(p: CMLayer) = {
 
@@ -916,7 +924,7 @@ class CallbackCenter(
   }
   def onImageBoundColorChange(newBoundColor: String, colorIndex: Int) = {
     val CMAdress(category, part, image, _) = selection
-   
+
     def setImageColor(cmi: CMImage) = {
       cmi.setColorBond(newBoundColor)
     }
@@ -945,11 +953,11 @@ class CallbackCenter(
     charMaker = charMaker.updated(selection, change)
     updateAll(oldCM, choices)
   }
-   def onShapeChanged(change: (CMShape) => CMShape) {
+  def onShapeChanged(change: (CMShape) => CMShape) {
     val oldCM = charMaker
-    
-    charMaker = 
-      charMaker.updateShape(selection.category,selection.part,selection.layer, change)
+
+    charMaker =
+      charMaker.updateShape(selection.category, selection.part, selection.layer, change)
     updateAll(oldCM, choices)
   }
   def onImageRefChanged(newImageRef: String) = {
@@ -1087,25 +1095,31 @@ class CallbackCenter(
     charMaker = charMaker.updated(category, part, newPart)
     updateAll(oldCM, choices)
   }
-  def onShapeDeltaLinkChanged(newDelta: DeltaLink) = {
+  def onDeltaLinkChanged(newDelta: DeltaLink) = {
     val oldCM = charMaker
     val targetPart = charMaker.getPart(selection.category, selection.part)
-    val target = targetPart.shapes(selection.layer)
+    val target = selection.getLayer(charMaker).get
     val oldDelta = target.deltaLink
+    def refreshLayerLink[A <: CMLayer](seq: Seq[A]) = seq.map {
+      s =>
+        if (s.deltaLink.key == oldDelta.key) {
+          s.setDeltaLink(DeltaLink()).asInstanceOf[A]
+        } else
+          s
+    }.updated(selection.layer, target.setDeltaLink(newDelta).asInstanceOf[A])
     if (oldDelta.isSource) {
       if (!newDelta.isSource) {
-        val newShapes = targetPart.shapes.map {
-          s =>
-            if (s.deltaLink.key == oldDelta.key) {
-              s.setDeltaLink(DeltaLink())
-            } else
-              s
-        }.updated(selection.layer, target.setDeltaLink(newDelta))
-
+        val newPart = selection.layerSelect match {
+          case SelectImages =>
+            targetPart.setImages(refreshLayerLink(targetPart.images))
+          case SelectShapes =>
+            targetPart.setShapes(refreshLayerLink(targetPart.shapes))
+          case other => throw new UnsupportedOperationException("Can't change delta link of "+other)
+        }
         charMaker = charMaker.updated(
           selection.category,
           selection.part,
-          targetPart.setShapes(newShapes))
+          newPart)
         updateAll(oldCM, choices)
       }
     } else {
@@ -1152,7 +1166,8 @@ class CallbackCenter(
     selection = CMAdress(selection.category, selection.part, selected, select)
     ParMenuDrawer.update(setting, this)
 
-    selection.forSelectedShape(charMaker) { s => resetSliders; updateChar }
+    resetSliders;
+    updateChar
     SlidersMenu.update(this, setting)
   }
   def onPartSelected(selected: Int) = {
@@ -1172,12 +1187,12 @@ class CallbackCenter(
     updateChar
   }
   def onDeltaMovedOnSlider(newPosition: Int) = {
-    selection.forSelectedShape(charMaker) {
-      s =>
-        val d = s.deltaLink
+    selection.forWhateverSelected(charMaker) {
+      l =>
+        val d = l.deltaLink
         if (!d.isSource) {
           val oldCM = charMaker
-          charMaker = charMaker.updated(selection, s.setDeltaLink(d.setPosition(newPosition)))
+          charMaker = charMaker.updated(selection, l.setDeltaLink(d.setPosition(newPosition)))
           updateAll(oldCM, choices)
         }
     }

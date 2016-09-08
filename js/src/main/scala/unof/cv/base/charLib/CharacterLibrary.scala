@@ -5,7 +5,6 @@ import java.util.NoSuchElementException
 import unof.cv.base.charLib.CMAdress.toT4
 import unof.cv.utils.Transforme
 
-
 class CharacterLibrary(
     val categories: Seq[CMCategory],
     colorsIn: Seq[String],
@@ -210,7 +209,8 @@ class CharacterLibrary(
 
     val newMap = updatedMap(img)
     val newColors = extractColorsNames(img) ++ colors
-    new CharacterLibrary(newCats, newColors.toSeq, sliders, newMap)
+    val newSliders = extractSliderNames(img) ++ sliders
+    new CharacterLibrary(newCats, newColors.toSeq, newSliders.toSeq, newMap)
 
   }
   def add(cat: Int, opt: Int, shape: CMShape): CharacterLibrary = {
@@ -363,8 +363,10 @@ class CharacterLibrary(
 
     val newMap = updatedMap(image)
     val newColors = extractColorsNames(image) ++ colors
+    
+    val newSliders = extractSliderNames(image) ++ sliders
 
-    new CharacterLibrary(newCats, newColors.toSeq, sliders, newMap)
+    new CharacterLibrary(newCats, newColors.toSeq, newSliders.toSeq, newMap)
   }
   def add(targetCat: String, targetPart: String, layer: CMLayer): CharacterLibrary =
     layer match {
@@ -374,7 +376,7 @@ class CharacterLibrary(
         add(targetCat, targetPart, shape)
     }
   def newImage(targetCat: String, targetPart: String, ref: String) = {
-    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible, ref)
+    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible, DeltaLink(), ref)
     add(targetCat, targetPart, newComponent)
   }
   def updated(cat: Int, newCat: CMCategory): CharacterLibrary = {
@@ -442,7 +444,12 @@ class CharacterLibrary(
     else
       newCats.flatMap { extractColorsNames }.toSet.toSeq
 
-    new CharacterLibrary(newCats, newColors, sliders, newMap)
+    val newSliders = if (extractSliderNames(newImage) == extractSliderNames(oldImg))
+      sliders
+    else
+      newCats.flatMap { extractSliderNames }.toSet.toSeq
+
+    new CharacterLibrary(newCats, newColors, newSliders, newMap)
   }
   def updateShape(cat: Int, opt: Int, com: Int, f: (CMShape) => CMShape): CharacterLibrary = {
 
@@ -584,11 +591,11 @@ class CharacterLibrary(
     map(check, check)
   }
 
-  def extractSliderNames(s: CMShape): Set[String] = {
-    Set(s.deltaLink.slider) - "None"
+  def extractSliderNames(l: CMLayer): Set[String] = {
+    Set(l.deltaLink.slider) - "None"
   }
   def extractSliderNames(p: CMPart): Set[String] =
-    p.shapes.flatMap(extractSliderNames).toSet
+    p.components.flatMap(extractSliderNames).toSet
   def extractSliderNames(c: CMCategory): Set[String] =
     c.possibleParts.flatMap(extractSliderNames).toSet
   def extractSliderNames: Set[String] =

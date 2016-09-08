@@ -18,7 +18,8 @@ class CharacterImagePart(
     val image : Image,
     val color : String,
     val transforms:Seq[Transforme],
-    val imageId : Int
+    val imageId : Int,
+    val alpha : Float  = 1
   )extends CharacterPart{
   
 }

@@ -76,10 +76,10 @@ object CharLibBuilder {
         getOrElse(() => parseCondition(c.condition), AlwayVisible)
       def getColors() = {
         c.colorVariables.map {
-            col =>
-              usedColors += col.boundColor
-              new DynamicColor(col.boundColor, AllKnownColors.colorThis(col.constantColor), col.alpha.floatValue())
-          }
+          col =>
+            usedColors += col.boundColor
+            new DynamicColor(col.boundColor, AllKnownColors.colorThis(col.constantColor), col.alpha.floatValue())
+        }
       }
       val colors =
         getOrElse[Seq[DynamicColor]](getColors, Seq(DynamicColor(), DynamicColor()))
@@ -109,13 +109,20 @@ object CharLibBuilder {
       usedColors += c.colorVariable
       val condition =
         getOrElse(() => parseCondition(c.condition), AlwayVisible)
-
+      val delta = getOrElse(() => {
+        val d = c.deltaLink
+        val k = keyOfLink(d.key.intValue())
+        DeltaLink(k, d.slider, d.position.intValue())
+      }, DeltaLink())
+      if (delta.slider != "None")
+        usedSlider += delta.slider
       new CMImage(
         c.imageRef,
         getOrElse(() => Transforme(c.transform), Transforme()),
         c.colorVariable,
         getOrElse(() => c.z_layer.floatValue(), 0f),
         condition,
+        delta,
         getOrElse(() => c.name, c.imageRef))
     }
     def readLayer(d: Dynamic): CMLayer = {
@@ -177,6 +184,7 @@ object CharLibBuilder {
         ("None", noneRef)
       }).toMap
     val colors = (usedColors.toSet - "None").toSeq
+    println("LibBuilder :sliders "+usedSlider)
     new CharacterLibrary(
       categories.sortBy { _.categoryName },
       colors,

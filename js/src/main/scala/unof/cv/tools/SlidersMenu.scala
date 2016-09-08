@@ -5,6 +5,7 @@ import org.scalajs.jquery.JQuery
 import org.scalajs.jquery.JQueryEventObject
 import unof.cv.base.charLib.CMShape
 import unof.cv.base.charLib.DeltaLink
+import unof.cv.base.charLib.CMLayer
 
 object SlidersMenu {
   def create(callbacks: CallbackCenter, settings: CvSetting) = {
@@ -31,15 +32,15 @@ object SlidersMenu {
       if (callbacks.selection.category > 0)
         callbacks.selection.mapSelected(
           callbacks.charMaker,
-          (i) => DeltaLink(), (s) => s.deltaLink, (p) => DeltaLink(), (c) => DeltaLink())
+          (l) => l.deltaLink, (p) => DeltaLink(), (c) => DeltaLink())
       else
         DeltaLink()
     val slidesDivName = setting.slidersDiv
     val slidesDiv = jQuery(slidesDivName)
     var rangeMap = Map[String, (Int, Int)]()
 
-    def checkShape(s: CMShape): Unit = {
-      val d = s.deltaLink
+    def checkLayer(l: CMLayer): Unit = {
+      val d = l.deltaLink
       if (d.slider != "None") {
         val oldEntry = rangeMap.get(d.slider) match {
           case None =>
@@ -52,7 +53,7 @@ object SlidersMenu {
     }
     callbacks.charMaker.categories foreach {
       _.possibleParts foreach {
-        _.shapes.foreach(checkShape)
+        _.components.foreach(checkLayer)
       }
     }
     val newSlidesName = callbacks.charMaker.sliders
