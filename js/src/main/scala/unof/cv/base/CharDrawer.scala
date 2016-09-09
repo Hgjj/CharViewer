@@ -14,7 +14,7 @@ object DrawChar extends Drawer {
         try {
           l match {
             case part: CharacterImagePart =>
-              drawImage(part.image, part.color, char.transforms ++ part.transforms , context)
+              drawImage(part.image, part.color, char.transforms ++ part.transforms ,part.alpha, context)
             case shape: CharacterShapePart =>
               drawShape(
                 shape.controlPoints,

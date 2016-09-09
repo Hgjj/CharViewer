@@ -78,7 +78,7 @@ trait Drawer {
     }
     
   }
-  def drawImage(img: Image, color: String, ts: Seq[Transforme], context: DrawingContext) = {
+  def drawImage(img: Image, color: String, ts: Seq[Transforme],alpha : Float, context: DrawingContext) = {
     val ctx = context.ctx;
     ctx.setTransform(1, 0, 0, 1, 0, 0)
     
@@ -86,9 +86,9 @@ trait Drawer {
       t =>
         ctx.transform(t.m11, t.m12, t.m21, t.m22, t.dx, t.dy)
     }
-
+    ctx.globalAlpha = alpha
     if (color != "white" && color.tail.exists { _.toLower != 'f' }) {
-
+      
       layerCanvas.width = img.width;
       layerCanvas.height = img.height;
       layerContext.setTransform(1, 0, 0, 1, 0, 0);

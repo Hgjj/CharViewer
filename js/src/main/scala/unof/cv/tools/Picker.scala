@@ -19,7 +19,7 @@ object Picker extends Drawer {
       part match {
         case img: CharacterImagePart =>
           !(img.image.src == "") && {
-            drawImage(img.image, "white", char.transforms ++ img.transforms, myContext)
+            drawImage(img.image, "white", char.transforms ++ img.transforms,img.alpha, myContext)
             myContext.ctx.getImageData(at.x, at.y, 1, 1).data(3) > 0
           }
         case shape: CharacterShapePart =>

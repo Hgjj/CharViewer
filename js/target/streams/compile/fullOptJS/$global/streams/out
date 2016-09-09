@@ -1,19 +1,19 @@
 [0m[[0minfo[0m] [0mFull optimizing C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\scala-2.11\charecter-viewer-opt.js[0m
-[0m[[0mdebug[0m] [0mLinker: Compute reachability: 60918 us[0m
-[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 17902 us[0m
-[0m[[0mdebug[0m] [0mBasic Linking: 80710 us[0m
+[0m[[0mdebug[0m] [0mLinker: Compute reachability: 109622 us[0m
+[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 72522 us[0m
+[0m[[0mdebug[0m] [0mBasic Linking: 186244 us[0m
 [0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: false[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 21191 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 167 methods.[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 145104 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: 170860 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 79685 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 4323 us[0m
-[0m[[0mdebug[0m] [0mRefiner: 84169 us[0m
-[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 88 -- invalidated: 471[0m
-[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3660 -- invalidated: 139[0m
-[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 483379 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 17036 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 4 methods.[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 10177 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: 31163 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 94745 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 6257 us[0m
+[0m[[0mdebug[0m] [0mRefiner: 101183 us[0m
+[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 123 -- invalidated: 436[0m
+[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3795 -- invalidated: 4[0m
+[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 436865 us[0m
 [0m[[0minfo[0m] [0mClosure: 0 error(s), 0 warning(s)[0m
-[0m[[0mdebug[0m] [0mClosure: Compiler pass: 9337225 us[0m
-[0m[[0mdebug[0m] [0mClosure: Write result: 1571694 us[0m
-[0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 200 -- invalidated: 6 -- trees read: 6[0m
+[0m[[0mdebug[0m] [0mClosure: Compiler pass: 7334737 us[0m
+[0m[[0mdebug[0m] [0mClosure: Write result: 1101065 us[0m
+[0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 203 -- invalidated: 3 -- trees read: 3[0m

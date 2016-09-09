@@ -18,16 +18,17 @@ object DeltaApplier extends Drawer {
 
   def makeDiffImage(imageMap: Map[String, ImageRef])(original: CMImage, delta: CMImage, colorMap: Map[String, String]) = {
 
-    
     val dColor = makeColorDif(colorMap(original.boundColor), colorMap(delta.boundColor))
     val oSrc = original.ref
     val dSrc = delta.ref
-    val (r, a) = if (oSrc == dSrc)
+    val (r, a) = if (original == delta)
+      (imageMap(oSrc).htmlImage, 0)
+    else if (oSrc == dSrc)
       (None, 0)
     else if (oSrc == "None")
       (imageMap(dSrc).htmlImage, 1)
     else if (dSrc == "None")
-      (imageMap(oSrc).htmlImage, -1)
+      (None, -1)
     else
       (imageMap(dSrc).htmlImage, 0)
 
@@ -78,6 +79,7 @@ object DeltaApplier extends Drawer {
       original.closed,
       delta.id)
   }
+
   def applyDiffShape(to: CMShape, diff: DiffShape, colorMap: Map[String, String], additionalTransforms: Seq[Transforme]) = {
     def s(a: Float, b: Float) = 1f min (a + b) max 0f
     def colorSum(d: DynamicColor, c: (Float, Float, Float)) = {
@@ -153,7 +155,7 @@ object DeltaApplier extends Drawer {
       d1.closed,
       idOfClosest)
   }
-  def interpolateDiffImage(src : HTMLImageElement)(r1: Float, d1: DiffImage, d2: DiffImage) = {
+  def interpolateDiffImage(r1: Float, d1: DiffImage, d2: DiffImage) = {
     if (r1 < 0 || r1 > 1)
       throw new IllegalArgumentException("interpolationratio must be in [0,1]." + r1 + " isn't.")
     val r2 = 1 - r1
@@ -168,11 +170,11 @@ object DeltaApplier extends Drawer {
     else
       d2.locationId
 
-    val interpolatedImage = (d1.image,d2.image) match {
-      case (None,None) => None
-      case (Some(img),None)=> Some(interpolateImages(r1, img, src))
-      case (None,Some(img))=> Some(interpolateImages(r1, src,img))
-      case (Some(img1),Some(img2))=> Some(interpolateImages(r1, img1,img2))
+    val interpolatedImage = (d1.image, d2.image) match {
+      case (None, None)             => None
+      case (Some(img), None)        => Some(img)
+      case (None, Some(img))        => Some(img)
+      case (Some(img1), Some(img2)) => Some(interpolateImages(r1, img1, img2))
     }
 
     new DiffImage(
@@ -204,7 +206,7 @@ object DeltaApplier extends Drawer {
       d1.locationId)
   }
   def sumDiffImage(d1: DiffImage, d2: DiffImage) = {
-  
+
     def t3Sum(a: (Float, Float, Float), b: (Float, Float, Float)) =
       (
         a._1 + b._1,
@@ -223,14 +225,14 @@ object DeltaApplier extends Drawer {
               Some(interpolateImages(0.5f, img1, img2))
         }
     }
-     new DiffImage(
+    new DiffImage(
       summedImage,
-      sumTransfromDiff( d1.transform, d2.transform),
+      sumTransfromDiff(d1.transform, d2.transform),
       t3Sum(d1.color, d2.color),
-      d1.z + d2.z ,
+      d1.z + d2.z,
       d1.locationId,
       d1.dAlpha + d2.dAlpha)
-    
+
   }
   private def makeTransfromDiff(originalTr: Transforme, deltaTr: Transforme) = {
     if (!(originalTr.isInteroplatable && deltaTr.isInteroplatable))
@@ -267,8 +269,8 @@ object DeltaApplier extends Drawer {
       (t1._1 - t2._1,
         t1._2 - t2._2,
         t1._3 - t2._3)
-    val dValue = originalColor.toFloat3(colorMap)
-    val oValue = deltaColor.toFloat3(colorMap)
+    val oValue = originalColor.toFloat3(colorMap)
+    val dValue = deltaColor.toFloat3(colorMap)
     (minus(dValue, oValue), deltaColor.alpha - originalColor.alpha)
   }
   private def makeColorDif(
@@ -385,10 +387,8 @@ object DeltaApplier extends Drawer {
     img2: HTMLImageElement): HTMLImageElement = {
     val dim = (img1.width, img1.height) max (img2.width, img2.height)
     val myContext = new DrawingContext("", dim)
-    myContext.ctx.globalAlpha = ratio1
-    drawImage(img1, "white", Nil, myContext)
-    myContext.ctx.globalAlpha = ratio2
-    drawImage(img2, "white", Nil, myContext)
+    drawImage(img1, "white", Nil, ratio1, myContext)
+    drawImage(img2, "white", Nil, ratio2, myContext)
     myContext.canvasOrig.asInstanceOf[HTMLImageElement]
 
   }

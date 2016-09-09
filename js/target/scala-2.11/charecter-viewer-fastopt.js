@@ -1053,7 +1053,7 @@ function $isArrayOf_Lunof_cv_base_CharacterPart(obj, depth) {
 function $asArrayOf_Lunof_cv_base_CharacterPart(obj, depth) {
   return (($isArrayOf_Lunof_cv_base_CharacterPart(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lunof.cv.base.CharacterPart;", depth))
 }
-function $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__Lunof_cv_base_DrawingContext__V($$this, img, color, ts, context) {
+function $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__F__Lunof_cv_base_DrawingContext__V($$this, img, color, ts, alpha, context) {
   var ctx = context.ctx$1;
   ctx.setTransform(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
   ts.foreach__F1__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(ctx$1) {
@@ -1062,6 +1062,7 @@ function $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_sc
       ctx$1.transform(t.m11$1, t.m12$1, t.m21$1, t.m22$1, t.dx$1, t.dy$1)
     })
   })(ctx)));
+  ctx.globalAlpha = alpha;
   if ((color !== "white")) {
     var this$2 = new $c_sci_StringOps().init___T(color);
     var x = $as_T($s_sc_IndexedSeqOptimized$class__tail__sc_IndexedSeqOptimized__O(this$2));
@@ -11272,6 +11273,9 @@ function $h_Lunof_cv_tools_SlidersMenu$() {
   /*<skip>*/
 }
 $h_Lunof_cv_tools_SlidersMenu$.prototype = $c_Lunof_cv_tools_SlidersMenu$.prototype;
+$c_Lunof_cv_tools_SlidersMenu$.prototype.init___ = (function() {
+  return this
+});
 $c_Lunof_cv_tools_SlidersMenu$.prototype.unof$cv$tools$SlidersMenu$$checkLayer$1__Lunof_cv_base_charLib_CMLayer__sr_ObjectRef__V = (function(l, rangeMap$1) {
   var d = l.deltaLink__Lunof_cv_base_charLib_DeltaLink();
   if ((d.slider$1 !== "None")) {
@@ -11296,9 +11300,6 @@ $c_Lunof_cv_tools_SlidersMenu$.prototype.unof$cv$tools$SlidersMenu$$checkLayer$1
     var y = new $c_s_Tuple2$mcII$sp().init___I__I(((x$1 < that) ? x$1 : that), ((x$2 > that$1) ? x$2 : that$1));
     rangeMap$1.elem$1 = jsx$1.$$plus__T2__sci_Map(new $c_T2().init___O__O(self, y))
   }
-});
-$c_Lunof_cv_tools_SlidersMenu$.prototype.init___ = (function() {
-  return this
 });
 $c_Lunof_cv_tools_SlidersMenu$.prototype.update__Lunof_cv_tools_CallbackCenter__Lunof_cv_tools_CvSetting__V = (function(callbacks, setting) {
   var this$1 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
@@ -16474,7 +16475,7 @@ $c_Lunof_cv_base_DeltaApplier$.prototype.sumDiffImage__Lunof_cv_base_DiffImage__
       var summedImage = (($as_T(img1.src) === $as_T(img2.src)) ? new $c_s_Some().init___O(img1) : new $c_s_Some().init___O(this.interpolateImages__p1__F__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement(0.5, img1, img2)))
     }
   };
-  return new $c_Lunof_cv_base_DiffImage().init___s_Option__Lunof_cv_utils_Transforme__T3__F__I__F(summedImage, this.sumTransfromDiff__p1__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(d1.transform$1, d2.transform$1), this.t3Sum$1__p1__T3__T3__T3(d1.color$1, d2.color$1), $fround((d1.z$1 + d2.z$1)), d1.locationId$1, $fround((d1.dAlpha$1 + d2.dAlpha$1)))
+  return new $c_Lunof_cv_base_DiffImage().init___s_Option__Lunof_cv_utils_Transforme__T3__F__I__F(summedImage, this.sumTransfromDiff__p1__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(d1.transform$1, d2.transform$1), this.t3Sum$2__p1__T3__T3__T3(d1.color$1, d2.color$1), $fround((d1.z$1 + d2.z$1)), d1.locationId$1, $fround((d1.dAlpha$1 + d2.dAlpha$1)))
 });
 $c_Lunof_cv_base_DeltaApplier$.prototype.unof$cv$base$Drawer$$undsetter$und$unof$cv$base$Drawer$$layerCanvas$und$eq__Lorg_scalajs_dom_raw_HTMLCanvasElement__V = (function(x$1) {
   this.unof$cv$base$Drawer$$layerCanvas$1 = x$1
@@ -16491,75 +16492,24 @@ $c_Lunof_cv_base_DeltaApplier$.prototype.sumImages__p1__F__F__Lorg_scalajs_dom_r
   var _2$mcD$sp = $uI(img2.height);
   var dim = new $c_s_Tuple2$mcDD$sp().init___D__D($uD(f(_1$mcI$sp, _1$mcD$sp)), $uD(f(_2$mcI$sp, _2$mcD$sp)));
   var myContext = new $c_Lunof_cv_base_DrawingContext().init___T__T2("", dim);
-  myContext.ctx$1.globalAlpha = ratio1;
   var ts = $m_sci_Nil$();
-  $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__Lunof_cv_base_DrawingContext__V(this, img1, "white", ts, myContext);
-  myContext.ctx$1.globalAlpha = ratio2;
+  $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__F__Lunof_cv_base_DrawingContext__V(this, img1, "white", ts, ratio1, myContext);
   var ts$1 = $m_sci_Nil$();
-  $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__Lunof_cv_base_DrawingContext__V(this, img2, "white", ts$1, myContext);
+  $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__F__Lunof_cv_base_DrawingContext__V(this, img2, "white", ts$1, ratio2, myContext);
   return myContext.canvasOrig$1
 });
 $c_Lunof_cv_base_DeltaApplier$.prototype.makeDynamicColorDif__p1__Lunof_cv_base_charLib_DynamicColor__Lunof_cv_base_charLib_DynamicColor__sci_Map__T2 = (function(originalColor, deltaColor, colorMap) {
-  var dValue = originalColor.toFloat3__sci_Map__T3(colorMap);
-  var oValue = deltaColor.toFloat3__sci_Map__T3(colorMap);
+  var oValue = originalColor.toFloat3__sci_Map__T3(colorMap);
+  var dValue = deltaColor.toFloat3__sci_Map__T3(colorMap);
+  var x = ("DelatApply , oValue  :" + oValue);
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var x$1 = ("DelatApply , dValue  :" + dValue);
+  var this$5 = $m_s_Console$();
+  var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
+  this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
   return new $c_T2().init___O__O(this.minus$1__p1__T3__T3__T3(dValue, oValue), $fround((deltaColor.alpha$1 - originalColor.alpha$1)))
-});
-$c_Lunof_cv_base_DeltaApplier$.prototype.interpolateDiffImage__Lorg_scalajs_dom_raw_HTMLImageElement__F__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage = (function(src, r1, d1, d2) {
-  if (((r1 < 0.0) || (r1 > 1.0))) {
-    throw new $c_jl_IllegalArgumentException().init___T((("interpolationratio must be in [0,1]." + r1) + " isn't."))
-  };
-  var r2 = $fround((1.0 - r1));
-  var idOfClosest = ((r1 < 0.5) ? d1.locationId$1 : d2.locationId$1);
-  var x1 = new $c_T2().init___O__O(d1.image$1, d2.image$1);
-  matchEnd19: {
-    var interpolatedImage;
-    var p2 = $as_s_Option(x1.$$und1$f);
-    var p3 = $as_s_Option(x1.$$und2$f);
-    var x = $m_s_None$();
-    if ((x === p2)) {
-      var x$3 = $m_s_None$();
-      if ((x$3 === p3)) {
-        var interpolatedImage = $m_s_None$();
-        break matchEnd19
-      }
-    };
-    var p4 = $as_s_Option(x1.$$und1$f);
-    var p5 = $as_s_Option(x1.$$und2$f);
-    if ($is_s_Some(p4)) {
-      var x6 = $as_s_Some(p4);
-      var img = x6.x$2;
-      var x$5 = $m_s_None$();
-      if ((x$5 === p5)) {
-        var interpolatedImage = new $c_s_Some().init___O(this.interpolateImages__p1__F__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement(r1, img, src));
-        break matchEnd19
-      }
-    };
-    var p7 = $as_s_Option(x1.$$und1$f);
-    var p8 = $as_s_Option(x1.$$und2$f);
-    var x$7 = $m_s_None$();
-    if ((x$7 === p7)) {
-      if ($is_s_Some(p8)) {
-        var x9 = $as_s_Some(p8);
-        var img$2 = x9.x$2;
-        var interpolatedImage = new $c_s_Some().init___O(this.interpolateImages__p1__F__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement(r1, src, img$2));
-        break matchEnd19
-      }
-    };
-    var p10 = $as_s_Option(x1.$$und1$f);
-    var p11 = $as_s_Option(x1.$$und2$f);
-    if ($is_s_Some(p10)) {
-      var x12 = $as_s_Some(p10);
-      var img1 = x12.x$2;
-      if ($is_s_Some(p11)) {
-        var x13 = $as_s_Some(p11);
-        var img2 = x13.x$2;
-        var interpolatedImage = new $c_s_Some().init___O(this.interpolateImages__p1__F__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement(r1, img1, img2));
-        break matchEnd19
-      }
-    };
-    throw new $c_s_MatchError().init___O(x1)
-  };
-  return new $c_Lunof_cv_base_DiffImage().init___s_Option__Lunof_cv_utils_Transforme__T3__F__I__F(interpolatedImage, this.interpolateTransforms__p1__F__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(r1, d1.transform$1, d2.transform$1), this.t3Inter$1__p1__T3__T3__F__F__T3(d1.color$1, d2.color$1, r1, r2), $fround(($fround((d1.z$1 * r1)) + $fround((d2.z$1 * r2)))), idOfClosest, $fround(($fround((d1.dAlpha$1 * r1)) + $fround((d2.dAlpha$1 * r2)))))
 });
 $c_Lunof_cv_base_DeltaApplier$.prototype.applyDiffShape__Lunof_cv_base_charLib_CMShape__Lunof_cv_base_DiffShape__sci_Map__sc_Seq__Lunof_cv_base_CharacterShapePart = (function(to, diff, colorMap, additionalTransforms) {
   var lineColor = $as_Lunof_cv_base_charLib_DynamicColor(to.colors$1.apply__I__O(to.lineColorIndex$1));
@@ -16633,19 +16583,30 @@ $c_Lunof_cv_base_DeltaApplier$.prototype.t3Sum$2__p1__T3__T3__T3 = (function(a, 
   return new $c_T3().init___O__O__O($fround(($uF(a.$$und1$1) + $uF(b.$$und1$1))), $fround(($uF(a.$$und2$1) + $uF(b.$$und2$1))), $fround(($uF(a.$$und3$1) + $uF(b.$$und3$1))))
 });
 $c_Lunof_cv_base_DeltaApplier$.prototype.sumDiffShape__Lunof_cv_base_DiffShape__Lunof_cv_base_DiffShape__Lunof_cv_base_DiffShape = (function(d1, d2) {
-  return new $c_Lunof_cv_base_DiffShape().init___sc_Seq__Lunof_cv_utils_Transforme__T3__F__T3__F__F__F__T__Z__I(this.sumCommandsDiff__p1__sc_Seq__sc_Seq__sc_Seq(d1.commands$1, d2.commands$1), this.sumTransfromDiff__p1__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(d1.transform$1, d2.transform$1), this.t3Sum$2__p1__T3__T3__T3(d1.lineColor$1, d2.lineColor$1), $fround((d1.lineAlpha$1 + d2.lineAlpha$1)), this.t3Sum$2__p1__T3__T3__T3(d1.surfaceColor$1, d2.surfaceColor$1), $fround((d1.surfaceAlpha$1 + d2.surfaceAlpha$1)), $fround((d1.z$1 + d2.z$1)), $fround((d1.lineWidth$1 * d2.lineWidth$1)), d1.lineJoint$1, d1.closed$1, d1.locationId$1)
+  return new $c_Lunof_cv_base_DiffShape().init___sc_Seq__Lunof_cv_utils_Transforme__T3__F__T3__F__F__F__T__Z__I(this.sumCommandsDiff__p1__sc_Seq__sc_Seq__sc_Seq(d1.commands$1, d2.commands$1), this.sumTransfromDiff__p1__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(d1.transform$1, d2.transform$1), this.t3Sum$1__p1__T3__T3__T3(d1.lineColor$1, d2.lineColor$1), $fround((d1.lineAlpha$1 + d2.lineAlpha$1)), this.t3Sum$1__p1__T3__T3__T3(d1.surfaceColor$1, d2.surfaceColor$1), $fround((d1.surfaceAlpha$1 + d2.surfaceAlpha$1)), $fround((d1.z$1 + d2.z$1)), $fround((d1.lineWidth$1 * d2.lineWidth$1)), d1.lineJoint$1, d1.closed$1, d1.locationId$1)
 });
 $c_Lunof_cv_base_DeltaApplier$.prototype.makeDiffShape__Lunof_cv_base_charLib_CMShape__Lunof_cv_base_charLib_CMShape__sci_Map__Lunof_cv_base_DiffShape = (function(original, delta, colorMap) {
   var lci = original.lineColorIndex$1;
   var sci = original.surfaceColorIndex$1;
   var oColors = original.colors$1;
   var dColors = delta.colors$1;
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("DeltaApp line diff\n");
+  var c = $as_Lunof_cv_base_charLib_DynamicColor(dColors.apply__I__O(lci));
+  var x = ((((("DeltaApp line color  : " + c.boundColor$1) + " ") + c.constantColor$1) + " ") + c.toFloat3__sci_Map__T3(colorMap));
+  var this$5 = $m_s_Console$();
+  var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
+  this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var x1 = this.makeDynamicColorDif__p1__Lunof_cv_base_charLib_DynamicColor__Lunof_cv_base_charLib_DynamicColor__sci_Map__T2($as_Lunof_cv_base_charLib_DynamicColor(oColors.apply__I__O(lci)), $as_Lunof_cv_base_charLib_DynamicColor(dColors.apply__I__O(lci)), colorMap);
   if ((x1 === null)) {
     throw new $c_s_MatchError().init___O(x1)
   };
   var lineColor = $as_T3(x1.$$und1__O());
   var lineAlpha = $uF(x1.$$und2__O());
+  var this$8 = $m_s_Console$();
+  var this$9 = $as_Ljava_io_PrintStream(this$8.outVar$2.v$1);
+  this$9.java$lang$JSConsoleBasedPrintStream$$printString__T__V("DeltaApp surf diff\n");
   var cd = this.makeDynamicColorDif__p1__Lunof_cv_base_charLib_DynamicColor__Lunof_cv_base_charLib_DynamicColor__sci_Map__T2($as_Lunof_cv_base_charLib_DynamicColor(oColors.apply__I__O(sci)), $as_Lunof_cv_base_charLib_DynamicColor(dColors.apply__I__O(sci)), colorMap);
   var x1$2 = (delta.showSurcface$1 ? cd : new $c_T2().init___O__O(cd.$$und1__O(), $fround((0.0 - $as_Lunof_cv_base_charLib_DynamicColor(oColors.apply__I__O(sci)).alpha$1))));
   if ((x1$2 === null)) {
@@ -16740,25 +16701,86 @@ $c_Lunof_cv_base_DeltaApplier$.prototype.makeCommandsDiff__p1__sc_Seq__sc_Seq__s
   var this$6 = $m_sc_Seq$();
   return $as_sc_Seq(jsx$8.map__F1__scg_CanBuildFrom__O(jsx$1, this$6.ReusableCBFInstance$2))
 });
+$c_Lunof_cv_base_DeltaApplier$.prototype.interpolateDiffImage__F__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage = (function(r1, d1, d2) {
+  if (((r1 < 0.0) || (r1 > 1.0))) {
+    throw new $c_jl_IllegalArgumentException().init___T((("interpolationratio must be in [0,1]." + r1) + " isn't."))
+  };
+  var r2 = $fround((1.0 - r1));
+  var idOfClosest = ((r1 < 0.5) ? d1.locationId$1 : d2.locationId$1);
+  var x1 = new $c_T2().init___O__O(d1.image$1, d2.image$1);
+  matchEnd19: {
+    var interpolatedImage;
+    var p2 = $as_s_Option(x1.$$und1$f);
+    var p3 = $as_s_Option(x1.$$und2$f);
+    var x = $m_s_None$();
+    if ((x === p2)) {
+      var x$3 = $m_s_None$();
+      if ((x$3 === p3)) {
+        var interpolatedImage = $m_s_None$();
+        break matchEnd19
+      }
+    };
+    var p4 = $as_s_Option(x1.$$und1$f);
+    var p5 = $as_s_Option(x1.$$und2$f);
+    if ($is_s_Some(p4)) {
+      var x6 = $as_s_Some(p4);
+      var img = x6.x$2;
+      var x$5 = $m_s_None$();
+      if ((x$5 === p5)) {
+        var interpolatedImage = new $c_s_Some().init___O(img);
+        break matchEnd19
+      }
+    };
+    var p7 = $as_s_Option(x1.$$und1$f);
+    var p8 = $as_s_Option(x1.$$und2$f);
+    var x$7 = $m_s_None$();
+    if ((x$7 === p7)) {
+      if ($is_s_Some(p8)) {
+        var x9 = $as_s_Some(p8);
+        var img$2 = x9.x$2;
+        var interpolatedImage = new $c_s_Some().init___O(img$2);
+        break matchEnd19
+      }
+    };
+    var p10 = $as_s_Option(x1.$$und1$f);
+    var p11 = $as_s_Option(x1.$$und2$f);
+    if ($is_s_Some(p10)) {
+      var x12 = $as_s_Some(p10);
+      var img1 = x12.x$2;
+      if ($is_s_Some(p11)) {
+        var x13 = $as_s_Some(p11);
+        var img2 = x13.x$2;
+        var interpolatedImage = new $c_s_Some().init___O(this.interpolateImages__p1__F__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement__Lorg_scalajs_dom_raw_HTMLImageElement(r1, img1, img2));
+        break matchEnd19
+      }
+    };
+    throw new $c_s_MatchError().init___O(x1)
+  };
+  return new $c_Lunof_cv_base_DiffImage().init___s_Option__Lunof_cv_utils_Transforme__T3__F__I__F(interpolatedImage, this.interpolateTransforms__p1__F__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(r1, d1.transform$1, d2.transform$1), this.t3Inter$2__p1__T3__T3__F__F__T3(d1.color$1, d2.color$1, r1, r2), $fround(($fround((d1.z$1 * r1)) + $fround((d2.z$1 * r2)))), idOfClosest, $fround(($fround((d1.dAlpha$1 * r1)) + $fround((d2.dAlpha$1 * r2)))))
+});
 $c_Lunof_cv_base_DeltaApplier$.prototype.makeDiffImage__sci_Map__Lunof_cv_base_charLib_CMImage__Lunof_cv_base_charLib_CMImage__sci_Map__Lunof_cv_base_DiffImage = (function(imageMap, original, delta, colorMap) {
   var dColor = this.makeColorDif__p1__T__T__T3($as_T(colorMap.apply__O__O(original.boundColor$1)), $as_T(colorMap.apply__O__O(delta.boundColor$1)));
   var oSrc = original.ref$1;
   var dSrc = delta.ref$1;
-  if ((oSrc === dSrc)) {
-    var _1 = $m_s_None$();
+  if ((original === delta)) {
+    var _1 = $as_Lunof_cv_base_charLib_ImageRef(imageMap.apply__O__O(oSrc)).htmlImage$1;
     var x1_$_$$und1$f = _1;
     var x1_$_$$und2$f = 0
-  } else if ((oSrc === "None")) {
-    var _1$1 = $as_Lunof_cv_base_charLib_ImageRef(imageMap.apply__O__O(dSrc)).htmlImage$1;
+  } else if ((oSrc === dSrc)) {
+    var _1$1 = $m_s_None$();
     var x1_$_$$und1$f = _1$1;
+    var x1_$_$$und2$f = 0
+  } else if ((oSrc === "None")) {
+    var _1$2 = $as_Lunof_cv_base_charLib_ImageRef(imageMap.apply__O__O(dSrc)).htmlImage$1;
+    var x1_$_$$und1$f = _1$2;
     var x1_$_$$und2$f = 1
   } else if ((dSrc === "None")) {
-    var _1$2 = $as_Lunof_cv_base_charLib_ImageRef(imageMap.apply__O__O(oSrc)).htmlImage$1;
-    var x1_$_$$und1$f = _1$2;
+    var _1$3 = $m_s_None$();
+    var x1_$_$$und1$f = _1$3;
     var x1_$_$$und2$f = (-1)
   } else {
-    var _1$3 = $as_Lunof_cv_base_charLib_ImageRef(imageMap.apply__O__O(dSrc)).htmlImage$1;
-    var x1_$_$$und1$f = _1$3;
+    var _1$4 = $as_Lunof_cv_base_charLib_ImageRef(imageMap.apply__O__O(dSrc)).htmlImage$1;
+    var x1_$_$$und1$f = _1$4;
     var x1_$_$$und2$f = 0
   };
   var r = $as_s_Option(x1_$_$$und1$f);
@@ -16853,10 +16875,10 @@ $c_Lunof_cv_base_DeltaApplier$.prototype.interpolateDiffShape__F__Lunof_cv_base_
   var idOfClosest = ((r1 < 0.5) ? d1.locationId$1 : d2.locationId$1);
   var jsx$11 = this.interpolateCommands__p1__F__sc_Seq__sc_Seq__sc_Seq(r1, d1.commands$1, d2.commands$1);
   var jsx$10 = this.interpolateTransforms__p1__F__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme__Lunof_cv_utils_Transforme(r1, d1.transform$1, d2.transform$1);
-  var jsx$9 = this.t3Inter$2__p1__T3__T3__F__F__T3(d1.lineColor$1, d2.lineColor$1, r1, r2);
+  var jsx$9 = this.t3Inter$1__p1__T3__T3__F__F__T3(d1.lineColor$1, d2.lineColor$1, r1, r2);
   var jsx$8 = d1.lineAlpha$1;
   var jsx$7 = d2.lineAlpha$1;
-  var jsx$6 = this.t3Inter$2__p1__T3__T3__F__F__T3(d1.surfaceColor$1, d2.surfaceColor$1, r1, r2);
+  var jsx$6 = this.t3Inter$1__p1__T3__T3__F__F__T3(d1.surfaceColor$1, d2.surfaceColor$1, r1, r2);
   var jsx$5 = d1.surfaceAlpha$1;
   var jsx$4 = d2.surfaceAlpha$1;
   var jsx$3 = d1.z$1;
@@ -16933,7 +16955,8 @@ $c_Lunof_cv_base_DrawChar$.prototype.apply__Lunof_cv_base_Character__Lunof_cv_ba
           var jsx$4 = x2.transforms$1;
           var this$3 = $m_sc_Seq$();
           var ts = $as_sc_Seq(jsx$5.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(jsx$4, this$3.ReusableCBFInstance$2));
-          $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__Lunof_cv_base_DrawingContext__V(this$4, img, color, ts, context$1)
+          var alpha = x2.alpha$1;
+          $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__F__Lunof_cv_base_DrawingContext__V(this$4, img, color, ts, alpha, context$1)
         } else if ($is_Lunof_cv_base_CharacterShapePart(l)) {
           var x3 = $as_Lunof_cv_base_CharacterShapePart(l);
           var this$6 = $m_Lunof_cv_base_DrawChar$();
@@ -17472,7 +17495,8 @@ $c_Lunof_cv_tools_Picker$.prototype.unof$cv$tools$Picker$$isPicked$1__Lunof_cv_b
       var jsx$5 = x2.transforms$1;
       var this$3 = $m_sc_Seq$();
       var ts = $as_sc_Seq(jsx$6.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(jsx$5, this$3.ReusableCBFInstance$2));
-      $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__Lunof_cv_base_DrawingContext__V(this, img, "white", ts, myContext$1);
+      var alpha = x2.alpha$1;
+      $s_Lunof_cv_base_Drawer$class__drawImage__Lunof_cv_base_Drawer__Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__F__Lunof_cv_base_DrawingContext__V(this, img, "white", ts, alpha, myContext$1);
       return ($uI(myContext$1.ctx$1.getImageData($m_Lunof_cv_utils_Algebra$DDVector$().x$extension__T2__I(at$1), $m_Lunof_cv_utils_Algebra$DDVector$().y$extension__T2__I(at$1), 1.0, 1.0).data[3]) > 0)
     } else {
       return false
@@ -19584,9 +19608,6 @@ $c_Lunof_cv_tools_paramsmenu_PannelDeltas$.prototype.bind__Lunof_cv_tools_Callba
     })
   })(callbacks, deltaList))
 });
-$c_Lunof_cv_tools_paramsmenu_PannelDeltas$.prototype.myPannel__Lunof_cv_tools_CvSetting__T = (function(settings) {
-  return $as_T(settings.deltasDiv)
-});
 $c_Lunof_cv_tools_paramsmenu_PannelDeltas$.prototype.unof$cv$tools$paramsmenu$PannelDeltas$$deltaListChange__Lunof_cv_tools_CallbackCenter__Lorg_scalajs_jquery_JQuery__Lorg_scalajs_jquery_JQueryEventObject__V = (function(callbacks, list, evt) {
   var x = $objectToString(list.val());
   var this$2 = new $c_sci_StringOps().init___T(x);
@@ -19595,6 +19616,9 @@ $c_Lunof_cv_tools_paramsmenu_PannelDeltas$.prototype.unof$cv$tools$paramsmenu$Pa
   var selected = this$4.parseInt__T__I__I($$this, 10);
   var this$5 = callbacks.unof$cv$tools$CallbackCenter$$stat$1;
   callbacks.onLayerSelected__I__Lunof_cv_base_charLib_LayersSelector__V(selected, this$5.unof$cv$tools$AppStat$$mySelection$1.layerSelect$1)
+});
+$c_Lunof_cv_tools_paramsmenu_PannelDeltas$.prototype.myPannel__Lunof_cv_tools_CvSetting__T = (function(settings) {
+  return $as_T(settings.deltasDiv)
 });
 $c_Lunof_cv_tools_paramsmenu_PannelDeltas$.prototype.unof$cv$tools$paramsmenu$PannelDeltas$$changePosition__Lunof_cv_tools_CallbackCenter__Lorg_scalajs_jquery_JQuery__Lorg_scalajs_jquery_JQueryEventObject__V = (function(callbacks, input, evt) {
   var x = $objectToString(input.val());
@@ -23470,9 +23494,6 @@ $c_sc_AbstractIterator.prototype.toList__sci_List = (function() {
   var cbf = this$1.ReusableCBFInstance$2;
   return $as_sci_List($s_sc_TraversableOnce$class__to__sc_TraversableOnce__scg_CanBuildFrom__O(this, cbf))
 });
-$c_sc_AbstractIterator.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
-});
 $c_sc_AbstractIterator.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
 });
@@ -24033,9 +24054,6 @@ $c_sjs_js_WrappedDictionary$DictionaryIterator.prototype.init___sjs_js_Dictionar
   this.keys$1 = $g.Object.keys(dict);
   this.index$1 = 0;
   return this
-});
-$c_sjs_js_WrappedDictionary$DictionaryIterator.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_sjs_js_WrappedDictionary$DictionaryIterator.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
@@ -24636,15 +24654,6 @@ $c_Lunof_cv_base_CharacterMaker$$anonfun$apply$1$$anonfun$17.prototype.init___Lu
   return this
 });
 $c_Lunof_cv_base_CharacterMaker$$anonfun$apply$1$$anonfun$17.prototype.apply__sc_Seq__sci_List = (function(pile) {
-  var jsx$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(x$2) {
-    var x = $as_Lunof_cv_base_charLib_CMImage(x$2);
-    return x.deltaLink$1
-  }));
-  var this$1 = $m_sc_Seq$();
-  var x$1 = ("Charmaker pile : " + $as_sc_TraversableOnce(pile.map__F1__scg_CanBuildFrom__O(jsx$1, this$1.ReusableCBFInstance$2)).mkString__T__T(","));
-  var this$3 = $m_s_Console$();
-  var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
-  this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
   var f = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(x$16$2) {
     var x$16 = $as_Lunof_cv_base_charLib_CMImage(x$16$2);
     return x$16.deltaLink$1.slider$1
@@ -24653,8 +24662,8 @@ $c_Lunof_cv_base_CharacterMaker$$anonfun$apply$1$$anonfun$17.prototype.apply__sc
   var rc8 = false;
   var x2 = null;
   var x1 = slideMap.get__O__s_Option("None");
-  var x$3 = $m_s_None$();
-  if ((x$3 === x1)) {
+  var x = $m_s_None$();
+  if ((x === x1)) {
     return $m_sci_Nil$()
   };
   if ($is_s_Some(x1)) {
@@ -24665,46 +24674,41 @@ $c_Lunof_cv_base_CharacterMaker$$anonfun$apply$1$$anonfun$17.prototype.apply__sc
     var o13 = new $c_s_Some().init___O(p3);
     if (((o13.x$2 !== null) && ($as_sc_SeqLike(o13.x$2).lengthCompare__I__I(1) === 0))) {
       var source = $as_Lunof_cv_base_charLib_CMImage($as_sc_SeqLike(o13.x$2).apply__I__O(0));
-      var this$6 = slideMap.$$minus__O__sc_Map("None");
-      var this$8 = $s_sc_MapLike$class__toBuffer__sc_MapLike__scm_Buffer(this$6);
+      var this$2 = slideMap.$$minus__O__sc_Map("None");
+      var this$4 = $s_sc_MapLike$class__toBuffer__sc_MapLike__scm_Buffer(this$2);
       var f$1 = new $c_Lunof_cv_base_CharacterMaker$$anonfun$apply$1$$anonfun$17$$anonfun$19().init___Lunof_cv_base_CharacterMaker$$anonfun$apply$1$$anonfun$17(this);
-      var this$7 = $m_sc_Seq$();
-      var bf = this$7.ReusableCBFInstance$2;
-      var orderedDeltaPile = $as_sc_Seq($s_sc_TraversableLike$class__map__sc_TraversableLike__F1__scg_CanBuildFrom__O(this$8, f$1, bf));
-      var jsx$3 = $m_Lunof_cv_base_CharacterMaker$();
-      var jsx$2 = new $c_sjsr_AnonFunction3().init___sjs_js_Function3((function(arg$outer) {
+      var this$3 = $m_sc_Seq$();
+      var bf = this$3.ReusableCBFInstance$2;
+      var orderedDeltaPile = $as_sc_Seq($s_sc_TraversableLike$class__map__sc_TraversableLike__F1__scg_CanBuildFrom__O(this$4, f$1, bf));
+      var x1$2 = $m_Lunof_cv_base_CharacterMaker$().unof$cv$base$CharacterMaker$$makeASingleDiffOfADeltaPile$1__Lunof_cv_base_charLib_CMLayer__sc_Seq__F3__F3__F2__Lunof_cv_base_charLib_CharacterLibrary__sc_Seq__sci_Map__sci_Map__sci_Map__s_Option(source, orderedDeltaPile, new $c_sjsr_AnonFunction3().init___sjs_js_Function3((function(arg$outer) {
         return (function(original$2, delta$2, colorMap$2) {
           var original = $as_Lunof_cv_base_charLib_CMImage(original$2);
           var delta = $as_Lunof_cv_base_charLib_CMImage(delta$2);
           var colorMap = $as_sci_Map(colorMap$2);
           return $m_Lunof_cv_base_DeltaApplier$().makeDiffImage__sci_Map__Lunof_cv_base_charLib_CMImage__Lunof_cv_base_charLib_CMImage__sci_Map__Lunof_cv_base_DiffImage(arg$outer.$$outer$2.imageMap$1$f, original, delta, colorMap)
         })
-      })(this));
-      var eta$0$1 = $as_Lunof_cv_base_charLib_ImageRef(this.$$outer$2.imageMap$1$f.apply__O__O(source.ref$1)).htmlImage$1.get__O();
-      var x1$2 = jsx$3.unof$cv$base$CharacterMaker$$makeASingleDiffOfADeltaPile$1__Lunof_cv_base_charLib_CMLayer__sc_Seq__F3__F3__F2__Lunof_cv_base_charLib_CharacterLibrary__sc_Seq__sci_Map__sci_Map__sci_Map__s_Option(source, orderedDeltaPile, jsx$2, new $c_sjsr_AnonFunction3().init___sjs_js_Function3((function(eta$0$1$1) {
-        return (function(r1$2, d1$2, d2$2) {
-          var r1 = $uF(r1$2);
-          var d1 = $as_Lunof_cv_base_DiffImage(d1$2);
-          var d2 = $as_Lunof_cv_base_DiffImage(d2$2);
-          return $m_Lunof_cv_base_DeltaApplier$().interpolateDiffImage__Lorg_scalajs_dom_raw_HTMLImageElement__F__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage(eta$0$1$1, r1, d1, d2)
-        })
-      })(eta$0$1)), new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(d1$2$1, d2$2$1) {
+      })(this)), new $c_sjsr_AnonFunction3().init___sjs_js_Function3((function(r1$2, d1$2, d2$2) {
+        var r1 = $uF(r1$2);
+        var d1 = $as_Lunof_cv_base_DiffImage(d1$2);
+        var d2 = $as_Lunof_cv_base_DiffImage(d2$2);
+        return $m_Lunof_cv_base_DeltaApplier$().interpolateDiffImage__F__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage(r1, d1, d2)
+      })), new $c_sjsr_AnonFunction2().init___sjs_js_Function2((function(d1$2$1, d2$2$1) {
         var d1$1 = $as_Lunof_cv_base_DiffImage(d1$2$1);
         var d2$1 = $as_Lunof_cv_base_DiffImage(d2$2$1);
         return $m_Lunof_cv_base_DeltaApplier$().sumDiffImage__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage__Lunof_cv_base_DiffImage(d1$1, d2$1)
       })), this.$$outer$2.lib$1$f, this.$$outer$2.categories$1$f, this.$$outer$2.catPerKeyMap$1$f, this.$$outer$2.sliderMap$1$f, this.$$outer$2.colorMap$1$f);
-      var x$3$1 = $m_s_None$();
-      if ((x$3$1 === x1$2)) {
+      var x$3 = $m_s_None$();
+      if ((x$3 === x1$2)) {
         var color = $as_T(this.$$outer$2.colorMap$1$f.apply__O__O(source.boundColor$1));
         var x$18 = new $c_T2().init___O__O(new $c_Lunof_cv_base_CharacterImagePart().init___Lorg_scalajs_dom_raw_HTMLImageElement__T__sc_Seq__I__F($as_Lunof_cv_base_charLib_ImageRef(this.$$outer$2.imageMap$1$f.apply__O__O(source.ref$1)).htmlImage$1.get__O(), color, $as_sc_Seq($m_sc_Seq$().apply__sc_Seq__sc_GenTraversable(new $c_sjs_js_WrappedArray().init___sjs_js_Array([this.$$outer$2.lib$1$f.getPart__Lunof_cv_base_charLib_CMLayer__Lunof_cv_base_charLib_CMPart(source).partTransform$1, source.transform$1]))), source.id$1, 1.0), $fround((source.z$1 + this.$$outer$2.lib$1$f.getPart__Lunof_cv_base_charLib_CMLayer__Lunof_cv_base_charLib_CMPart(source).partZ$1)));
-        var this$9 = $m_sci_Nil$();
-        return new $c_sci_$colon$colon().init___O__sci_List(x$18, this$9)
+        var this$5 = $m_sci_Nil$();
+        return new $c_sci_$colon$colon().init___O__sci_List(x$18, this$5)
       } else if ($is_s_Some(x1$2)) {
         var x2$2 = $as_s_Some(x1$2);
         var diff = $as_Lunof_cv_base_DiffImage(x2$2.x$2);
         var x$19 = new $c_T2().init___O__O($m_Lunof_cv_base_DeltaApplier$().applyDiffImage__sci_Map__Lunof_cv_base_charLib_CMImage__Lunof_cv_base_DiffImage__sci_Map__sc_Seq__Lunof_cv_base_CharacterImagePart(this.$$outer$2.imageMap$1$f, source, diff, this.$$outer$2.colorMap$1$f, $as_sc_Seq($m_sc_Seq$().apply__sc_Seq__sc_GenTraversable(new $c_sjs_js_WrappedArray().init___sjs_js_Array([this.$$outer$2.lib$1$f.getPart__Lunof_cv_base_charLib_CMLayer__Lunof_cv_base_charLib_CMPart(source).partTransform$1])))), $fround(($fround((source.z$1 + this.$$outer$2.lib$1$f.getPart__Lunof_cv_base_charLib_CMLayer__Lunof_cv_base_charLib_CMPart(source).partZ$1)) + diff.z$1)));
-        var this$10 = $m_sci_Nil$();
-        return new $c_sci_$colon$colon().init___O__sci_List(x$19, this$10)
+        var this$6 = $m_sci_Nil$();
+        return new $c_sci_$colon$colon().init___O__sci_List(x$19, this$6)
       } else {
         throw new $c_s_MatchError().init___O(x1$2)
       }
@@ -34089,9 +34093,6 @@ $c_sci_StringOps.prototype.equals__O__Z = (function(x$1) {
 $c_sci_StringOps.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
 });
-$c_sci_StringOps.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
-});
 $c_sci_StringOps.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
 });
@@ -34353,9 +34354,6 @@ $c_scm_ArrayOps$ofBoolean.prototype.equals__O__Z = (function(x$1) {
 $c_scm_ArrayOps$ofBoolean.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
 });
-$c_scm_ArrayOps$ofBoolean.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
-});
 $c_scm_ArrayOps$ofBoolean.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
 });
@@ -34606,9 +34604,6 @@ $c_scm_ArrayOps$ofByte.prototype.equals__O__Z = (function(x$1) {
 });
 $c_scm_ArrayOps$ofByte.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
-});
-$c_scm_ArrayOps$ofByte.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_scm_ArrayOps$ofByte.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
@@ -34861,9 +34856,6 @@ $c_scm_ArrayOps$ofChar.prototype.equals__O__Z = (function(x$1) {
 });
 $c_scm_ArrayOps$ofChar.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
-});
-$c_scm_ArrayOps$ofChar.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_scm_ArrayOps$ofChar.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
@@ -35118,9 +35110,6 @@ $c_scm_ArrayOps$ofDouble.prototype.init___AD = (function(repr) {
   this.repr$1 = repr;
   return this
 });
-$c_scm_ArrayOps$ofDouble.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
-});
 $c_scm_ArrayOps$ofDouble.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
 });
@@ -35367,9 +35356,6 @@ $c_scm_ArrayOps$ofFloat.prototype.equals__O__Z = (function(x$1) {
 });
 $c_scm_ArrayOps$ofFloat.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
-});
-$c_scm_ArrayOps$ofFloat.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_scm_ArrayOps$ofFloat.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
@@ -35621,9 +35607,6 @@ $c_scm_ArrayOps$ofInt.prototype.equals__O__Z = (function(x$1) {
 });
 $c_scm_ArrayOps$ofInt.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
-});
-$c_scm_ArrayOps$ofInt.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_scm_ArrayOps$ofInt.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
@@ -35880,9 +35863,6 @@ $c_scm_ArrayOps$ofLong.prototype.equals__O__Z = (function(x$1) {
 $c_scm_ArrayOps$ofLong.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
 });
-$c_scm_ArrayOps$ofLong.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
-});
 $c_scm_ArrayOps$ofLong.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
 });
@@ -36131,9 +36111,6 @@ $c_scm_ArrayOps$ofRef.prototype.equals__O__Z = (function(x$1) {
 });
 $c_scm_ArrayOps$ofRef.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
-});
-$c_scm_ArrayOps$ofRef.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_scm_ArrayOps$ofRef.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
@@ -36393,9 +36370,6 @@ $c_scm_ArrayOps$ofShort.prototype.equals__O__Z = (function(x$1) {
 $c_scm_ArrayOps$ofShort.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
 });
-$c_scm_ArrayOps$ofShort.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
-});
 $c_scm_ArrayOps$ofShort.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)
 });
@@ -36641,9 +36615,6 @@ $c_scm_ArrayOps$ofUnit.prototype.equals__O__Z = (function(x$1) {
 });
 $c_scm_ArrayOps$ofUnit.prototype.flatMap__F1__scg_CanBuildFrom__O = (function(f, bf) {
   return $s_sc_TraversableLike$class__flatMap__sc_TraversableLike__F1__scg_CanBuildFrom__O(this, f, bf)
-});
-$c_scm_ArrayOps$ofUnit.prototype.mkString__T__T = (function(sep) {
-  return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, "", sep, "")
 });
 $c_scm_ArrayOps$ofUnit.prototype.mkString__T__T__T__T = (function(start, sep, end) {
   return $s_sc_TraversableOnce$class__mkString__sc_TraversableOnce__T__T__T__T(this, start, sep, end)

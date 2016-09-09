@@ -195,7 +195,7 @@ object CharacterMaker {
                   source,
                   orderedDeltaPile,
                   DeltaApplier.makeDiffImage(imageMap)_,
-                  DeltaApplier.interpolateDiffImage(imageMap(source.ref).htmlImage.get)_,
+                  DeltaApplier.interpolateDiffImage,
                   DeltaApplier.sumDiffImage) match {
                     case None =>
                       val color = colorMap(source.boundColor)

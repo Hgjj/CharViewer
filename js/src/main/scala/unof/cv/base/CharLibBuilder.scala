@@ -184,7 +184,6 @@ object CharLibBuilder {
         ("None", noneRef)
       }).toMap
     val colors = (usedColors.toSet - "None").toSeq
-    println("LibBuilder :sliders "+usedSlider)
     new CharacterLibrary(
       categories.sortBy { _.categoryName },
       colors,
