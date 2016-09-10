@@ -49,6 +49,7 @@ import unof.cv.base.charLib.DeltaLink
 import unof.cv.base.charLib.LinkedVisibility
 import unof.cv.base.CharacterMaker
 import unof.cv.base.charLib.CMShape
+import unof.cv.base.charLib.CMImage
 
 class CallbackCenter(
     startingChoices: Seq[Int],
@@ -533,15 +534,18 @@ class CallbackCenter(
     if (selection._3 >= 0)
       ParMenuDrawer.update(setting, this)
   }
-  def onShapeAlphaColorChange(newAlpha: Float, colorIndex: Int) = {
-    def f(shape: CMShape) = {
+  def onAlphaColorChange(newAlpha: Float, colorIndex: Int) = {
+    def s(shape: CMShape) = {
       val col = shape.colors(colorIndex).setAlpha(newAlpha)
       shape.setColors(shape.colors.updated(colorIndex, col))
     }
-    if (selection._3 < 0)
-      throw new Exception("Part nor condition have constant colors")
+    def i(img : CMImage) = {
+      img.setAlpha(newAlpha)
+    }
+    def other(a :Any) = 
+      throw new Exception(a+" don't have constant colors")
     val CMAdress(cat, opt, ref, _) = selection
-    charMaker = charMaker.updateShape(cat, opt, ref, f _)
+    charMaker = charMaker.updated(selection, i, s, other, other)
     updateChar
   }
   def onShapeCstColorChange(newVal: String, colorIndex: Int) = {
@@ -617,7 +621,7 @@ class CallbackCenter(
         reqNameCat()
       }
     }
-    val noImage = new CMImage("None", Transforme(), "None", 0, AlwayVisible, DeltaLink(), "Nothing")
+    val noImage =  CMImage()
     val emptyPart = new CMPart("Empty", Seq(noImage), Nil, Transforme(), 0, CMPart.newLinkKey)
 
     val oldCm = charMaker
@@ -632,14 +636,14 @@ class CallbackCenter(
     val CMAdress(c, p, _, _) = selection
     def f(part: CMPart) = {
       def newComp(s: String) =
-        new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, DeltaLink(), simpleRef(s))
+         CMImage(simpleRef(s))
       val newPart = part.setImages((part.images ++ refs.map(newComp)).sortBy { _.ref })
       charMaker = charMaker.updated(c, p, newPart)
     }
     def g(cat: CMCategory) = {
 
       val newParts = refs
-        .map(s => new CMImage(simpleRef(s), Transforme(), "None", 0, AlwayVisible, DeltaLink(), simpleRef(s)))
+        .map(s =>  CMImage(simpleRef(s)))
         .map(i => new CMPart(i.ref, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)) ++
         cat.possibleParts
       val newCat = new CMCategory(cat.categoryName, newParts.sortBy(_.partName))
@@ -806,7 +810,7 @@ class CallbackCenter(
       }
     }
 
-    val i = new CMImage("None", Transforme(), "None", 0, AlwayVisible, DeltaLink(), "Nothing")
+    val i =  CMImage()
     val p = new CMPart(okPartName, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)
     val oldCM = charMaker
     charMaker = charMaker.add(selection.category, p)
@@ -833,7 +837,7 @@ class CallbackCenter(
     updateAll(oldCM, choices)
   }
   def onImageCreated = {
-    val image = new CMImage("None", Transforme(), "None", 0, AlwayVisible, DeltaLink(), "Nothing")
+    val image =  CMImage()
     val oldCM = charMaker
     charMaker = charMaker.add(selection.category, selection.part, image)
     updateAll(oldCM, choices)

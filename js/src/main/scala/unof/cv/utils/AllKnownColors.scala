@@ -121,7 +121,8 @@ object AllKnownColors {
     mapName(cleanName(colorName))
   }
   def toHexaString(color : (Float,Float,Float))={
-    def hexa(f:Float) = (255 * f).intValue().toHexString.reverse.padTo(2, '0').reverse
+    def hexa(f:Float) = (255 * (0f max f min 1f)).intValue().toHexString.reverse.padTo(2, '0').reverse
     hexa(color._1)+hexa(color._2)+hexa(color._3)
+  
   }
 }

@@ -376,7 +376,7 @@ class CharacterLibrary(
         add(targetCat, targetPart, shape)
     }
   def newImage(targetCat: String, targetPart: String, ref: String) = {
-    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible, DeltaLink(), ref)
+    val newComponent = new CMImage(ref, Transforme(1, 1, 0, 0, 0), "None", 0, AlwayVisible, DeltaLink(),1, ref)
     add(targetCat, targetPart, newComponent)
   }
   def updated(cat: Int, newCat: CMCategory): CharacterLibrary = {

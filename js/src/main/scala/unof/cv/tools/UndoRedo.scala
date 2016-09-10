@@ -38,7 +38,6 @@ class UndoRedo(val minimalDifCooldown : Double, val maxUndoLength : Int, val bun
         seq.takeWhile { x => seq.head.date - x.date <= bunchingTime }
           
       }
-      println("undoredo undo pile : "+undoPile)
       undoPile = undoPile.drop(bunch.length);
       redoPile = bunch.reverse ++ redoPile
       

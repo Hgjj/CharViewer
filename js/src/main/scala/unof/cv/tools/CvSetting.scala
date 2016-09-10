@@ -91,6 +91,7 @@ trait CvSetting extends js.Object{
   def tranformationPosition : String
   def tranformationSourceList : String
   def bindDeltaButton : String
+  def imageAlpha : String
 	def colorSlotsCount : Number
 	def maxSliders : Number
 	def cookiSavePeriode : Number

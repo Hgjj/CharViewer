@@ -97,7 +97,6 @@ class AppStat(
         difs foreach apllyEffectiveDif
 
     }
-    println("App stat apply dif : "+diff)
     diff match {
       case None    =>
       case Some(a) => apllyEffectiveDif(a)

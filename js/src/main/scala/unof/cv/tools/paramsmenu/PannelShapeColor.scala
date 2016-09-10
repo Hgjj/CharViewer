@@ -165,7 +165,7 @@ object PannelShapeColor extends ShapeExclusivePannel {
     colorIndex: Int)(evt: JQueryEventObject) = {
 
     val alpha = alphaField.value().toString().toFloat
-    callbacks.onShapeAlphaColorChange(alpha, colorIndex)
+    callbacks.onAlphaColorChange(alpha, colorIndex)
 
   }
   private def shapeConstColorCharge(

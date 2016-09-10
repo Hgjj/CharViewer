@@ -82,6 +82,7 @@ object CMPrinter {
       "z_layer",
       "condition",
       "deltaLink",
+      "alpha",
       "name")
 
     val shapeFields = Seq(
@@ -171,6 +172,7 @@ object CMPrinter {
         img.z,
         oneCondition(img.displayCondition),
         oneDeltaLink(img.deltaLink),
+        img.alpha,
         "\"" + img.name.map(escapeEnoyingChar).mkString + "\"")
       assembleStruct(imageFields, values)
     }

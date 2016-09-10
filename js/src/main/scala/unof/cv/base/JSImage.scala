@@ -10,4 +10,5 @@ trait JSImage extends js.Object {
   def condition : js.Array[String]
   def name : String
   def deltaLink : JSDelta
+  def alpha : Number
 }

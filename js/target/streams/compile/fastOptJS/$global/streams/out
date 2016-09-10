@@ -1,16 +1,16 @@
 [0m[[0minfo[0m] [0mFast optimizing C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\scala-2.11\charecter-viewer-fastopt.js[0m
-[0m[[0mdebug[0m] [0mLinker: Compute reachability: 66945 us[0m
-[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 20227 us[0m
-[0m[[0mdebug[0m] [0mBasic Linking: 89109 us[0m
+[0m[[0mdebug[0m] [0mLinker: Compute reachability: 107218 us[0m
+[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 20290 us[0m
+[0m[[0mdebug[0m] [0mBasic Linking: 134313 us[0m
 [0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: false[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 17169 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 9121 us[0m
 [0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 1 methods.[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 1024 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: 23449 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 96340 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 4513 us[0m
-[0m[[0mdebug[0m] [0mRefiner: 101019 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 2673 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: 15325 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 101572 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 6393 us[0m
+[0m[[0mdebug[0m] [0mRefiner: 108163 us[0m
 [0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 125 -- invalidated: 435[0m
-[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3802 -- invalidated: 1[0m
-[0m[[0mdebug[0m] [0mEmitter (write output): 80333 us[0m
+[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3804 -- invalidated: 1[0m
+[0m[[0mdebug[0m] [0mEmitter (write output): 113368 us[0m
 [0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 205 -- invalidated: 1 -- trees read: 1[0m

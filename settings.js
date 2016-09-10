@@ -87,6 +87,7 @@ var charViewerSettings = {
     "tranformationPosition" : "#tranformationPosition",
     "tranformationSourceList" : "#tranformationSourceList",
     "bindDeltaButton" : "#bindDeltaButton",
+    "imageAlpha" : "#imageAlpha",
     "newDelta" : "#newDelta",
     "cookiSavePeriode" : 3000,
   	"partsMenuFullWidth" : 270,

@@ -123,6 +123,7 @@ object CharLibBuilder {
         getOrElse(() => c.z_layer.floatValue(), 0f),
         condition,
         delta,
+        getOrElse(() => c.alpha.floatValue(), 1f),
         getOrElse(() => c.name, c.imageRef))
     }
     def readLayer(d: Dynamic): CMLayer = {

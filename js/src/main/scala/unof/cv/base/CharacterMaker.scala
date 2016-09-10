@@ -203,7 +203,8 @@ object CharacterMaker {
                         imageMap(source.ref).htmlImage.get,
                         color,
                         Seq(lib.getPart(source).partTransform, source.transform),
-                        source.id), source.z + lib.getPart(source).partZ) :: Nil
+                        source.id,
+                        source.alpha), source.z + lib.getPart(source).partZ) :: Nil
                     case Some(diff) =>
 
                       (

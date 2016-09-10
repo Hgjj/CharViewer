@@ -21,19 +21,14 @@ object DeltaApplier extends Drawer {
     val dColor = makeColorDif(colorMap(original.boundColor), colorMap(delta.boundColor))
     val oSrc = original.ref
     val dSrc = delta.ref
-    val (r, a) = if (original == delta)
-      (imageMap(oSrc).htmlImage, 0)
-    else if (oSrc == dSrc)
-      (None, 0)
-    else if (oSrc == "None")
-      (imageMap(dSrc).htmlImage, 1)
-    else if (dSrc == "None")
-      (None, -1)
+    val ref = if(dSrc == "None")
+      None
     else
-      (imageMap(dSrc).htmlImage, 0)
-
+      imageMap.get(dSrc).flatMap(_.htmlImage)
+    val a = delta.alpha - original.alpha
+  
     new DiffImage(
-      r,
+      ref,
       makeTransfromDiff(original.transform, delta.transform),
       dColor,
       delta.z - original.z,
@@ -110,6 +105,7 @@ object DeltaApplier extends Drawer {
      * Img(a) => Img(b) = Img(b)
      * Img(a) => Img(None) = Img(a)
      * */
+    
     val oColor = AllKnownColors.toFloat3(AllKnownColors.colorThis(colorMap(to.boundColor)))
     val diffColor = diff.color
     val f3ResColor = (
@@ -126,7 +122,7 @@ object DeltaApplier extends Drawer {
       "#" + AllKnownColors.toHexaString(f3ResColor),
       additionalTransforms :+ sumTransfromDiff(to.transform, diff.transform),
       diff.locationId,
-      1 + diff.dAlpha)
+      to.alpha + diff.dAlpha)
   }
   def interpolateDiffShape(r1: Float, d1: DiffShape, d2: DiffShape) = {
     if (r1 < 0 || r1 > 1)
@@ -158,25 +154,23 @@ object DeltaApplier extends Drawer {
   def interpolateDiffImage(r1: Float, d1: DiffImage, d2: DiffImage) = {
     if (r1 < 0 || r1 > 1)
       throw new IllegalArgumentException("interpolationratio must be in [0,1]." + r1 + " isn't.")
+   
     val r2 = 1 - r1
     def t3Inter(a: (Float, Float, Float), b: (Float, Float, Float)) =
       (
         a._1 * r1 + b._1 * r2,
         a._2 * r1 + b._2 * r2,
         a._3 * r1 + b._3 * r2)
-
     val idOfClosest = if (r1 < 0.5)
       d1.locationId
     else
       d2.locationId
-
     val interpolatedImage = (d1.image, d2.image) match {
       case (None, None)             => None
-      case (Some(img), None)        => Some(img)
-      case (None, Some(img))        => Some(img)
+      case (Some(img), None)        => None
+      case (None, Some(img))        => None
       case (Some(img1), Some(img2)) => Some(interpolateImages(r1, img1, img2))
     }
-
     new DiffImage(
       interpolatedImage,
       interpolateTransforms(r1, d1.transform, d2.transform),
@@ -219,7 +213,7 @@ object DeltaApplier extends Drawer {
           case None =>
             Some(img1)
           case Some(img2) =>
-            if (img1.src == img2.src)
+            if (img1 == img2)
               Some(img1)
             else
               Some(interpolateImages(0.5f, img1, img2))
@@ -352,13 +346,7 @@ object DeltaApplier extends Drawer {
       tr1.dx * ratio + tr2.dx * r2,
       tr1.dy * ratio + tr2.dy * r2)
   }
-  private def interpolateColors(
-    ratio: Float,
-    color1: String,
-    color2: String) = {
-    val r2 = 1 - ratio
 
-  }
   private def sumColors(
     ratio1: Float,
     ratio2: Float,
