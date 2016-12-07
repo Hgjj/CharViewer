@@ -7,7 +7,7 @@
 		revision="0.1-SNAPSHOT"
 		conf="runtime"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool, phantom-js-jetty"
-		date="20160907143045"/>
+		date="20161206145500"/>
 	<dependencies>
 		<module organisation="be.doeraene" name="scalajs-jquery_sjs0.6_2.11">
 			<revision name="0.8.0" status="release" pubdate="20150202113147" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-js.org/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="3">

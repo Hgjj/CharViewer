@@ -1,16 +1,16 @@
-[0m[[0minfo[0m] [0mFast optimizing C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\scala-2.11\charecter-viewer-fastopt.js[0m
-[0m[[0mdebug[0m] [0mLinker: Compute reachability: 107218 us[0m
-[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 20290 us[0m
-[0m[[0mdebug[0m] [0mBasic Linking: 134313 us[0m
+[0m[[0minfo[0m] [0mFast optimizing C:\Users\Moi\Desktop\Divers\charViewer\js\target\scala-2.11\charecter-viewer-fastopt.js[0m
+[0m[[0mdebug[0m] [0mLinker: Compute reachability: 59702 us[0m
+[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 17113 us[0m
+[0m[[0mdebug[0m] [0mBasic Linking: 78199 us[0m
 [0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: false[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 9121 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 1 methods.[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 2673 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: 15325 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 101572 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 6393 us[0m
-[0m[[0mdebug[0m] [0mRefiner: 108163 us[0m
-[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 125 -- invalidated: 435[0m
-[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3804 -- invalidated: 1[0m
-[0m[[0mdebug[0m] [0mEmitter (write output): 113368 us[0m
-[0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 205 -- invalidated: 1 -- trees read: 1[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 13019 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 110 methods.[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 72788 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: 90010 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 75962 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 5448 us[0m
+[0m[[0mdebug[0m] [0mRefiner: 81585 us[0m
+[0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 125 -- invalidated: 440[0m
+[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 3755 -- invalidated: 90[0m
+[0m[[0mdebug[0m] [0mEmitter (write output): 84693 us[0m
+[0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 206 -- invalidated: 3 -- trees read: 2[0m

@@ -9,14 +9,18 @@ object ImageRef {
   def loadAll(images: Seq[ImageRef], imageHome: String)(onload: (Seq[HTMLImageElement]) => Unit): Unit = {
 
     val unloaded = images.filterNot { _.htmlImage.isDefined }
-    var imageToLoad = unloaded.size
+    val imageToLoad = unloaded.size
+    var loadedImage = 0;
     def onImageLoaded(evt: Event) = this.synchronized {
-      imageToLoad -= 1
-      if (imageToLoad <= 0) {
+      loadedImage += 1
+      println("Image loading : "+(100 * loadedImage) / imageToLoad+"%")
+      if (imageToLoad  == loadedImage) {
         onload(images.map(_.htmlImage.get))
       }
 
     }
+    if(!unloaded.isEmpty)
+      println("Image ref, loading : "+unloaded.mkString("[",",\n","\n]"));
     unloaded.foreach {
       ref =>
         val img = dom.document.createElement("img").asInstanceOf[HTMLImageElement]
@@ -29,7 +33,7 @@ object ImageRef {
 
     }
 
-    if (imageToLoad == 0)
+    if (imageToLoad == loadedImage)
       onload(images.map(_.htmlImage.get))
 
   }

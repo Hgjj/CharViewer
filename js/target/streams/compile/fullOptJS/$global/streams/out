@@ -1,15 +1,19 @@
-[0m[[0minfo[0m] [0mFull optimizing C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\scala-2.11\charecter-viewer-opt.js[0m
-[0m[[0mdebug[0m] [0mLinker: Compute reachability: 100250 us[0m
-[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 17436 us[0m
-[0m[[0mdebug[0m] [0mBasic Linking: 119860 us[0m
+[0m[[0minfo[0m] [0mFull optimizing C:\Users\Moi\Desktop\Diver\charViewer\js\target\scala-2.11\charecter-viewer-opt.js[0m
+[0m[[0mdebug[0m] [0mLinker: Compute reachability: 771726 us[0m
+[0m[[0mdebug[0m] [0mLinker: Assemble LinkedClasses: 633427 us[0m
+[0m[[0mdebug[0m] [0mBasic Linking: 1536012 us[0m
 [0m[[0mdebug[0m] [0mInc. optimizer: Batch mode: true[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 58808 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 6402 methods.[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 726413 us[0m
-[0m[[0mdebug[0m] [0mInc. optimizer: 790186 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 96312 us[0m
-[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 7041 us[0m
-[0m[[0mdebug[0m] [0mRefiner: 103553 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Incremental part: 464598 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizing 6409 methods.[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: Optimizer part: 3015771 us[0m
+[0m[[0mdebug[0m] [0mInc. optimizer: 3520740 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Compute reachability: 180363 us[0m
+[0m[[0mdebug[0m] [0mRefiner: Assemble LinkedClasses: 19341 us[0m
+[0m[[0mdebug[0m] [0mRefiner: 201791 us[0m
 [0m[[0mdebug[0m] [0mEmitter: Class tree cache stats: reused: 0 -- invalidated: 559[0m
-[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 0 -- invalidated: 3799[0m
-[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 1262100 us[0m
+[0m[[0mdebug[0m] [0mEmitter: Method tree cache stats: resued: 0 -- invalidated: 3801[0m
+[0m[[0mdebug[0m] [0mEmitter (create Closure trees): 2134961 us[0m
+[0m[[0minfo[0m] [0mClosure: 0 error(s), 0 warning(s)[0m
+[0m[[0mdebug[0m] [0mClosure: Compiler pass: 20170177 us[0m
+[0m[[0mdebug[0m] [0mClosure: Write result: 2137738 us[0m
+[0m[[0mdebug[0m] [0mGlobal IR cache stats: reused: 0 -- invalidated: 206 -- trees read: 698[0m

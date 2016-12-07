@@ -1,4 +1,4 @@
-[0m[[0minfo[0m] [0mUpdating {file:/C:/Users/Moi/Desktop/Diver/mods/coc/charViewer/}cVJS...[0m
+[0m[[0minfo[0m] [0mUpdating {file:/C:/Users/Moi/Desktop/Divers/charViewer/}cVJS...[0m
 [0m[[0mdebug[0m] [0m:: resolving dependencies :: charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool, phantom-js-jetty][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
@@ -1513,20 +1513,20 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.eclipse.jetty#jetty-http;8.1.16.v20140903!jetty-http.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.eclipse.jetty.orbit#javax.servlet;3.0.0.v201112011016!javax.servlet.jar(orbit)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.eclipse.jetty#jetty-continuation;8.1.16.v20140903!jetty-continuation.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 374ms :: artifacts dl 20ms[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT compile produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-compile.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT runtime produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-runtime.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT test produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-test.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT provided produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-provided.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT optional produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-optional.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT compile-internal produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-compile-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT runtime-internal produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-runtime-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT test-internal produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-test-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT plugin produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-plugin.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT sources produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-sources.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT docs produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-docs.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT pom produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-pom.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT scala-tool produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT phantom-js-jetty produced in C:\Users\Moi\Desktop\Diver\mods\coc\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-phantom-js-jetty.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (374ms resolve - 20ms download)[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 2800ms :: artifacts dl 88ms[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT compile produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-compile.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT runtime produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-runtime.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT test produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-test.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT provided produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-provided.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT optional produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-optional.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT compile-internal produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-compile-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT runtime-internal produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-runtime-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT test-internal produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-test-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT plugin produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-plugin.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT sources produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-sources.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT docs produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-docs.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT pom produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-pom.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT scala-tool produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-scala-tool.xml[0m
+[0m[[0mdebug[0m] [0m	report for charecter-viewer#charecter-viewer_sjs0.6_2.11;0.1-SNAPSHOT phantom-js-jetty produced in C:\Users\Moi\Desktop\Divers\charViewer\js\target\resolution-cache\reports\charecter-viewer-charecter-viewer_sjs0.6_2.11-phantom-js-jetty.xml[0m
+[0m[[0mdebug[0m] [0m	resolve done (2800ms resolve - 88ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

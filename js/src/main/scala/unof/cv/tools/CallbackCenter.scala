@@ -373,54 +373,101 @@ class CallbackCenter(
     }
   }
   def onCharacterClicked(evt: MouseEvent): Any = {
+    val mousePos = componentCoord((evt.pageX, evt.pageY), charContext.canvasElem)
+    val actions = Seq(
+      clickAndDragCamera _,
+      clickOnShapeHandles(_),
+      clickOnShapeBoundarys _,
+      clickOnImages(_))
+    actions.find(_(mousePos))
+
+  }
+  private def clickAndDragCamera(mousePos: Vec): Boolean = {
     if (shiftIsDown || !devMod) {
       val tr = globalTransform
-      distHeldMouse = (componentCoord((evt.pageX, evt.pageY), charContext.canvasElem) - (tr.dx, tr.dy)) / (tr.sx, tr.sy)
+      distHeldMouse = (mousePos - (tr.dx, tr.dy)) / (tr.sx, tr.sy)
       dragAll = true
-    } else if (selectedShape.isDefined) {
-      selectedShape match {
-        case None => standardPicking
-        case Some((c, p, l)) =>
+      true
+    } else
+      false
+  }
+  private def clickOnShapeHandles(mousePos: Vec): Boolean = {
+    selectedShape match {
+      case None => false
+      case Some((c, p, l)) =>
+        val part = charMaker.getPart(c, p)
+        val s = part.shapes(l)
+        draggedHandle = ShapeManipulator.click(
+          mousePos,
+          s,
+          Seq(globalTransform, part.partTransform),
+          setting,
+          selectedCurveComand)
+        draggedHandle match {
+          case None =>
+
+            false
+          case Some((curve, handle)) =>
+            selection = CMAdress(c, p, l, SelectShapes)
+            if (handle == 0) {
+              selectedCurveComand = curve
+              ParMenuDrawer.update(setting, this)
+              if (ctrlIsDown) {
+                onShapeLoosingComande(c, p, l, curve)
+                draggedHandle = None
+              } else
+                updateChar
+            }
+            true
+
+        }
+
+    }
+  }
+  private def clickOnShapeBoundarys(mousePos: Vec): Boolean = {
+    selectedShape match {
+      case None => false
+      case Some((c, p, l)) =>
+        if (ctrlIsDown) {
+
           val part = charMaker.getPart(c, p)
           val s = part.shapes(l)
-
-          draggedHandle = ShapeManipulator.click(
-            componentCoord((evt.pageX, evt.pageY), charContext.canvasElem),
-            s,
-            Seq(globalTransform, part.partTransform),
-            setting,
-            selectedCurveComand)
-          draggedHandle match {
-            case None =>
-              if (ctrlIsDown) {
-                val invertScreenMatrix = (globalTransform * part.partTransform * s.transform).invert
-                val localMousePos = invertScreenMatrix * componentCoord((evt.pageX, evt.pageY), charContext.canvasElem)
-
-                onShapeRecivingNewCommand(localMousePos, c, p, l)
-              } else
-                standardPicking
-            case Some((curve, handle)) =>
-              selection = CMAdress(c, p, l, SelectShapes)
-              if (handle == 0) {
-                selectedCurveComand = curve
-                ParMenuDrawer.update(setting, this)
-                if (ctrlIsDown) {
-                  onShapeLoosingComande(c, p, l, curve)
-                  draggedHandle = None
-                } else
-                  updateChar
-              }
+          val invertScreenMatrix = (globalTransform * part.partTransform * s.transform).invert
+          val localMousePos = invertScreenMatrix * mousePos
+          ShapeManipulator.projectOnShape(
+              s,
+              mousePos,
+              Seq(globalTransform, part.partTransform),
+              s.lineWidth * 2
+              ) match {
+            case (None, _) =>
+              println("Callbacks, add point at end")
+              onShapeRecivingNewCommand(localMousePos, c, p, l)
+            case (Some((closeT, idx)), err) =>
+              println("Callbacks, clicked on bounds")
+              val oldCommands = s.commands
+              val start = if (idx == 0)
+                (0.0, 0.0)
+              else
+                oldCommands(idx - 1).last
+              val newCommands = s.commands.take(idx) ++
+                ShapeManipulator.addHandle(closeT, start, oldCommands(idx)) ++
+                s.commands.drop(idx + 1)
+              val oldCM = charMaker
+              charMaker = charMaker.updateShape(c, p, l, s.setDrawCommands(newCommands))
+              updateAll(oldCM, choices)
 
           }
-      }
-    } else
-      standardPicking
-
-    def standardPicking = curentCharacter {
+          true
+        } else
+          false
+    }
+  }
+  private def clickOnImages(mousePos: Vec) = {
+    curentCharacter {
       c =>
 
-        val local = componentCoord((evt.pageX, evt.pageY), charContext.canvasElem)
-        val index = Picker.pick(local, c, charContext)
+        val index = Picker.pick(mousePos, c, charContext)
         if (index >= 0) {
 
           val adress = charMaker.locationMap(c.parts(index).imageId)
@@ -432,7 +479,7 @@ class CallbackCenter(
 
         def ifLayer(l: CMLayer) = {
           val tr = l.transform
-          distHeldMouse = stat.partInvertTransform * local - (tr.dx, tr.dy)
+          distHeldMouse = stat.partInvertTransform * mousePos - (tr.dx, tr.dy)
           partHeld = true
           selectedShape match {
             case None =>
@@ -455,7 +502,7 @@ class CallbackCenter(
         }
         def ifPart(p: CMPart) = {
           val tr = p.partTransform
-          distHeldMouse = stat.globalInvertTransform * local - (tr.dx, tr.dy)
+          distHeldMouse = stat.globalInvertTransform * mousePos - (tr.dx, tr.dy)
           partHeld = true
           resetSliders;
           updateChar
@@ -466,13 +513,21 @@ class CallbackCenter(
         SlidersMenu.update(this, setting)
 
     }
+    true
   }
   def onMouseWheel(evt: WheelEvent): Any = {
     if ((shiftIsDown || !devMod) && !dragAll) {
       val wheel = evt.deltaY * wheelZoomSpeed
       val tr = globalTransform
-      val zoom = math.exp(wheel) * tr.sx
-      globalTransform = Transforme(zoom, zoom, 0, tr.dx, tr.dy)
+
+      val prevZoom = tr.sx
+      val zoom = math.exp(wheel) * prevZoom
+
+      val mousePos = componentCoord((evt.pageX, evt.pageY), charContext.canvasElem)
+      val absMousePos = tr.invert * mousePos
+      val offset = mousePos - (absMousePos * zoom)
+      globalTransform =
+        Transforme(zoom, zoom, 0, offset._1, offset._2)
       updateChar
     }
   }
@@ -539,11 +594,11 @@ class CallbackCenter(
       val col = shape.colors(colorIndex).setAlpha(newAlpha)
       shape.setColors(shape.colors.updated(colorIndex, col))
     }
-    def i(img : CMImage) = {
+    def i(img: CMImage) = {
       img.setAlpha(newAlpha)
     }
-    def other(a :Any) = 
-      throw new Exception(a+" don't have constant colors")
+    def other(a: Any) =
+      throw new Exception(a + " don't have constant colors")
     val CMAdress(cat, opt, ref, _) = selection
     charMaker = charMaker.updated(selection, i, s, other, other)
     updateChar
@@ -621,7 +676,7 @@ class CallbackCenter(
         reqNameCat()
       }
     }
-    val noImage =  CMImage()
+    val noImage = CMImage()
     val emptyPart = new CMPart("Empty", Seq(noImage), Nil, Transforme(), 0, CMPart.newLinkKey)
 
     val oldCm = charMaker
@@ -636,14 +691,14 @@ class CallbackCenter(
     val CMAdress(c, p, _, _) = selection
     def f(part: CMPart) = {
       def newComp(s: String) =
-         CMImage(simpleRef(s))
+        CMImage(simpleRef(s))
       val newPart = part.setImages((part.images ++ refs.map(newComp)).sortBy { _.ref })
       charMaker = charMaker.updated(c, p, newPart)
     }
     def g(cat: CMCategory) = {
 
       val newParts = refs
-        .map(s =>  CMImage(simpleRef(s)))
+        .map(s => CMImage(simpleRef(s)))
         .map(i => new CMPart(i.ref, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)) ++
         cat.possibleParts
       val newCat = new CMCategory(cat.categoryName, newParts.sortBy(_.partName))
@@ -810,7 +865,7 @@ class CallbackCenter(
       }
     }
 
-    val i =  CMImage()
+    val i = CMImage()
     val p = new CMPart(okPartName, Seq(i), Nil, Transforme(), 0, CMPart.newLinkKey)
     val oldCM = charMaker
     charMaker = charMaker.add(selection.category, p)
@@ -837,7 +892,7 @@ class CallbackCenter(
     updateAll(oldCM, choices)
   }
   def onImageCreated = {
-    val image =  CMImage()
+    val image = CMImage()
     val oldCM = charMaker
     charMaker = charMaker.add(selection.category, selection.part, image)
     updateAll(oldCM, choices)
@@ -1118,7 +1173,7 @@ class CallbackCenter(
             targetPart.setImages(refreshLayerLink(targetPart.images))
           case SelectShapes =>
             targetPart.setShapes(refreshLayerLink(targetPart.shapes))
-          case other => throw new UnsupportedOperationException("Can't change delta link of "+other)
+          case other => throw new UnsupportedOperationException("Can't change delta link of " + other)
         }
         charMaker = charMaker.updated(
           selection.category,

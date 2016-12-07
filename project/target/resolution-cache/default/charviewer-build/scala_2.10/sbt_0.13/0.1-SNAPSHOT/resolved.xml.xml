@@ -4,7 +4,7 @@
 		module="charviewer-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20160907135319"
+		publication="20161202143344"
 		e:sbtVersion="0.13" e:scalaVersion="2.10"
 	>
 		<description>

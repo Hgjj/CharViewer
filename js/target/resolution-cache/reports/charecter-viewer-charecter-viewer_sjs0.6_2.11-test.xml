@@ -7,7 +7,7 @@
 		revision="0.1-SNAPSHOT"
 		conf="test"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool, phantom-js-jetty"
-		date="20160907143045"/>
+		date="20161206145500"/>
 	<dependencies>
 		<module organisation="org.scala-js" name="scalajs-test-interface_2.11">
 			<revision name="0.6.12" status="release" pubdate="20160831172803" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://scala-js.org/" extra-info.apiURL="http://www.scala-js.org/api/scalajs-test-interface/0.6.12/" downloaded="false" searched="false" default="false" conf="default, compile, runtime, default(compile), master" position="5">
