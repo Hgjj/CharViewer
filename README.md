@@ -1,7 +1,7 @@
 # CharViewer
 
 This project aim to provide a free tool for all the developers that want to integrate a character viewer in their games. 
-This project is mostly written in Scala, but the source file are then compiled in JavaScript. That mean you (normally) can use this utility for flash, html5 and Unity games are they all perfectly handle JavaScript.
+This project is mostly written in Scala, but the source file are then compiled in JavaScript. That mean you (normally) can use this utility for flash and html5 games are they all perfectly handle JavaScript.
 
 
 This project doesn't provide any (interesting) assets. You have to bring your owns. What it does is helping you to provide you a convenient graphical interface to wrap things up.
